@@ -253,4 +253,4 @@ final_merged_df.rename(columns={'name_x': 'NAME', 'employee_code_x': 'EMPCODE',
 final_merged_df = final_merged_df[~((final_merged_df['ATT_STATUS'] == 'AB') & (final_merged_df['PDATE'].isin(final_merged_df[final_merged_df['ATT_STATUS'] == 'PR']['PDATE'])))]
 
 # Save the result to CSV
-final_merged_df.to_csv('./final.csv', index=False)
+# final_merged_df.to_csv('./final.csv', index=False)
