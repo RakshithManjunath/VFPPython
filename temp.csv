@@ -1,0 +1,5 @@
+   TOKEN                NAME  EMPCODE DEPT_NAME                   DESI_NAME COMCODE DEPT_CODE DESI_CODE             PDATE PUNCH1 PUNCH2 WORKED ATT_STATUS
+0      1  MUKESH N KESERKER   ZI0001       AMT            GENERAL MANAGER     001       001       028        2023-09-01   None   None   None       None
+1      2        SARAVANA C   ZI0002       AMT  ACCOUNTS & STORES EXECUTIVE     001       001       064  2023-09-01, 2023-09-03   None   None   None  2023-09-3, 2023-09-12, 2023-09-21, 2023-09-24, wo
+2      2        SARAVANA C   ZI0002       AMT  ACCOUNTS & STORES EXECUTIVE     001       001       064  2023-09-02, 2023-09-03   None   None   None  2023-09-3, 2023-09-12, 2023-09-21, 2023-09-24, wo
+3      2        SARAVANA C   ZI0002       AMT  ACCOUNTS & STORES EXECUTIVE     001       001       064  2023-09-03, 2023-09-03   None   None   None  2023-09-3, 2023-09-12, 2023-09-21, 2023-09-24, wo
