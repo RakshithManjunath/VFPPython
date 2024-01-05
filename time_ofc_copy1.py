@@ -23,7 +23,9 @@ mask = (muster_df['DATE_LEAVE'] >= start_date.min()) & (muster_df['DATE_LEAVE'] 
 filtered_muster_df = muster_df.loc[mask]
 
 muster_df1 = pd.concat([filtered_muster_df,muster_only_false],ignore_index=True)
-muster_df1 = muster_df1[['EMPCODE', 'TOKEN', 'NAME']]
+muster_df1 = muster_df1[['TOKEN', 'COMCODE', 'NAME', 'EMPCODE', 
+                         'EMP_DEPT','DEPT_NAME', 'EMP_DESI',
+                         'DESI_NAME']]
 muster_df1 = muster_df1.sort_values(by=['EMPCODE'])
 
 punches_table = DBF('./punches.dbf', load=True)
@@ -39,7 +41,7 @@ filtered_df = punches_df[
 ]
 
 # Initialize the punches_df1
-punches_df1 = pd.DataFrame(columns=['PDATE', 'TOKEN', 'IN_TIME', 'OUT_TIME', 'TOTAL_TIME'])
+punches_df1 = pd.DataFrame(columns=['PDATE', 'TOKEN', 'IN_TIME', 'OUT_TIME', 'TOTAL_TIME', 'STATUS'])
 
 # Iterate over each unique TOKEN
 for token in filtered_df['TOKEN'].unique():
