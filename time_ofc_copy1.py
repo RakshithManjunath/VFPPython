@@ -2,10 +2,10 @@ from dbfread import DBF
 import pandas as pd
 import numpy as np
 
-muster_table = DBF('./muster.dbf', load=True)
+muster_table = DBF('D:/ZIONtest/muster.dbf', load=True)
 muster_df = pd.DataFrame(iter(muster_table))
 
-dated_table = DBF('./dated.dbf', load=True)
+dated_table = DBF('D:/ZIONtest/dated.dbf', load=True)
 dated_df = pd.DataFrame(iter(dated_table))
 
 start_date = dated_df['MUFRDATE']
@@ -28,7 +28,7 @@ muster_df1 = muster_df1[['TOKEN', 'COMCODE', 'NAME', 'EMPCODE',
                          'DESI_NAME']]
 muster_df1 = muster_df1.sort_values(by=['EMPCODE'])
 
-punches_table = DBF('./punches.dbf', load=True)
+punches_table = DBF('D:/ZIONtest/punches.dbf', load=True)
 punches_df = pd.DataFrame(iter(punches_table))
 punches_df = punches_df.sort_values(by=['TOKEN', 'PDATE', 'MODE'])
 
@@ -78,6 +78,7 @@ date_range = pd.date_range(start=start_date.iloc[0], end=end_date.iloc[0])
 for token in filtered_df['TOKEN'].unique():
     # Filter data for the current TOKEN
     token_data = punches_df1[punches_df1['TOKEN'] == token]
+    print(token_data)
 
     missing_dates = date_range[~date_range.isin(token_data['PDATE'])]
 
