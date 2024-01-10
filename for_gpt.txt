@@ -1,0 +1,88 @@
+import pandas as pd
+from dbfread import DBF
+import numpy as np
+
+# Load and process muster data
+muster_table = DBF('D:/ZIONtest/muster.dbf', load=True)
+muster_df = pd.DataFrame(iter(muster_table))
+muster_df = muster_df[['TOKEN', 'COMCODE', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']]
+muster_df = muster_df.sort_values(by=['EMPCODE'])
+
+# Load and process punches data
+punches_table = DBF('D:/ZIONtest/punches.dbf', load=True)
+punches_df = pd.DataFrame(iter(punches_table))
+punches_df = punches_df.sort_values(by=['TOKEN', 'PDATE', 'MODE'])
+
+# Make seconds part '00' in PDTIME
+punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.strftime('%Y-%m-%d %H:%M:%S')
+
+# Sort punches_df based on TOKEN, PDTIME, MODE
+punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+
+# Initialize result DataFrame
+result_df = pd.DataFrame(columns=['TOKEN', 'PDATE', 'INTIME', 'OUTTIME', 'INTIME1', 'OUTTIME1'])
+
+in_punch_time = None
+out_punch_time = None
+
+# Iterate through punches_df to process punch data
+for index, row in punches_df.iterrows():
+    if row['MODE'] == 0:
+        in_punch_time = pd.to_datetime(row['PDTIME']).replace(second=0)
+    elif row['MODE'] == 1:
+        out_punch_time = pd.to_datetime(row['PDTIME']).replace(second=0)
+        if in_punch_time is not None:
+            time_difference = out_punch_time - in_punch_time
+            if time_difference.total_seconds() > 0:
+                hours, remainder = divmod(time_difference.seconds, 3600)
+                minutes, seconds = divmod(remainder, 60)
+                
+                # Check for duplicates based on 'PDATE' and 'TOKEN'
+                duplicates = result_df[(result_df['PDATE'] == in_punch_time.strftime('%Y-%m-%d')) & (result_df['TOKEN'] == row['TOKEN'])]
+                print(duplicates)
+                
+                if duplicates.empty:
+                    # No duplicates, add a new row
+                    result_df = pd.concat([result_df, pd.DataFrame({
+                        'TOKEN': [row['TOKEN']],
+                        'INTIME': [in_punch_time.strftime('%Y-%m-%d %H:%M:%S')],
+                        'OUTTIME': [out_punch_time.strftime('%Y-%m-%d %H:%M:%S')],
+                        'PDATE': [in_punch_time.strftime('%Y-%m-%d')],
+                        'INTIME1': [np.nan],
+                        'OUTTIME1': [np.nan]
+                    })], ignore_index=True)
+                else:
+                    # Duplicates found, update the existing row
+                    result_df.loc[duplicates.index[-1], 'INTIME1'] = in_punch_time.strftime('%Y-%m-%d %H:%M:%S')
+                    result_df.loc[duplicates.index[-1], 'OUTTIME1'] = out_punch_time.strftime('%Y-%m-%d %H:%M:%S')
+                    
+# Sort result_df based on TOKEN, PDATE
+result_df = result_df.sort_values(by=['TOKEN', 'PDATE'])
+
+# Save the result to a CSV file
+result_df.to_csv('./6thJan_punches_modified.csv', index=False)
+
+
+6thJan_punches_modified.csv
+TOKEN,PDATE,INTIME,OUTTIME,INTIME1,OUTTIME1
+2,2023-09-07,2023-09-07 06:00:00,2023-09-07 08:10:00,2023-09-07 23:49:00,2023-09-08 06:14:00
+
+
+the generated output in 6thJan_punches_modified.csv is wrong
+
+punches.dbf
+TOKEN,MODE,PDTIME
+2,0,2023-09-07 06:00:00
+2,1,2023-09-07 08:10:00
+2,0,2023-09-07 10:12:00
+2,1,2023-09-07 14:01:00
+2,0,2023-09-07 18:20:00
+2,1,2023-09-07 20:30:00
+2,0,2023-09-07 23:50:00
+2,1,2023-09-08 06:15:00
+
+you can see there are 8 total punches out of which 4 are inpunches(MODE=0) and 4 are outpunches(MODE=1)
+
+so, I want the 6thJan_punches_modified.csv to look like this
+TOKEN,PDATE,INTIME,OUTTIME,INTIME1,OUTTIME1,INTIME2,OUTTIME2,INTIME3,OUTTIME3
+2,2023-09-07,2023-09-07 06:00:00,2023-09-07 08:10:00,2023-09-07 10:12:00,2023-09-07 14:01:00,2023-09-07 18:20:00,2023-09-07 20:30:00,2023-09-07 23:49:00,2023-09-08 06:14:00
