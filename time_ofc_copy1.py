@@ -73,7 +73,7 @@ for index, row in punches_df.iterrows():
                     # update REMARKS for multiple punches
                     result_df.loc[duplicates.index[-1], 'REMARKS'] = "*"
                     
-                    # Update OUTTIME4
+                    # Update OUTTIME
                     result_df.loc[duplicates.index[-1], 'OUTTIME'] = out_punch_time.strftime('%Y-%m-%d %H:%M') if not pd.isna(out_punch_time) else np.nan
 
 
