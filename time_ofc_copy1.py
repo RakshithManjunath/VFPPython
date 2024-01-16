@@ -1,6 +1,12 @@
 import pandas as pd
-from dbfread import DBF
 import numpy as np
+from dbfread import DBF
+
+dated_table = DBF('./dated.dbf', load=True)
+start_date = dated_table.records[0]['MUFRDATE']
+end_date = dated_table.records[0]['MUTODATE']
+start_date_str = start_date.strftime('%Y-%m-%d')
+end_date_str = end_date.strftime('%Y-%m-%d')
 
 # Load and process muster data
 muster_table = DBF('./muster.dbf', load=True)
@@ -12,13 +18,13 @@ muster_df = muster_df.sort_values(by=['TOKEN'])
 punches_table = DBF('./punches.dbf', load=True)
 punches_df = pd.DataFrame(iter(punches_table))
 
-punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.strftime('%Y-%m-%d %H:%M:%S')
+punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.strftime('%Y-%m-%d %H:%M:00')
 
 # Sort punches_df based on TOKEN, PDTIME, MODE
 punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
 # Initialize result DataFrame
-result_df = pd.DataFrame(columns=['TOKEN', 'PDATE', 'INTIME1', 'OUTTIME1', 'INTIME2', 'OUTTIME2', 'INTIME3', 'OUTTIME3', 'INTIME4', 'OUTTIME4','INTIME', 'OUTTIME','TOTALTIME', 'STATUS','REMARKS'])
+punch_df = pd.DataFrame(columns=['TOKEN', 'PDATE', 'INTIME1', 'OUTTIME1', 'INTIME2', 'OUTTIME2', 'INTIME3', 'OUTTIME3', 'INTIME4', 'OUTTIME4', 'INTIME', 'OUTTIME', 'TOTALTIME', 'STATUS', 'REMARKS'])
 
 in_punch_time = None
 out_punch_time = None
@@ -34,13 +40,13 @@ for index, row in punches_df.iterrows():
             if time_difference.total_seconds() > 0:
                 hours, remainder = divmod(time_difference.seconds, 3600)
                 minutes, seconds = divmod(remainder, 60)
-                
+
                 # Check for duplicates based on 'PDATE' and 'TOKEN'
-                duplicates = result_df[(result_df['PDATE'] == in_punch_time.strftime('%Y-%m-%d')) & (result_df['TOKEN'] == row['TOKEN'])]
-                
+                duplicates = punch_df[(punch_df['PDATE'] == in_punch_time.strftime('%Y-%m-%d')) & (punch_df['TOKEN'] == row['TOKEN'])]
+
                 if duplicates.empty:
                     # No duplicates, add a new row
-                    result_df = pd.concat([result_df, pd.DataFrame({
+                    punch_df = pd.concat([punch_df, pd.DataFrame({
                         'TOKEN': [row['TOKEN']],
                         'PDATE': [in_punch_time.strftime('%Y-%m-%d')],
                         'INTIME1': [in_punch_time.strftime('%Y-%m-%d %H:%M')],
@@ -53,36 +59,35 @@ for index, row in punches_df.iterrows():
                         'OUTTIME4': [np.nan],
                         'INTIME': [in_punch_time.strftime('%Y-%m-%d %H:%M')],
                         'OUTTIME': [out_punch_time.strftime('%Y-%m-%d %H:%M')],
-                        'TOTALTIME': [f'{hours:02}:{minutes:02}'], # Make seconds part '00' in PDTIME
+                        'TOTALTIME': [f'{hours:02}:{minutes:02}'],  # Make seconds part '00' in PDTIME
                         'REMARKS': ""
                     })], ignore_index=True)
 
                     # result_df.loc['STATUS'] = "PR"
                 else:
                     # Duplicates found, update the existing row
-                    if pd.isna(result_df.loc[duplicates.index[-1], 'INTIME2']):
-                        result_df.loc[duplicates.index[-1], 'INTIME2'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
-                        result_df.loc[duplicates.index[-1], 'OUTTIME2'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
-                    elif pd.isna(result_df.loc[duplicates.index[-1], 'INTIME3']):
-                        result_df.loc[duplicates.index[-1], 'INTIME3'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
-                        result_df.loc[duplicates.index[-1], 'OUTTIME3'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
-                    elif pd.isna(result_df.loc[duplicates.index[-1], 'INTIME4']):
-                        result_df.loc[duplicates.index[-1], 'INTIME4'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
-                        result_df.loc[duplicates.index[-1], 'OUTTIME4'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
+                    if pd.isna(punch_df.loc[duplicates.index[-1], 'INTIME2']):
+                        punch_df.loc[duplicates.index[-1], 'INTIME2'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
+                        punch_df.loc[duplicates.index[-1], 'OUTTIME2'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
+                    elif pd.isna(punch_df.loc[duplicates.index[-1], 'INTIME3']):
+                        punch_df.loc[duplicates.index[-1], 'INTIME3'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
+                        punch_df.loc[duplicates.index[-1], 'OUTTIME3'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
+                    elif pd.isna(punch_df.loc[duplicates.index[-1], 'INTIME4']):
+                        punch_df.loc[duplicates.index[-1], 'INTIME4'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
+                        punch_df.loc[duplicates.index[-1], 'OUTTIME4'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
 
                     # update REMARKS for multiple punches
-                    result_df.loc[duplicates.index[-1], 'REMARKS'] = "*"
-                    
-                    # Update OUTTIME
-                    result_df.loc[duplicates.index[-1], 'OUTTIME'] = out_punch_time.strftime('%Y-%m-%d %H:%M') if not pd.isna(out_punch_time) else np.nan
+                    punch_df.loc[duplicates.index[-1], 'REMARKS'] = "*"
 
+                    # Update OUTTIME4
+                    punch_df.loc[duplicates.index[-1], 'OUTTIME'] = out_punch_time.strftime('%Y-%m-%d %H:%M') if not pd.isna(out_punch_time) else np.nan
 
                     # Calculate TOTALTIME based on the sum of time differences for all pairs
-                    total_time_difference_1 = pd.to_datetime(result_df.loc[duplicates.index[-1], 'OUTTIME1']) - pd.to_datetime(result_df.loc[duplicates.index[-1], 'INTIME1'])
-                    total_time_difference_2 = pd.to_datetime(result_df.loc[duplicates.index[-1], 'OUTTIME2']) - pd.to_datetime(result_df.loc[duplicates.index[-1], 'INTIME2'])
-                    total_time_difference_3 = pd.to_datetime(result_df.loc[duplicates.index[-1], 'OUTTIME3']) - pd.to_datetime(result_df.loc[duplicates.index[-1], 'INTIME3'])
-                    total_time_difference_4 = pd.to_datetime(result_df.loc[duplicates.index[-1], 'OUTTIME4']) - pd.to_datetime(result_df.loc[duplicates.index[-1], 'INTIME4'])
-                    
+                    total_time_difference_1 = pd.to_datetime(punch_df.loc[duplicates.index[-1], 'OUTTIME1']) - pd.to_datetime(punch_df.loc[duplicates.index[-1], 'INTIME1'])
+                    total_time_difference_2 = pd.to_datetime(punch_df.loc[duplicates.index[-1], 'OUTTIME2']) - pd.to_datetime(punch_df.loc[duplicates.index[-1], 'INTIME2'])
+                    total_time_difference_3 = pd.to_datetime(punch_df.loc[duplicates.index[-1], 'OUTTIME3']) - pd.to_datetime(punch_df.loc[duplicates.index[-1], 'INTIME3'])
+                    total_time_difference_4 = pd.to_datetime(punch_df.loc[duplicates.index[-1], 'OUTTIME4']) - pd.to_datetime(punch_df.loc[duplicates.index[-1], 'INTIME4'])
+
                     # Sum only non-NaN values of type pd.Timedelta
                     total_time_difference = pd.to_timedelta(0)
 
@@ -102,12 +107,49 @@ for index, row in punches_df.iterrows():
                     total_hours, total_remainder = divmod(total_time_difference.seconds, 3600)
                     total_minutes, _ = divmod(total_remainder, 60)
 
-                    result_df.loc[duplicates.index[-1], 'TOTALTIME'] = f'{total_hours:02}:{total_minutes:02}'
+                    punch_df.loc[duplicates.index[-1], 'TOTALTIME'] = f'{total_hours:02}:{total_minutes:02}'
 
-# Sort result_df based on TOKEN, PDATE
-result_df = result_df.sort_values(by=['TOKEN', 'PDATE'])
+# Define the date range from 2023-09-08 to 2023-09-30
+date_range = pd.date_range(start=start_date_str, end=end_date_str, freq='D')
 
-merged_df = pd.merge(muster_df, result_df, on='TOKEN', how='left')
+# Iterate through unique tokens in muster_df
+for token in muster_df['TOKEN'].unique():
+    # Filter punch_df for the current token
+    token_punch_df = punch_df[punch_df['TOKEN'] == token]
+
+    # Iterate through the date range
+    for date in date_range:
+        date_str = date.strftime('%Y-%m-%d')
+
+        # Check if there is no entry for the current date and token in token_punch_df
+        if not ((token_punch_df['PDATE'] == date_str) & (token_punch_df['TOKEN'] == token)).any():
+            # Create a new row for the missing date
+            new_row = pd.DataFrame({
+                'TOKEN': [token],
+                'PDATE': [date_str],
+                'INTIME1': [np.nan],
+                'OUTTIME1': [np.nan],
+                'INTIME2': [np.nan],
+                'OUTTIME2': [np.nan],
+                'INTIME3': [np.nan],
+                'OUTTIME3': [np.nan],
+                'INTIME4': [np.nan],
+                'OUTTIME4': [np.nan],
+                'INTIME': [np.nan],
+                'OUTTIME': [np.nan],
+                'TOTALTIME': [np.nan],
+                'STATUS': [np.nan],
+                'REMARKS': [np.nan],
+            })
+
+            # Append the new row to punch_df
+            punch_df = pd.concat([punch_df, new_row], ignore_index=True)
+
+# Sort punch_df based on TOKEN, PDATE
+punch_df = punch_df.sort_values(by=['TOKEN', 'PDATE'])
+
+# Merge the updated muster_df with punch_df
+muster_punch_df = pd.merge(muster_df, punch_df, on=['TOKEN'], how='left')
 
 # Save the result to a CSV file
-merged_df.to_csv('./final.csv', index=False)
+muster_punch_df.to_csv('./final.csv', index=False)
