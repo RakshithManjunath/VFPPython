@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from dbfread import DBF
 
-# load the dated table data
+# load the dated table
 dated_table = DBF('./dated.dbf', load=True)
 start_date = dated_table.records[0]['MUFRDATE']
 end_date = dated_table.records[0]['MUTODATE']
