@@ -89,7 +89,7 @@ def generate_muster():
             'DATE_JOIN': row['DATE_JOIN'],
             'DATE_LEAVE': row['DATE_LEAVE'],
             'PDATE': date_range,
-            'ATT_STATUS': "AB",
+            'MUSTER_STATUS': "",
         })
 
         # Append the temporary DataFrame to the expanded_dates_df
@@ -99,18 +99,18 @@ def generate_muster():
     for index, row in filtered_holidays_df.iterrows():
         holiday_date = row['HOL_DT']
         hol_type = row['HOL_TYPE']
-        final_muster_df.loc[final_muster_df['PDATE'].dt.date == holiday_date, 'ATT_STATUS'] = hol_type
+        final_muster_df.loc[final_muster_df['PDATE'].dt.date == holiday_date, 'MUSTER_STATUS'] = hol_type
 
     # Set 'ATT_STATUS' to 'w/o' for the dates in token_dates, otherwise it will be 'AB'
     for token, dates in token_dates.items():
-        final_muster_df.loc[(final_muster_df['TOKEN'] == token) & (final_muster_df['PDATE'].dt.strftime('%Y-%m-%d').isin(dates)), 'ATT_STATUS'] = 'WO'
+        final_muster_df.loc[(final_muster_df['TOKEN'] == token) & (final_muster_df['PDATE'].dt.strftime('%Y-%m-%d').isin(dates)), 'MUSTER_STATUS'] = 'WO'
 
     for index, row in lvform_df.iterrows():
         lv_start = row['LV_ST']
         lv_type = row['LV_TYPE']
         empcode = row['EMPCODE']
 
-        final_muster_df.loc[(final_muster_df['PDATE'].dt.date == lv_start) & (final_muster_df['EMPCODE']==empcode), 'ATT_STATUS'] = lv_type
+        final_muster_df.loc[(final_muster_df['PDATE'].dt.date == lv_start) & (final_muster_df['EMPCODE']==empcode), 'MUSTER_STATUS'] = lv_type
     # Sort the DataFrame by TOKEN and PDATE
     final_muster_df = final_muster_df.sort_values(by=['TOKEN', 'PDATE'])
 

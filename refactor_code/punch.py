@@ -52,7 +52,7 @@ def generate_punch():
                             'INTIME': [in_punch_time.strftime('%Y-%m-%d %H:%M')],
                             'OUTTIME': [out_punch_time.strftime('%Y-%m-%d %H:%M')],
                             'TOTALTIME': [f'{hours:02}:{minutes:02}'],
-                            'ATTN_STATUS': attn_status,
+                            'PUNCH_STATUS': attn_status,
                             'REMARKS': ""
                         })], ignore_index=True)
                     else:
@@ -93,7 +93,7 @@ def generate_punch():
 
                         punch_df.loc[duplicates.index[-1], 'TOTALTIME'] = f'{total_hours:02}:{total_minutes:02}'
                         attn_status = "PR" if total_hours >= 8 else "A1"
-                        punch_df.loc[duplicates.index[-1], 'ATTN_STATUS'] = attn_status  # Set ATTN_STATUS for duplicate rows
+                        punch_df.loc[duplicates.index[-1], 'PUNCH_STATUS'] = attn_status  # Set PUNCH_STATUS for duplicate rows
 
     date_range = pd.date_range(start=start_date_str, end=end_date_str, freq='D')
 
@@ -118,7 +118,7 @@ def generate_punch():
                     'INTIME': [np.nan],
                     'OUTTIME': [np.nan],
                     'TOTALTIME': [np.nan],
-                    'ATTN_STATUS': "AB",  
+                    'PUNCH_STATUS': "AB",  
                     'REMARKS': [np.nan],
                 })
 
