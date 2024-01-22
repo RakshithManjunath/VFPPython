@@ -3,18 +3,18 @@ import numpy as np
 from dbfread import DBF
 
 def generate_punch():
-    dated_table = DBF('./dated.dbf', load=True)
+    dated_table = DBF('D:/ZIONtest/dated.dbf', load=True)
     start_date = dated_table.records[0]['MUFRDATE']
     end_date = dated_table.records[0]['MUTODATE']
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
 
-    muster_table = DBF('./muster.dbf', load=True)
+    muster_table = DBF('D:/ZIONtest/muster.dbf', load=True)
     muster_df = pd.DataFrame(iter(muster_table))
     muster_df = muster_df[['TOKEN', 'COMCODE', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']]
     muster_df = muster_df.sort_values(by=['TOKEN'])
 
-    punches_table = DBF('./punches.dbf', load=True)
+    punches_table = DBF('D:/ZIONtest/punches.dbf', load=True)
     punches_df = pd.DataFrame(iter(punches_table))
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.strftime('%Y-%m-%d %H:%M:00')

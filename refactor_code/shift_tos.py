@@ -8,9 +8,14 @@ def create_final_csv(muster_df,punch_df):
 
     mask = merged_df['MUSTER_STATUS'] == ""
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
+    merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
     merged_df = merged_df.drop(['DATE_JOIN','DATE_LEAVE','PUNCH_STATUS'],axis=1)
     merged_df.to_csv('./final.csv',index=False)
+
+    # muster_counts = muster_counts.groupby(['TOKEN', 'MUSTER_STATUS']).size().unstack(fill_value=0)
+
+    # muster_counts = muster_counts.merge(muster_counts, left_on='TOKEN', right_index=True)
 
 muster_df = generate_muster()
 punch_df = generate_punch()
