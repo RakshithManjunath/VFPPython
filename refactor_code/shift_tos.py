@@ -11,6 +11,12 @@ def create_final_csv(muster_df,punch_df):
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
     merged_df = merged_df.drop(['DATE_JOIN','DATE_LEAVE','PUNCH_STATUS'],axis=1)
+
+    status_counts_by_empcode = merged_df.groupby('TOKEN')['STATUS'].value_counts().reset_index(name='COUNT')
+    status_counts_by_empcode['COUNT'] = status_counts_by_empcode.apply(lambda row: row['COUNT'] / 2 if row['STATUS'] == 'A1' else row['COUNT'], axis=1)
+
+    print(status_counts_by_empcode)
+
     merged_df.to_csv('./final.csv',index=False)
 
     # muster_counts = muster_counts.groupby(['TOKEN', 'MUSTER_STATUS']).size().unstack(fill_value=0)
