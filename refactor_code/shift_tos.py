@@ -2,7 +2,7 @@ from punch import generate_punch
 from muster import generate_muster
 import pandas as pd
 
-def create_final_csv(muster_df,punch_df):
+def create_final_csv(muster_df, punch_df):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
     merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
 
@@ -10,7 +10,7 @@ def create_final_csv(muster_df,punch_df):
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
-    merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS'], axis=1)
+    merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
 
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
@@ -23,8 +23,11 @@ def create_final_csv(muster_df,punch_df):
     # Merge back to the original DataFrame
     merged_df = pd.merge(merged_df, status_counts_by_empcode, on='TOKEN')
 
-    # Rename columns
-    merged_df = merged_df.rename(columns={'AB': 'TOT_AB', 'WO': 'TOT_WO', 'PR': 'TOT_PR', 'PH': 'TOT_PH'})
+    # Calculate totals with fractional counts
+    merged_df['TOT_AB'] = merged_df['AB'] 
+    merged_df['TOT_WO'] = merged_df['WO']
+    merged_df['TOT_PR'] = merged_df['PR'] + merged_df['A1']
+    merged_df['TOT_PH'] = merged_df['PH']
 
     # Drop duplicate rows
     merged_df = merged_df.drop_duplicates(subset=['TOKEN', 'PDATE'])
@@ -34,8 +37,9 @@ def create_final_csv(muster_df,punch_df):
 
     # Print the modified DataFrame
     print(merged_df)
+    merged_df = merged_df.drop(['A1','AB','PH','PR','WO'],axis=1)
 
-    merged_df.to_csv('./final.csv',index=False)
+    merged_df.to_csv('./final.csv', index=False)
 
 muster_df = generate_muster()
 punch_df = generate_punch()
