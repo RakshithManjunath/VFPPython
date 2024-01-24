@@ -1,5 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
+from test import test_db_len
 import pandas as pd
 
 def create_final_csv(muster_df, punch_df):
@@ -41,7 +42,10 @@ def create_final_csv(muster_df, punch_df):
 
     merged_df.to_csv('./final.csv', index=False)
 
-muster_df = generate_muster()
-punch_df = generate_punch()
-
-create_final_csv(muster_df,punch_df)
+db_check_flag = test_db_len()
+if db_check_flag == 1:
+    muster_df = generate_muster()
+    punch_df = generate_punch()
+    create_final_csv(muster_df,punch_df)
+else:
+    print("Check tables")

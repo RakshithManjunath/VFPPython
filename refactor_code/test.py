@@ -1,22 +1,44 @@
 import pandas as pd
 from dbfread import DBF
 
-def test_lvform_len():
-    # Specify the file path
-    dbf_file_path = 'D:/ZIONtest/lvform.dbf'
+def test_db_len():
+    dated_dbf = './dated.dbf'
+    dated_table = DBF(dated_dbf, load=False) 
+    dated_num_records = len(dated_table)
 
-    # Check if the file is empty
-    lvform_table = DBF(dbf_file_path, load=False)  # Load=False to avoid loading data
-    num_records = len(lvform_table)
+    muster_dbf = './muster.dbf'
+    muster_table = DBF(muster_dbf, load=False) 
+    muster_num_records = len(muster_table)
 
-    if num_records == 0:
-        print(f"The file '{dbf_file_path}' is empty. Setting default values.")
-        
-        # Set default values
-        lvform_df = pd.DataFrame({
-            'EMPCODE': [],
-            'LV_ST': pd.to_datetime([]),  # Assuming LV_ST is a datetime column
-            'LV_TYPE': []
-        })
+    holmast_dbf = './holmast.dbf'
+    holmast_table = DBF(holmast_dbf, load=False) 
+    holmast_num_records = len(holmast_table)
+
+    punches_dbf = './punches.dbf'
+    punches_table = DBF(punches_dbf, load=False) 
+    punches_num_records = len(punches_table)
+
+    lvform_dbf = './lvform.dbf'
+    lvform_table = DBF(lvform_dbf, load=False) 
+    lvform_num_records = len(lvform_table)
+
+    with open('./empty_tables.txt', 'w') as file:
+        if dated_num_records == 0:
+            file.write("Blank dated table\n")
+
+        if muster_num_records == 0:
+            file.write("Blank muster table\n")
+
+        if holmast_num_records == 0:
+            file.write("Blank holmast table\n")
+
+        if punches_num_records == 0:
+            file.write("Blank punches table\n")
+
+        if lvform_num_records == 0:
+            file.write("Blank lvform table\n")
+
+    if dated_num_records != 0 and muster_num_records != 0 and holmast_num_records != 0 and lvform_num_records != 0:
+        return 1
     else:
-        print("Data exists")
+        return 0
