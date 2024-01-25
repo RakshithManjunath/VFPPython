@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len
+from test import test_db_len,delete_old_files
 import pandas as pd
 
 def create_final_csv(muster_df, punch_df):
@@ -48,6 +48,11 @@ def create_final_csv(muster_df, punch_df):
 
     # Save to CSV
     merged_df.to_csv('./final.csv', index=False)
+
+delete_old_files('./muster.csv')
+delete_old_files('./punch.csv')
+delete_old_files('./final.csv')
+delete_old_files('./empty_tables.txt')
 
 db_check_flag = test_db_len()
 if db_check_flag == 1:
