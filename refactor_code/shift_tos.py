@@ -16,7 +16,7 @@ def create_final_csv(muster_df, punch_df):
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
     # Adjust the counts for 'A1'
-    status_counts_by_empcode['A1'] = status_counts_by_empcode.get('A1', 0) / 2
+    status_counts_by_empcode['A1'] = status_counts_by_empcode.get('A1', 0) / 2 if 'A1' in status_counts_by_empcode else 0
 
     # Fill NaN values with 0
     status_counts_by_empcode = status_counts_by_empcode.fillna(0)
@@ -25,10 +25,10 @@ def create_final_csv(muster_df, punch_df):
     merged_df = pd.merge(merged_df, status_counts_by_empcode, on='TOKEN')
 
     # Calculate totals with fractional counts
-    merged_df['TOT_AB'] = merged_df['AB'] 
-    merged_df['TOT_WO'] = merged_df['WO']
-    merged_df['TOT_PR'] = merged_df['PR'] + merged_df['A1']
-    merged_df['TOT_PH'] = merged_df['PH']
+    merged_df['TOT_AB'] = merged_df.get('AB', 0)
+    merged_df['TOT_WO'] = merged_df.get('WO', 0)
+    merged_df['TOT_PR'] = (merged_df.get('PR', 0) + merged_df.get('A1', 0)).fillna(0)
+    merged_df['TOT_PH'] = merged_df.get('PH', 0)
 
     # Drop duplicate rows
     merged_df = merged_df.drop_duplicates(subset=['TOKEN', 'PDATE'])
@@ -36,16 +36,23 @@ def create_final_csv(muster_df, punch_df):
     # Sort the DataFrame by TOKEN and PDATE
     merged_df = merged_df.sort_values(by=['TOKEN', 'PDATE']).reset_index(drop=True)
 
+    # Convert 'TOKEN' column back to integer dtype
+    merged_df['TOKEN'] = merged_df['TOKEN'].astype('Int64')  # or 'int' if using pandas version 1.0.0 or later
+
     # Print the modified DataFrame
     print(merged_df)
-    merged_df = merged_df.drop(['A1','AB','PH','PR','WO'],axis=1)
 
+    # Drop unnecessary columns
+    columns_to_drop = ['A1','AB','PH','PR','WO']
+    merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
+
+    # Save to CSV
     merged_df.to_csv('./final.csv', index=False)
 
 db_check_flag = test_db_len()
 if db_check_flag == 1:
     muster_df = generate_muster()
     punch_df = generate_punch()
-    create_final_csv(muster_df,punch_df)
+    create_final_csv(muster_df, punch_df)
 else:
     print("Check tables")
