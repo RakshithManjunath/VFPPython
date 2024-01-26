@@ -2,6 +2,8 @@ from punch import generate_punch
 from muster import generate_muster
 from test import test_db_len,delete_old_files
 import pandas as pd
+import sys
+import os
 
 def create_final_csv(muster_df, punch_df):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
@@ -49,15 +51,25 @@ def create_final_csv(muster_df, punch_df):
     # Save to CSV
     merged_df.to_csv('./final.csv', index=False)
 
-delete_old_files('./muster.csv')
-delete_old_files('./punch.csv')
-delete_old_files('./final.csv')
-delete_old_files('./empty_tables.txt')
+try:
+    with open('new.txt') as f:
+        if f.read() == "Ankura@60":
+            pass
+    os.remove("new.txt")
 
-db_check_flag = test_db_len()
-if db_check_flag == 1:
-    muster_df = generate_muster()
-    punch_df = generate_punch()
-    create_final_csv(muster_df, punch_df)
-else:
-    print("Check tables")
+    delete_old_files('./muster.csv')
+    delete_old_files('./punch.csv')
+    delete_old_files('./final.csv')
+    delete_old_files('./empty_tables.txt')
+
+    db_check_flag = test_db_len()
+    print("db check flag: ",db_check_flag)
+    if db_check_flag == 1:
+        muster_df = generate_muster()
+        punch_df = generate_punch()
+        create_final_csv(muster_df, punch_df)
+    else:
+        print("Check tables")
+
+except IOError:
+    sys.exit()

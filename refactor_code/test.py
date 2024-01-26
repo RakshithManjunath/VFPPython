@@ -2,23 +2,23 @@ from dbfread import DBF
 import os
 
 def test_db_len():
-    dated_dbf = './dated.dbf'
+    dated_dbf = 'D:/ZIONtest/dated.dbf'
     dated_table = DBF(dated_dbf, load=False) 
     dated_num_records = len(dated_table)
 
-    muster_dbf = './muster.dbf'
+    muster_dbf = 'D:/ZIONtest/muster.dbf'
     muster_table = DBF(muster_dbf, load=False) 
     muster_num_records = len(muster_table)
 
-    holmast_dbf = './holmast.dbf'
+    holmast_dbf = 'D:/ZIONtest/holmast.dbf'
     holmast_table = DBF(holmast_dbf, load=False) 
     holmast_num_records = len(holmast_table)
 
-    punches_dbf = './punches.dbf'
+    punches_dbf = 'D:/ZIONtest/punches.dbf'
     punches_table = DBF(punches_dbf, load=False) 
     punches_num_records = len(punches_table)
 
-    lvform_dbf = './lvform.dbf'
+    lvform_dbf = 'D:/ZIONtest/lvform.dbf'
     lvform_table = DBF(lvform_dbf, load=False) 
     lvform_num_records = len(lvform_table)
 
