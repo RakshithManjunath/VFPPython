@@ -13,7 +13,10 @@ def create_final_csv(muster_df, punch_df):
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
-    merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
+    condition = (merged_df['PDATE'] < merged_df['DATE_JOIN']) | (merged_df['PDATE'] > merged_df['DATE_LEAVE'])
+    merged_df.loc[condition, 'STATUS'] = ''
+
+    # merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
 
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 

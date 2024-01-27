@@ -38,7 +38,7 @@ def test_db_len():
         if lvform_num_records == 0:
             file.write("Blank lvform table\n")
 
-    if dated_num_records != 0 and muster_num_records != 0 and holmast_num_records != 0 and lvform_num_records != 0:
+    if dated_num_records != 0 and muster_num_records != 0 and holmast_num_records != 0 and punches_num_records !=0 and lvform_num_records != 0:
         return 1
     else:
         return 0
