@@ -13,10 +13,19 @@ def create_final_csv(muster_df, punch_df):
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
-    condition = (merged_df['PDATE'] < merged_df['DATE_JOIN']) | (merged_df['PDATE'] > merged_df['DATE_LEAVE'])
+    with open("./gseldate.txt") as file:
+        gseldate = file.read()
+        gseldate = pd.to_datetime(gseldate)
+
+    condition = (
+    (merged_df['PDATE'] < merged_df['DATE_JOIN']) | 
+    (merged_df['PDATE'] > merged_df['DATE_LEAVE']) |
+    (merged_df['DATE_LEAVE'] > 'gseldate')
+    )
+
     merged_df.loc[condition, 'STATUS'] = ''
 
-    # merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
+    merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
 
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
@@ -34,6 +43,7 @@ def create_final_csv(muster_df, punch_df):
     merged_df['TOT_WO'] = merged_df.get('WO', 0)
     merged_df['TOT_PR'] = (merged_df.get('PR', 0) + merged_df.get('A1', 0)).fillna(0)
     merged_df['TOT_PH'] = merged_df.get('PH', 0)
+    merged_df['TOT_LV'] = merged_df.get('CL', 0) + merged_df.get('EL', 0) + merged_df.get('SL', 0)
 
     # Drop duplicate rows
     merged_df = merged_df.drop_duplicates(subset=['TOKEN', 'PDATE'])
@@ -48,7 +58,7 @@ def create_final_csv(muster_df, punch_df):
     print(merged_df)
 
     # Drop unnecessary columns
-    columns_to_drop = ['A1','AB','PH','PR','WO']
+    columns_to_drop = ['A1','AB','PH','PR','WO','CL','EL','SL']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     # Save to CSV
