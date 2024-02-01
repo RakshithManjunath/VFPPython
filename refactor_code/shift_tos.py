@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len,delete_old_files
+from test import test_db_len,delete_old_files,punch_mismatch
 import pandas as pd
 import sys
 import os
@@ -74,15 +74,18 @@ try:
     delete_old_files('./punch.csv')
     delete_old_files('./final.csv')
     delete_old_files('./empty_tables.txt')
+    delete_old_files('./mismatch.csv')
 
     db_check_flag = test_db_len()
     print("db check flag: ",db_check_flag)
-    if db_check_flag == 1:
+    mismatch_flag = punch_mismatch()
+    print("punch check flag: ",mismatch_flag)
+    if db_check_flag == 1 and mismatch_flag == 1:
         muster_df = generate_muster()
         punch_df = generate_punch()
         create_final_csv(muster_df, punch_df)
     else:
-        print("Check tables")
+        print("Either check empty_tables.txt or mismatch.csv")
 
 except IOError:
     sys.exit()
