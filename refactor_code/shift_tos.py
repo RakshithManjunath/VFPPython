@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len,delete_old_files,punch_mismatch
+from test import test_db_len,delete_old_files,punch_mismatch,file_paths,check_ankura
 import pandas as pd
 import sys
 import os
@@ -13,7 +13,8 @@ def create_final_csv(muster_df, punch_df):
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
-    with open("./gseldate.txt") as file:
+    table_paths = file_paths()
+    with open(table_paths['gsel_date_path']) as file:
         gseldate = file.read()
         gseldate = pd.to_datetime(gseldate)
 
@@ -62,30 +63,28 @@ def create_final_csv(muster_df, punch_df):
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     # Save to CSV
-    merged_df.to_csv('./final.csv', index=False)
+    merged_df.to_csv(table_paths['final_csv_path'], index=False)
 
 try:
-    with open('new.txt') as f:
-        if f.read() == "Ankura@60":
-            pass
-    os.remove("new.txt")
-
-    delete_old_files('./muster.csv')
-    delete_old_files('./punch.csv')
-    delete_old_files('./final.csv')
-    delete_old_files('./empty_tables.txt')
-    delete_old_files('./mismatch.csv')
-
+    check_ankura()
     db_check_flag = test_db_len()
     print("db check flag: ",db_check_flag)
     mismatch_flag = punch_mismatch()
     print("punch check flag: ",mismatch_flag)
+
+    table_paths = file_paths()
     if db_check_flag == 1 and mismatch_flag == 1:
+        delete_old_files(table_paths['muster_csv_path'])
+        delete_old_files(table_paths['punch_csv_path'])
+        delete_old_files(table_paths['final_csv_path'])
+        delete_old_files(table_paths['empty_tables_path'])
+        delete_old_files(table_paths['mismatch_csv_path'])
         muster_df = generate_muster()
         punch_df = generate_punch()
         create_final_csv(muster_df, punch_df)
     else:
         print("Either check empty_tables.txt or mismatch.csv")
 
-except IOError:
+except Exception as e:
+    print(e)
     sys.exit()

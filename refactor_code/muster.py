@@ -1,27 +1,29 @@
 import pandas as pd
 from dbfread import DBF
+from test import file_paths
 
 def generate_muster():
+    table_paths = file_paths()
     # Load dated data
-    dated_table = DBF('./dated.dbf', load=True)
+    dated_table = DBF(table_paths['dated_dbf_path'], load=True)
     start_date = dated_table.records[0]['MUFRDATE']
     end_date = dated_table.records[0]['MUTODATE']
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
 
     # Load muster data
-    muster_table = DBF('./muster.dbf', load=True)
+    muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
     
     # Load lvform data
-    lvform_table = DBF('./lvform.dbf', load=True)
+    lvform_table = DBF(table_paths['lvform_dbf_path'], load=True)
     lvform_df = pd.DataFrame(iter(lvform_table))
     lvform_df = lvform_df[['EMPCODE','LV_ST','LV_TYPE']]
     # lvform_df['LV_ST'] = pd.to_datetime(lvform_df['LV_ST'])
     lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date)]
 
     # Load holidays data and filter
-    holidays_table = DBF('./holmast.dbf', load=True)
+    holidays_table = DBF(table_paths['holmast_dbf_path'], load=True)
     holidays_df = pd.DataFrame(holidays_table)
     filtered_holidays_df = holidays_df[(holidays_df['HOL_DT'] >= start_date) & (holidays_df['HOL_DT'] <= end_date)]
 
@@ -114,6 +116,6 @@ def generate_muster():
     final_muster_df = final_muster_df.sort_values(by=['TOKEN', 'PDATE'])
 
     # Save the result to a new CSV file
-    final_muster_df.to_csv('./muster.csv', index=False)
+    final_muster_df.to_csv(table_paths['muster_csv_path'], index=False)
 
     return final_muster_df
