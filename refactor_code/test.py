@@ -109,6 +109,13 @@ def make_blank_files(dbf_path,columns=None):
     else:
         print(f'{dbf_path} does not exist')
 
+def delete_old_files(file_path):
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        print(f'{file_path} deleted successfully')
+    else:
+        print(f'{file_path} does not exist')
+
 def punch_mismatch():
     table_paths = file_paths()
     dated_dbf = table_paths['dated_dbf_path']

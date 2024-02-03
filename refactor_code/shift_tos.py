@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len,make_blank_files,punch_mismatch,file_paths,check_ankura
+from test import test_db_len,make_blank_files,delete_old_files,punch_mismatch,file_paths,check_ankura
 import pandas as pd
 import sys
 import os
@@ -68,7 +68,7 @@ def create_final_csv(muster_df, punch_df):
 try:
     check_ankura()
     table_paths = file_paths()
-    make_blank_files(table_paths['mismatch_csv_path'],columns=['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME'])
+    delete_old_files(table_paths['mismatch_csv_path'])
     make_blank_files(table_paths['muster_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'])
     make_blank_files(table_paths['punch_csv_path'],columns=['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'])
     make_blank_files(table_paths['final_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
