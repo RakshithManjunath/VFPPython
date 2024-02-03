@@ -47,7 +47,6 @@ def file_paths():
             "gsel_date_path":gsel_date_path}
 
 def check_ankura():
-    print("ankuraaaa")
     table_paths = file_paths()
     if table_paths['exe'] == True:
         with open(table_paths['new_txt_path']) as f:
@@ -55,10 +54,7 @@ def check_ankura():
                 pass
         os.remove(table_paths['new_txt_path'])
 
-    print("after ankuraa")
-
 def test_db_len():
-    print("test db len")
     table_paths = file_paths()
     dated_dbf = table_paths['dated_dbf_path']
     dated_table = DBF(dated_dbf, load=False) 
@@ -100,18 +96,21 @@ def test_db_len():
         return 1
     else:
         return 0
-    
-def delete_old_files(dbf_path):
-    if os.path.exists(dbf_path):
-        os.remove(dbf_path)
-        print(f'{dbf_path} deleted successfully')
+       
+def make_blank_files(dbf_path,columns=None):
+    if os.path.exists(dbf_path) and columns is not None:
+        df = pd.DataFrame(columns=columns)
+        df.to_csv(dbf_path,index=False)
+
+    elif os.path.exists(dbf_path):
+        with open(dbf_path, 'w'):  # Open the file in write mode to truncate it
+            pass  # Truncate the file, removing its contents
+        print(f'Contents of {dbf_path} removed successfully')
     else:
         print(f'{dbf_path} does not exist')
 
 def punch_mismatch():
-    print("punch mismatch")
     table_paths = file_paths()
-    print("punch mismatch 1")
     dated_dbf = table_paths['dated_dbf_path']
     dated_table = DBF(dated_dbf, load=True) 
     start_date = dated_table.records[0]['MUFRDATE']
