@@ -56,7 +56,8 @@ def generate_punch():
                             'OUTTIME': [out_punch_time.strftime('%Y-%m-%d %H:%M')],
                             'TOTALTIME': [f'{hours:02}:{minutes:02}'],
                             'PUNCH_STATUS': attn_status,
-                            'REMARKS': ""
+                            'REMARKS': "",
+                            'OT': ""
                         })], ignore_index=True)
                     else:
                         if pd.isna(punch_df.loc[duplicates.index[-1], 'INTIME2']):
@@ -123,6 +124,7 @@ def generate_punch():
                     'TOTALTIME': [np.nan],
                     'PUNCH_STATUS': "AB",  
                     'REMARKS': [np.nan],
+                    'OT': ""
                 })
 
                 punch_df = pd.concat([punch_df, new_row], ignore_index=True)
