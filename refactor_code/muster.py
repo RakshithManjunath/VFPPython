@@ -19,7 +19,6 @@ def generate_muster():
     lvform_table = DBF(table_paths['lvform_dbf_path'], load=True)
     lvform_df = pd.DataFrame(iter(lvform_table))
     lvform_df = lvform_df[['EMPCODE','LV_ST','LV_TYPE']]
-    # lvform_df['LV_ST'] = pd.to_datetime(lvform_df['LV_ST'])
     lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date)]
 
     # Load holidays data and filter
@@ -66,15 +65,7 @@ def generate_muster():
     for index, row in muster_df.iterrows():
         # Extract relevant information
         token = row['TOKEN']
-        # date_join = row['DATE_JOIN']
-        # date_leave = row['DATE_LEAVE']
-        
-        # if start_date <= date_join <= end_date:
-        #     if date_leave is not None:
-        #         date_range = pd.date_range(date_join, date_leave, closed=None)
-        #     else:
-        #         date_range = pd.date_range(date_join, end_date_str, closed=None)
-        # else:
+
         date_range = pd.date_range(start_date_str, end_date_str, closed=None)
 
         # Create a DataFrame with repeated information for each date in the range

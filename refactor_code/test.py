@@ -131,7 +131,7 @@ def punch_mismatch():
     punches_table = DBF(punches_dbf, load=True)
     punches_df = pd.DataFrame(iter(punches_table))
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
-    punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.strftime('%Y-%m-%d %H:%M:00')
+    punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     mismatch_status = False 
     mask = punches_df['MODE'].eq(0) & punches_df['MODE'].shift(-1).eq(0)

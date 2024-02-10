@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len,make_blank_files,delete_old_files,punch_mismatch,file_paths,check_ankura
+from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura
 import pandas as pd
 import sys
 import os
@@ -14,17 +14,25 @@ def create_final_csv(muster_df, punch_df):
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
     table_paths = file_paths()
+
     with open(table_paths['gsel_date_path']) as file:
         gseldate = file.read()
         gseldate = pd.to_datetime(gseldate)
+        print(gseldate)
 
-    condition = (
-    (merged_df['PDATE'] < merged_df['DATE_JOIN']) | 
-    (merged_df['PDATE'] > merged_df['DATE_LEAVE']) |
-    (merged_df['DATE_LEAVE'] > 'gseldate')
-    )
+    # Check if 'STATUS' column exists in the DataFrame
+    if 'STATUS' in merged_df.columns:
+        # Define the combined condition
+        combined_condition = (
+            ((merged_df['PDATE'] < merged_df['DATE_JOIN']) | 
+            (merged_df['PDATE'] > merged_df['DATE_LEAVE'])) |
+            (merged_df['PDATE'] > gseldate)
+        )
 
-    merged_df.loc[condition, 'STATUS'] = ''
+        # Update the 'STATUS' column based on the combined condition
+        merged_df.loc[combined_condition, 'STATUS'] = "--"
+    else:
+        print("'STATUS' column does not exist in the DataFrame.")
 
     merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
 
