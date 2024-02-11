@@ -16,9 +16,10 @@ def create_final_csv(muster_df, punch_df):
     table_paths = file_paths()
 
     with open(table_paths['gsel_date_path']) as file:
-        gseldate = file.read()
+        file_contents = file.readlines()
+        file_contents = [string.strip('\n') for string in file_contents]
+        gseldate = file_contents[0]
         gseldate = pd.to_datetime(gseldate)
-        print(gseldate)
 
     # Check if 'STATUS' column exists in the DataFrame
     if 'STATUS' in merged_df.columns:
@@ -38,8 +39,8 @@ def create_final_csv(muster_df, punch_df):
 
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
-    # Adjust the counts for 'A1'
-    status_counts_by_empcode['A1'] = status_counts_by_empcode.get('A1', 0) / 2 if 'A1' in status_counts_by_empcode else 0
+    # Adjust the counts for 'HD'
+    status_counts_by_empcode['HD'] = status_counts_by_empcode.get('HD', 0) / 2 if 'HD' in status_counts_by_empcode else 0
 
     # Fill NaN values with 0
     status_counts_by_empcode = status_counts_by_empcode.fillna(0)
@@ -50,7 +51,7 @@ def create_final_csv(muster_df, punch_df):
     # Calculate totals with fractional counts
     merged_df['TOT_AB'] = merged_df.get('AB', 0)
     merged_df['TOT_WO'] = merged_df.get('WO', 0)
-    merged_df['TOT_PR'] = (merged_df.get('PR', 0) + merged_df.get('A1', 0)).fillna(0)
+    merged_df['TOT_PR'] = (merged_df.get('PR', 0) + merged_df.get('HD', 0)).fillna(0)
     merged_df['TOT_PH'] = merged_df.get('PH', 0)
     merged_df['TOT_LV'] = merged_df.get('CL', 0) + merged_df.get('EL', 0) + merged_df.get('SL', 0)
 
@@ -67,7 +68,7 @@ def create_final_csv(muster_df, punch_df):
     print(merged_df)
 
     # Drop unnecessary columns
-    columns_to_drop = ['A1','AB','PH','PR','WO','CL','EL','SL']
+    columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     # Save to CSV
