@@ -144,11 +144,6 @@ def punch_mismatch():
         result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME']]
         mismatch_status = True
         result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
-    # if not mismatch_df.empty:
-    #     result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='right')
-    #     result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME']]
-    #     mismatch_status = True
-    #     result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
 
     if not mismatch_status:
         return 1

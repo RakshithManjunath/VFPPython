@@ -41,6 +41,8 @@ def generate_punch():
             if in_punch_time is not None:
                 time_difference = out_punch_time - in_punch_time
                 if time_difference.total_seconds() > 0:
+                    days = time_difference.days
+                    print("days: ", days, "PDATE: ", in_punch_time)
                     hours, remainder = divmod(time_difference.seconds, 3600)
                     minutes, seconds = divmod(remainder, 60)
                     minutes_status = int(time_difference.total_seconds() / 60)
@@ -48,6 +50,7 @@ def generate_punch():
                     overtime_hours, overtime_minutes = divmod(minutes_status - gfull_day, 60) if minutes_status > gfull_day else (0, 0)
                     overtime_formatted = "{:02d}:{:02d}".format(overtime_hours, overtime_minutes)
                     duplicates = punch_df[(punch_df['PDATE'] == in_punch_time.strftime('%Y-%m-%d')) & (punch_df['TOKEN'] == row['TOKEN'])]
+
                     if duplicates.empty:
                         punch_df = pd.concat([punch_df, pd.DataFrame({
                             'TOKEN': [row['TOKEN']],
@@ -64,7 +67,7 @@ def generate_punch():
                             'OUTTIME': [out_punch_time.strftime('%Y-%m-%d %H:%M')],
                             'TOTALTIME': [f'{hours:02}:{minutes:02}'],
                             'PUNCH_STATUS': attn_status,
-                            'REMARKS': "",
+                            'REMARKS': np.where(days > 0, '#', ''),
                             'OT': overtime_formatted
                         })], ignore_index=True)
                     else:
@@ -78,7 +81,6 @@ def generate_punch():
                             punch_df.loc[duplicates.index[-1], 'INTIME4'] = in_punch_time.strftime('%Y-%m-%d %H:%M')
                             punch_df.loc[duplicates.index[-1], 'OUTTIME4'] = out_punch_time.strftime('%Y-%m-%d %H:%M')
 
-                        punch_df.loc[duplicates.index[-1], 'REMARKS'] = "*"
                         punch_df.loc[duplicates.index[-1], 'OUTTIME'] = out_punch_time.strftime('%Y-%m-%d %H:%M') if not pd.isna(out_punch_time) else np.nan
 
                         total_time_difference_1 = pd.to_datetime(punch_df.loc[duplicates.index[-1], 'OUTTIME1']) - pd.to_datetime(punch_df.loc[duplicates.index[-1], 'INTIME1'])
@@ -99,6 +101,11 @@ def generate_punch():
 
                         if isinstance(total_time_difference_4, pd.Timedelta):
                             total_time_difference += total_time_difference_4
+
+                        totaldays = total_time_difference.days
+                        print("days: ", totaldays, "PDATE: ", in_punch_time)
+
+                        punch_df.loc[duplicates.index[-1], 'REMARKS'] = np.where(totaldays > 0, '*#', '#')
 
                         total_hours, total_remainder = divmod(total_time_difference.seconds, 3600)
                         total_minutes, _ = divmod(total_remainder, 60)
