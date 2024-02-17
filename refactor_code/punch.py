@@ -105,7 +105,7 @@ def generate_punch():
                         totaldays = total_time_difference.days
                         print("days: ", totaldays, "PDATE: ", in_punch_time)
 
-                        punch_df.loc[duplicates.index[-1], 'REMARKS'] = np.where(totaldays > 0, '*#', '#')
+                        punch_df.loc[duplicates.index[-1], 'REMARKS'] = np.where(totaldays > 0, '&', '#')
 
                         total_hours, total_remainder = divmod(total_time_difference.seconds, 3600)
                         total_minutes, _ = divmod(total_remainder, 60)

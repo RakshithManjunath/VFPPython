@@ -63,6 +63,10 @@ def create_final_csv(muster_df, punch_df):
     # Sort the DataFrame by TOKEN and PDATE
     merged_df = merged_df.sort_values(by=['TOKEN', 'PDATE']).reset_index(drop=True)
 
+    for i in range(1, len(merged_df) - 1):
+        if merged_df.at[i, 'STATUS'] == 'WO' and merged_df.at[i - 1, 'STATUS'] == 'AB' and merged_df.at[i + 1, 'STATUS'] == 'AB':
+            merged_df.at[i, 'STATUS'] = 'AB'
+
     # Convert 'TOKEN' column back to integer dtype
     merged_df['TOKEN'] = merged_df['TOKEN'].astype('Int64')  # or 'int' if using pandas version 1.0.0 or later
 
