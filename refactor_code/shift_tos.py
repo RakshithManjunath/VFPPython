@@ -5,7 +5,7 @@ import pandas as pd
 import sys
 import os
 
-def create_final_csv(muster_df, punch_df):
+def create_final_csv(muster_df, punch_df,mismatch_df):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
     merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
 
@@ -39,6 +39,14 @@ def create_final_csv(muster_df, punch_df):
 
     merged_df.loc[merged_df['STATUS'].isin(['WO', 'PH']), 'OT'] = merged_df['TOTALTIME']
 
+    if mismatch_df is not None:
+        print('Missing dates')
+        mask = merged_df.apply(lambda row: (row['TOKEN'], row['PDATE']) in \
+                      zip(mismatch_df['TOKEN'], mismatch_df['PDATE']), axis=1)
+
+        # Update STATUS column to 'MM' for matching rows
+        merged_df.loc[mask, 'STATUS'] = 'MM'
+
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
     # Adjust the counts for 'HD'
@@ -56,6 +64,7 @@ def create_final_csv(muster_df, punch_df):
     merged_df['TOT_PR'] = (merged_df.get('PR', 0) + merged_df.get('HD', 0)).fillna(0)
     merged_df['TOT_PH'] = merged_df.get('PH', 0)
     merged_df['TOT_LV'] = merged_df.get('CL', 0) + merged_df.get('EL', 0) + merged_df.get('SL', 0)
+    merged_df['TOT_MM'] = merged_df.get('MM', 0)
 
     # Drop duplicate rows
     merged_df = merged_df.drop_duplicates(subset=['TOKEN', 'PDATE'])
@@ -74,7 +83,7 @@ def create_final_csv(muster_df, punch_df):
     print(merged_df)
 
     # Drop unnecessary columns
-    columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--']
+    columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--','MM']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     # Save to CSV
@@ -90,13 +99,14 @@ try:
     make_blank_files(table_paths['empty_tables_path'])
     db_check_flag = test_db_len()
     print("db check flag: ",db_check_flag)
-    mismatch_flag = punch_mismatch()
+    mismatch_flag,mismatch_df = punch_mismatch()
     print("punch check flag: ",mismatch_flag)
+    print(mismatch_df)
 
     if db_check_flag == 1 and mismatch_flag == 1:
         muster_df = generate_muster()
         punch_df = generate_punch()
-        create_final_csv(muster_df, punch_df)
+        create_final_csv(muster_df, punch_df,mismatch_df)
     else:
         print("Either check empty_tables.txt or mismatch.csv")
 

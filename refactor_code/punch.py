@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from dbfread import DBF
+from datetime import datetime
 from test import file_paths
 
 def generate_punch():
@@ -9,6 +10,8 @@ def generate_punch():
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
         file_contents = [string.strip('\n') for string in file_contents]
+        gseldate = file_contents[0]
+        gsel_datetime = pd.to_datetime(gseldate)
         ghalf_day,gfull_day = int(file_contents[1]),int(file_contents[2])
         print(ghalf_day,gfull_day)
 
@@ -42,7 +45,6 @@ def generate_punch():
                 time_difference = out_punch_time - in_punch_time
                 if time_difference.total_seconds() > 0:
                     days = time_difference.days
-                    print("days: ", days, "PDATE: ", in_punch_time)
                     hours, remainder = divmod(time_difference.seconds, 3600)
                     minutes, seconds = divmod(remainder, 60)
                     minutes_status = int(time_difference.total_seconds() / 60)
@@ -54,6 +56,7 @@ def generate_punch():
                     if duplicates.empty:
                         punch_df = pd.concat([punch_df, pd.DataFrame({
                             'TOKEN': [row['TOKEN']],
+                            'MODE': [row['MODE']],
                             'PDATE': [in_punch_time.strftime('%Y-%m-%d')],
                             'INTIME1': [in_punch_time.strftime('%Y-%m-%d %H:%M')],
                             'OUTTIME1': [out_punch_time.strftime('%Y-%m-%d %H:%M')],
@@ -103,7 +106,6 @@ def generate_punch():
                             total_time_difference += total_time_difference_4
 
                         totaldays = total_time_difference.days
-                        print("days: ", totaldays, "PDATE: ", in_punch_time)
 
                         punch_df.loc[duplicates.index[-1], 'REMARKS'] = '*'  # Mark REMARKS as '*' by default
 
