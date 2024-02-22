@@ -14,23 +14,23 @@ def file_paths():
     final_csv_path = './final.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
-    # dated_dbf = root_folder + 'dated.dbf'
-    # muster_dbf = root_folder + 'muster.dbf'
-    # holmast_dbf = root_folder + 'holmast.dbf'
-    # punches_dbf = root_folder + 'punches.dbf'
-    # lvform_dbf = root_folder + 'lvform.dbf'
-    # exe = False
-    # gsel_date_path = root_folder + 'gseldate.txt'
+    root_folder = 'D:/ZIONtest/'
+    dated_dbf = root_folder + 'dated.dbf'
+    muster_dbf = root_folder + 'muster.dbf'
+    holmast_dbf = root_folder + 'holmast.dbf'
+    punches_dbf = root_folder + 'punches.dbf'
+    lvform_dbf = root_folder + 'lvform.dbf'
+    exe = False
+    gsel_date_path = root_folder + 'gseldate.txt'
 
     ## exe
-    dated_dbf = './dated.dbf'
-    muster_dbf = './muster.dbf'
-    holmast_dbf = './holmast.dbf'
-    punches_dbf = './punches.dbf'
-    lvform_dbf = './lvform.dbf'
-    exe = True
-    gsel_date_path = 'gseldate.txt'
+    # dated_dbf = './dated.dbf'
+    # muster_dbf = './muster.dbf'
+    # holmast_dbf = './holmast.dbf'
+    # punches_dbf = './punches.dbf'
+    # lvform_dbf = './lvform.dbf'
+    # exe = True
+    # gsel_date_path = 'gseldate.txt'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -138,8 +138,21 @@ def punch_mismatch():
     mask = punches_df['MODE'].eq(0) & punches_df['MODE'].shift(-1).eq(0)
     mismatch_df = punches_df[mask]
     mismatch_df = mismatch_df[['TOKEN','PDATE', 'MODE', 'PDTIME']]
+    mismatch_df.to_csv('mistest.csv',index=False)
     print(mismatch_df)
-    if len(mismatch_df) > 0:
+    with open(table_paths['gsel_date_path']) as file:
+        file_contents = file.readlines()
+        file_contents = [string.strip('\n') for string in file_contents]
+        gseldate = file_contents[0]
+        gsel_datetime = pd.to_datetime(gseldate)
+        print(gseldate, type(gseldate))
+
+    if ((mismatch_df['MODE'] == 0) & (mismatch_df['PDTIME'].dt.date == gsel_datetime.date())).any():
+        print(mismatch_df['PDTIME'])
+        mismatch_df['MSTATUS'] = 'MM'
+        mismatch_df.to_csv('mistest.csv',index=False)
+        mismatch_status = False
+    elif len(mismatch_df) > 0:
         result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='left')
         result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME']]
         mismatch_status = True
@@ -148,4 +161,4 @@ def punch_mismatch():
     if not mismatch_status:
         return 1
     else:
-        return 0
+        return 0, 

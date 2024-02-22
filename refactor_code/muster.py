@@ -10,6 +10,7 @@ def generate_muster():
     end_date = dated_table.records[0]['MUTODATE']
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
+    print(start_date, end_date)
 
     # Load muster data
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
