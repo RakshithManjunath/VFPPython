@@ -15,6 +15,7 @@ def generate_muster():
     # Load muster data
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
+    muster_df = muster_df[muster_df['SEC_STAFF']==True]
 
     # muster_df['TOKEN'] = muster_df['TOKEN'].astype(int)
     

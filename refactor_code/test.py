@@ -14,23 +14,23 @@ def file_paths():
     final_csv_path = './final.csv'
 
     ## normal execution
-    root_folder = 'D:/ZIONtest/'
-    dated_dbf = root_folder + 'dated.dbf'
-    muster_dbf = root_folder + 'muster.dbf'
-    holmast_dbf = root_folder + 'holmast.dbf'
-    punches_dbf = root_folder + 'punches.dbf'
-    lvform_dbf = root_folder + 'lvform.dbf'
-    exe = False
-    gsel_date_path = root_folder + 'gseldate.txt'
+    # root_folder = 'D:/ZIONtest/'
+    # dated_dbf = root_folder + 'dated.dbf'
+    # muster_dbf = root_folder + 'muster.dbf'
+    # holmast_dbf = root_folder + 'holmast.dbf'
+    # punches_dbf = root_folder + 'punches.dbf'
+    # lvform_dbf = root_folder + 'lvform.dbf'
+    # exe = False
+    # gsel_date_path = root_folder + 'gseldate.txt'
 
     ## exe
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = 'gseldate.txt'
+    dated_dbf = './dated.dbf'
+    muster_dbf = './muster.dbf'
+    holmast_dbf = './holmast.dbf'
+    punches_dbf = './punches.dbf'
+    lvform_dbf = './lvform.dbf'
+    exe = True
+    gsel_date_path = 'gseldate.txt'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,

@@ -1,7 +1,7 @@
 from punch import generate_punch
 from muster import generate_muster
 from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura
-from payroll_input import pay_input
+# from payroll_input import pay_input
 import pandas as pd
 import sys
 import os
@@ -92,7 +92,7 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
     # Save to CSV
     merged_df.to_csv(table_paths['final_csv_path'], index=False)
 
-    pay_input(merged_df)
+    # pay_input(merged_df)
 
 try:
     check_ankura()
@@ -112,6 +112,10 @@ try:
         muster_df = generate_muster()
         punch_df = generate_punch()
         create_final_csv(muster_df, punch_df,mismatch_df)
+    # if db_check_flag == 1:
+    #     muster_df = generate_muster()
+    #     punch_df = generate_punch()
+    #     create_final_csv(muster_df, punch_df,None)
     else:
         print("Either check empty_tables.txt or mismatch.csv")
 

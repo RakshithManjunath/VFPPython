@@ -23,6 +23,7 @@ def generate_punch():
 
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
+    muster_df = muster_df[muster_df['SEC_STAFF']==True]
     muster_df = muster_df[['TOKEN', 'COMCODE', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']]
     muster_df = muster_df.sort_values(by=['TOKEN'])
 
