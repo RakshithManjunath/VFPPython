@@ -1,6 +1,7 @@
 from punch import generate_punch
 from muster import generate_muster
 from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura
+from payroll_input import pay_input
 import pandas as pd
 import sys
 import os
@@ -47,6 +48,8 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
         # Update STATUS column to 'MM' for matching rows
         merged_df.loc[mask, 'STATUS'] = 'MM'
 
+    merged_df.drop(columns=['MODE'], inplace=True)
+
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
     # Adjust the counts for 'HD'
@@ -88,6 +91,8 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
 
     # Save to CSV
     merged_df.to_csv(table_paths['final_csv_path'], index=False)
+
+    pay_input(merged_df)
 
 try:
     check_ankura()
