@@ -127,6 +127,8 @@ def punch_mismatch():
     muster_dbf = table_paths['muster_dbf_path']
     muster_table = DBF(muster_dbf, load=True)
     muster_df = pd.DataFrame(iter(muster_table))
+    muster_df = muster_df[muster_df['SEC_STAFF']==True]
+    print("mismatch muster_df ", muster_df['TOKEN'])
 
     punches_dbf = table_paths['punches_dbf_path']
     punches_table = DBF(punches_dbf, load=True)
@@ -137,9 +139,8 @@ def punch_mismatch():
     mismatch_status = False 
     mask = punches_df['MODE'].eq(0) & punches_df['MODE'].shift(-1).eq(0)
     mismatch_df = punches_df[mask]
+    mismatch_df = pd.concat([mismatch_df[mismatch_df['TOKEN'] == token] for token in muster_df['TOKEN']], ignore_index=True)
     mismatch_df = mismatch_df[['TOKEN','PDATE', 'MODE', 'PDTIME']]
-    mismatch_df.to_csv('mistest.csv',index=False)
-    print(mismatch_df)
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
         file_contents = [string.strip('\n') for string in file_contents]
