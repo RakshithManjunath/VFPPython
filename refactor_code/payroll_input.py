@@ -9,7 +9,14 @@ def ot_to_minutes(ot_str):
 def minutes_to_hours_minutes(minutes):
     hours = minutes // 60
     minutes = minutes % 60
-    return '{:02}:{:02}'.format(int(hours), int(minutes))
+    return '{:02}.{:02}'.format(int(hours), int(minutes))
+
+def minutes_to_hours_minutes_rounded(minutes):
+    hours = minutes // 60
+    minutes = minutes % 60
+    total_hours = hours + minutes / 60
+    rounded_hours = round(total_hours)
+    return '{:.1f}'.format(rounded_hours)
 
 def pay_input(merged_df):
     columns_to_drop = ['PDATE', 'STATUS', 'INTIME', 'OUTTIME', 'TOTALTIME', 'REMARKS', 'TOT_MM']
@@ -23,6 +30,7 @@ def pay_input(merged_df):
     merged_df = pd.merge(merged_df, total_ot_minutes, on='TOKEN', how='left')
 
     merged_df['TOTAL_OT_HRS'] = merged_df['TOTAL_OT_MINUTES'].apply(minutes_to_hours_minutes)
+    merged_df['OT_ROUNDED'] = merged_df['TOTAL_OT_MINUTES'].apply(minutes_to_hours_minutes_rounded)
 
     columns_to_drop = ['OT','OT_MINUTES','TOTAL_OT_MINUTES']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
