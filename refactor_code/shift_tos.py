@@ -6,7 +6,7 @@ import pandas as pd
 import sys
 import os
 
-def create_final_csv(muster_df, punch_df,mismatch_df):
+def create_final_csv(muster_df, punch_df,mismatch_df, end_date):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
     merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
 
@@ -24,6 +24,10 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
 
     # Check if 'STATUS' column exists in the DataFrame
     if 'STATUS' in merged_df.columns:
+
+        if end_date == gseldate:
+            end_date
+
         # Define the combined condition
         combined_condition = (
             ((merged_df['PDATE'] < merged_df['DATE_JOIN']) | 
@@ -82,9 +86,6 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
     # Convert 'TOKEN' column back to integer dtype
     merged_df['TOKEN'] = merged_df['TOKEN'].astype('Int64')  # or 'int' if using pandas version 1.0.0 or later
 
-    # Print the modified DataFrame
-    print(merged_df)
-
     # Drop unnecessary columns
     columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--','MM']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
@@ -109,9 +110,9 @@ try:
     print(mismatch_df)
 
     if db_check_flag == 1 and mismatch_flag == 1:
-        muster_df = generate_muster()
+        muster_df,end_date = generate_muster()
         punch_df = generate_punch()
-        create_final_csv(muster_df, punch_df,mismatch_df)
+        create_final_csv(muster_df, punch_df,mismatch_df, end_date)
     # if db_check_flag == 1:
     #     muster_df = generate_muster()
     #     punch_df = generate_punch()

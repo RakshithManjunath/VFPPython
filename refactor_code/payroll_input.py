@@ -9,14 +9,14 @@ def ot_to_minutes(ot_str):
 def minutes_to_hours_minutes(minutes):
     hours = minutes // 60
     minutes = minutes % 60
-    return '{:02}.{:02}'.format(int(hours), int(minutes))
+    return float('{:02}.{:02}'.format(int(hours), int(minutes)))
 
 def minutes_to_hours_minutes_rounded(minutes):
     hours = minutes // 60
     minutes = minutes % 60
     total_hours = hours + minutes / 60
     rounded_hours = round(total_hours)
-    return '{:.1f}'.format(rounded_hours)
+    return float('{:.1f}'.format(rounded_hours))
 
 def pay_input(merged_df):
     columns_to_drop = ['PDATE', 'STATUS', 'INTIME', 'OUTTIME', 'TOTALTIME', 'REMARKS', 'TOT_MM']
@@ -38,5 +38,8 @@ def pay_input(merged_df):
     merged_df = merged_df.rename(columns={'TOTAL_OT_HRS': 'OT'})
 
     merged_df = merged_df.drop_duplicates(subset='TOKEN')
+
+    columns_to_drop = ['COMCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME']
+    merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     merged_df.to_csv('./payroll_input.csv', index=False)

@@ -22,7 +22,6 @@ try:
     cursor = connection.cursor()
 
     # Adjust date range
-    start_date_minus_1 = start_date - timedelta(days=1)
     end_date_plus_1 = end_date + timedelta(days=1)
 
     # Execute a SELECT query
@@ -31,7 +30,7 @@ try:
         FROM wdtest
         WHERE punchdate::date >= %s AND punchdate::date < %s
         ORDER BY punchdate
-    """, (start_date_minus_1, end_date_plus_1))
+    """, (start_date, end_date_plus_1))
 
     # Fetch all rows
     rows = cursor.fetchall()

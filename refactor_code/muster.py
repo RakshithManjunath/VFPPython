@@ -1,6 +1,7 @@
 import pandas as pd
 from dbfread import DBF
 from test import file_paths
+from datetime import timedelta
 
 def generate_muster():
     table_paths = file_paths()
@@ -8,9 +9,11 @@ def generate_muster():
     dated_table = DBF(table_paths['dated_dbf_path'], load=True)
     start_date = dated_table.records[0]['MUFRDATE']
     end_date = dated_table.records[0]['MUTODATE']
+
+    end_date_plus_one = end_date + timedelta(days=1)
+
     start_date_str = start_date.strftime('%Y-%m-%d')
-    end_date_str = end_date.strftime('%Y-%m-%d')
-    print(start_date, end_date)
+    end_date_str = end_date_plus_one.strftime('%Y-%m-%d')
 
     # Load muster data
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
@@ -23,19 +26,19 @@ def generate_muster():
     lvform_table = DBF(table_paths['lvform_dbf_path'], load=True)
     lvform_df = pd.DataFrame(iter(lvform_table))
     lvform_df = lvform_df[['EMPCODE','LV_ST','LV_TYPE']]
-    lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date)]
+    lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date_plus_one)]
 
     # Load holidays data and filter
     holidays_table = DBF(table_paths['holmast_dbf_path'], load=True)
     holidays_df = pd.DataFrame(holidays_table)
-    filtered_holidays_df = holidays_df[(holidays_df['HOL_DT'] >= start_date) & (holidays_df['HOL_DT'] <= end_date)]
+    filtered_holidays_df = holidays_df[(holidays_df['HOL_DT'] >= start_date) & (holidays_df['HOL_DT'] <= end_date_plus_one)]
 
     # Filter only active employees (where 'DEL' is False) and allow employees to leave within the date range
-    muster_df = muster_df[(muster_df['DEL'] == False) | ((muster_df['DATE_LEAVE'] >= start_date) & (muster_df['DATE_LEAVE'] <= end_date))]
+    muster_df = muster_df[(muster_df['DEL'] == False) | ((muster_df['DATE_LEAVE'] >= start_date) & (muster_df['DATE_LEAVE'] <= end_date_plus_one))]
     muster_df = muster_df.sort_values(by=['TOKEN'])
 
     # Generate date range between start_date and end_date
-    date_range = pd.date_range(start=start_date, end=end_date, freq='D')
+    date_range = pd.date_range(start=start_date, end=end_date_plus_one, freq='D')
 
     # Map date strings to corresponding column names
     column_date_mapping = {f'WO_{i}': date.strftime('%Y-%m-%d') for i, date in enumerate(date_range, start=1)}
@@ -113,4 +116,4 @@ def generate_muster():
     # Save the result to a new CSV file
     final_muster_df.to_csv(table_paths['muster_csv_path'], index=False)
 
-    return final_muster_df
+    return final_muster_df,end_date

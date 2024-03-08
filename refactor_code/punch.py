@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from dbfread import DBF
 from datetime import datetime
+from datetime import timedelta
 from test import file_paths
 
 def generate_punch():
@@ -13,13 +14,16 @@ def generate_punch():
         gseldate = file_contents[0]
         gsel_datetime = pd.to_datetime(gseldate)
         ghalf_day,gfull_day = int(file_contents[1]),int(file_contents[2])
-        print(ghalf_day,gfull_day)
 
     dated_table = DBF(table_paths['dated_dbf_path'], load=True)
     start_date = dated_table.records[0]['MUFRDATE']
     end_date = dated_table.records[0]['MUTODATE']
+
+    end_date = end_date + timedelta(days=1)
+
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
+    print("punches end date: ",end_date_str)
 
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
