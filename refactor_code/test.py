@@ -149,18 +149,17 @@ def punch_mismatch():
         print(gseldate, type(gseldate))
 
     if ((mismatch_df['MODE'] == 0) & (mismatch_df['PDTIME'].dt.date == gsel_datetime.date())).any():
-        result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='left')
-        result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME']]
-        result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
         mismatch_status = False
 
     elif len(mismatch_df) > 0:
         result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='left')
         result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME']]
         mismatch_status = True
+        result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
+        result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
         result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
 
-    if not mismatch_status:
+    if mismatch_status == True:
         return 1,mismatch_df
     else:
-        return 0,None
+        return 1,None

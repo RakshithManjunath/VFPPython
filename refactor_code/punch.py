@@ -23,7 +23,6 @@ def generate_punch():
 
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
-    print("punches end date: ",end_date_str)
 
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))

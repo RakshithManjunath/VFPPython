@@ -116,4 +116,4 @@ def generate_muster():
     # Save the result to a new CSV file
     final_muster_df.to_csv(table_paths['muster_csv_path'], index=False)
 
-    return final_muster_df,end_date
+    return final_muster_df

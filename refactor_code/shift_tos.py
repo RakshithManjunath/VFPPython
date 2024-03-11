@@ -6,7 +6,7 @@ import pandas as pd
 import sys
 import os
 
-def create_final_csv(muster_df, punch_df,mismatch_df, end_date):
+def create_final_csv(muster_df, punch_df,mismatch_df):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
     merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
 
@@ -24,9 +24,6 @@ def create_final_csv(muster_df, punch_df,mismatch_df, end_date):
 
     # Check if 'STATUS' column exists in the DataFrame
     if 'STATUS' in merged_df.columns:
-
-        if end_date == gseldate:
-            end_date
 
         # Define the combined condition
         combined_condition = (
@@ -107,12 +104,12 @@ try:
     print("db check flag: ",db_check_flag)
     mismatch_flag,mismatch_df = punch_mismatch()
     print("punch check flag: ",mismatch_flag)
-    print(mismatch_df)
+    print("mismatch df: ",mismatch_df)
 
     if db_check_flag == 1 and mismatch_flag == 1:
-        muster_df,end_date = generate_muster()
+        muster_df= generate_muster()
         punch_df = generate_punch()
-        create_final_csv(muster_df, punch_df,mismatch_df, end_date)
+        create_final_csv(muster_df, punch_df,mismatch_df)
     # if db_check_flag == 1:
     #     muster_df = generate_muster()
     #     punch_df = generate_punch()
