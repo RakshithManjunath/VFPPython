@@ -14,23 +14,23 @@ def file_paths():
     final_csv_path = './final.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
-    # dated_dbf = root_folder + 'dated.dbf'
-    # muster_dbf = root_folder + 'muster.dbf'
-    # holmast_dbf = root_folder + 'holmast.dbf'
-    # punches_dbf = root_folder + 'punches.dbf'
-    # lvform_dbf = root_folder + 'lvform.dbf'
-    # exe = False
-    # gsel_date_path = root_folder + 'gseldate.txt'
+    root_folder = 'D:/ZIONtest/'
+    dated_dbf = root_folder + 'dated.dbf'
+    muster_dbf = root_folder + 'muster.dbf'
+    holmast_dbf = root_folder + 'holmast.dbf'
+    punches_dbf = root_folder + 'punches.dbf'
+    lvform_dbf = root_folder + 'lvform.dbf'
+    exe = False
+    gsel_date_path = root_folder + 'gseldate.txt'
 
     ## exe
-    dated_dbf = './dated.dbf'
-    muster_dbf = './muster.dbf'
-    holmast_dbf = './holmast.dbf'
-    punches_dbf = './punches.dbf'
-    lvform_dbf = './lvform.dbf'
-    exe = True
-    gsel_date_path = 'gseldate.txt'
+    # dated_dbf = './dated.dbf'
+    # muster_dbf = './muster.dbf'
+    # holmast_dbf = './holmast.dbf'
+    # punches_dbf = './punches.dbf'
+    # lvform_dbf = './lvform.dbf'
+    # exe = True
+    # gsel_date_path = 'gseldate.txt'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -54,6 +54,14 @@ def check_ankura():
             if f.read() == "Ankura@60":
                 pass
         os.remove(table_paths['new_txt_path'])
+
+def check_database():
+    table_paths = file_paths()
+    with open(table_paths['gsel_date_path']) as file:
+        file_contents = file.readlines()
+        file_contents = [string.strip('\n') for string in file_contents]
+        g_process_mode,g_pgdata = int(file_contents[4]), int(file_contents[3])
+    return g_pgdata, g_process_mode
 
 def test_db_len():
     table_paths = file_paths()
@@ -104,8 +112,8 @@ def make_blank_files(dbf_path,columns=None):
         df.to_csv(dbf_path,index=False)
 
     elif os.path.exists(dbf_path):
-        with open(dbf_path, 'w'):  # Open the file in write mode to truncate it
-            pass  # Truncate the file, removing its contents
+        with open(dbf_path, 'w'):  
+            pass  
         print(f'Contents of {dbf_path} removed successfully')
     else:
         print(f'{dbf_path} does not exist')

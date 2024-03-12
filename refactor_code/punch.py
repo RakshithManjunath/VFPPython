@@ -19,8 +19,6 @@ def generate_punch():
     start_date = dated_table.records[0]['MUFRDATE']
     end_date = dated_table.records[0]['MUTODATE']
 
-    end_date = end_date + timedelta(days=1)
-
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
 
