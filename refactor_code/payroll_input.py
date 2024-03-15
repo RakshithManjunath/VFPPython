@@ -1,4 +1,5 @@
 import pandas as pd
+from test import file_paths
 
 def ot_to_minutes(ot_str):
     if pd.isna(ot_str) or ot_str == '' or ot_str == '00:00':
@@ -19,6 +20,7 @@ def minutes_to_hours_minutes_rounded(minutes):
     return float('{:.1f}'.format(rounded_hours))
 
 def pay_input(merged_df):
+    table_paths = file_paths()
     columns_to_drop = ['PDATE', 'STATUS', 'INTIME', 'OUTTIME', 'TOTALTIME', 'REMARKS', 'TOT_MM']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
@@ -42,4 +44,4 @@ def pay_input(merged_df):
     columns_to_drop = ['COMCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
-    merged_df.to_csv('./payroll_input.csv', index=False)
+    merged_df.to_csv(table_paths['payroll_input_path'], index=False)

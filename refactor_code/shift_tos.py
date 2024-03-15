@@ -2,6 +2,7 @@ from punch import generate_punch
 from muster import generate_muster
 from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura, check_database
 from payroll_input import pay_input
+from db_collect import collect_pg_data
 import pandas as pd
 import sys
 import os
@@ -92,32 +93,38 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
 
 try:
     check_ankura()
-    # pg_data_flag, process_mode_flag = check_database()
-    # print(pg_data_flag, type(pg_data_flag))
-    # print(process_mode_flag, type(process_mode_flag))
-    # if pg_data_flag == True:
-    #     print("pg data is true!")
-    # if process_mode_flag == True:
-    #     print("process data is true")
+    pg_data_flag, process_mode_flag = check_database()
+    print(pg_data_flag, type(pg_data_flag))
+    print(process_mode_flag, type(process_mode_flag))
     table_paths = file_paths()
     delete_old_files(table_paths['mismatch_csv_path'])
     make_blank_files(table_paths['muster_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'])
     make_blank_files(table_paths['punch_csv_path'],columns=['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'])
     make_blank_files(table_paths['final_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
     make_blank_files(table_paths['empty_tables_path'])
-    
-    db_check_flag = test_db_len()
-    print("db check flag: ",db_check_flag)
-    mismatch_flag,mismatch_df = punch_mismatch()
-    print("punch check flag: ",mismatch_flag)
-    print("mismatch df: ",mismatch_df)
+    delete_old_files(table_paths['mismatch_csv_path'])
+    delete_old_files(table_paths['payroll_input_path'])
+    delete_old_files(table_paths['wdtest_path'])
+    if pg_data_flag == True:
+        print("pg data is true!")
+        collect_pg_data()
+    if process_mode_flag == True:
+        print("process data is true")        
+        db_check_flag = test_db_len()
+        print("db check flag: ",db_check_flag)
+        mismatch_flag,mismatch_df = punch_mismatch()
+        print("punch check flag: ",mismatch_flag)
+        print("mismatch df: ",mismatch_df)
 
-    if db_check_flag == 1 and mismatch_flag == 1:
-        muster_df= generate_muster()
-        punch_df = generate_punch()
-        create_final_csv(muster_df, punch_df,mismatch_df)
-    else:
-        print("Either check empty_tables.txt or mismatch.csv")
+        if db_check_flag == 1 and mismatch_flag == 1:
+            muster_df= generate_muster()
+            punch_df = generate_punch()
+            create_final_csv(muster_df, punch_df,mismatch_df)
+        else:
+            print("Either check empty_tables.txt or mismatch.csv")
 
-except IOError:
-    sys.exit()
+except Exception as e:
+    print(e)
+
+# except IOError:
+#     sys.exit()

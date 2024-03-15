@@ -13,24 +13,29 @@ def file_paths():
     punch_csv_path = './punch.csv'
     final_csv_path = './final.csv'
 
+    payroll_input_path = './payroll_input.csv'
+    wdtest_path = './wdtest.csv'
+
     ## normal execution
-    root_folder = 'D:/ZIONtest/'
-    dated_dbf = root_folder + 'dated.dbf'
-    muster_dbf = root_folder + 'muster.dbf'
-    holmast_dbf = root_folder + 'holmast.dbf'
-    punches_dbf = root_folder + 'punches.dbf'
-    lvform_dbf = root_folder + 'lvform.dbf'
-    exe = False
-    gsel_date_path = root_folder + 'gseldate.txt'
+    # root_folder = 'D:/ZIONtest/'
+    # dated_dbf = root_folder + 'dated.dbf'
+    # muster_dbf = root_folder + 'muster.dbf'
+    # holmast_dbf = root_folder + 'holmast.dbf'
+    # punches_dbf = root_folder + 'punches.dbf'
+    # lvform_dbf = root_folder + 'lvform.dbf'
+    # exe = False
+    # gsel_date_path = root_folder + './gseldate.txt'
+    # g_option_path = root_folder + './g_option.txt'
 
     ## exe
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = 'gseldate.txt'
+    dated_dbf = './dated.dbf'
+    muster_dbf = './muster.dbf'
+    holmast_dbf = './holmast.dbf'
+    punches_dbf = './punches.dbf'
+    lvform_dbf = './lvform.dbf'
+    exe = True
+    gsel_date_path = './gseldate.txt'
+    g_option_path = './g_option.txt'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -44,7 +49,10 @@ def file_paths():
             "muster_csv_path":muster_csv_path,
             "punch_csv_path":punch_csv_path,
             "final_csv_path":final_csv_path,
-            "gsel_date_path":gsel_date_path}
+            "gsel_date_path":gsel_date_path,
+            "g_option_path":g_option_path,
+            "payroll_input_path":payroll_input_path,
+            "wdtest_path":wdtest_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -57,10 +65,10 @@ def check_ankura():
 
 def check_database():
     table_paths = file_paths()
-    with open(table_paths['gsel_date_path']) as file:
+    with open(table_paths['g_option_path']) as file:
         file_contents = file.readlines()
         file_contents = [string.strip('\n') for string in file_contents]
-        g_process_mode,g_pgdata = int(file_contents[4]), int(file_contents[3])
+        g_process_mode,g_pgdata = int(file_contents[1]), int(file_contents[0])
     return g_pgdata, g_process_mode
 
 def test_db_len():
