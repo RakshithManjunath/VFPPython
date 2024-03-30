@@ -69,7 +69,7 @@ def collect_pg_data():
         column_names = [desc[0] for desc in cursor.description]
         new_records = pd.DataFrame(rows, columns=column_names)
         # Append to CSV
-        new_records.to_csv('wdtest1.csv', index=False)
+        new_records.to_csv(table_paths['wdtest_path'], index=False)
 
     except (Exception, Error) as error:
         print("Error:", error)
