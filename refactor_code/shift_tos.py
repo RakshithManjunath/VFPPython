@@ -2,7 +2,8 @@ from punch import generate_punch
 from muster import generate_muster
 from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura, check_database
 from payroll_input import pay_input
-from db_collect import collect_pg_data
+# from db_collect import collect_pg_data
+from db_collect_1 import collect_pg_data
 import pandas as pd
 import sys
 import os
@@ -104,7 +105,7 @@ try:
     make_blank_files(table_paths['empty_tables_path'])
     delete_old_files(table_paths['mismatch_csv_path'])
     delete_old_files(table_paths['payroll_input_path'])
-    delete_old_files(table_paths['wdtest_path'])
+    # delete_old_files(table_paths['wdtest_path'])
     if pg_data_flag == True:
         print("pg data is true!")
         collect_pg_data()
@@ -123,8 +124,8 @@ try:
         else:
             print("Either check empty_tables.txt or mismatch.csv")
 
-except Exception as e:
-    print(e)
+# except Exception as e:
+#     print(e)
 
-# except IOError:
-#     sys.exit()
+except IOError:
+    sys.exit()

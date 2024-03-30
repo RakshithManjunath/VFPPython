@@ -17,25 +17,25 @@ def file_paths():
     wdtest_path = './wdtest.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
-    # dated_dbf = root_folder + 'dated.dbf'
-    # muster_dbf = root_folder + 'muster.dbf'
-    # holmast_dbf = root_folder + 'holmast.dbf'
-    # punches_dbf = root_folder + 'punches.dbf'
-    # lvform_dbf = root_folder + 'lvform.dbf'
-    # exe = False
-    # gsel_date_path = root_folder + './gseldate.txt'
-    # g_option_path = root_folder + './g_option.txt'
+    root_folder = 'D:/ZIONtest/'
+    dated_dbf = root_folder + 'dated.dbf'
+    muster_dbf = root_folder + 'muster.dbf'
+    holmast_dbf = root_folder + 'holmast.dbf'
+    punches_dbf = root_folder + 'punches.dbf'
+    lvform_dbf = root_folder + 'lvform.dbf'
+    exe = False
+    gsel_date_path = root_folder + './gseldate.txt'
+    g_option_path = root_folder + './g_option.txt'
 
     ## exe
-    dated_dbf = './dated.dbf'
-    muster_dbf = './muster.dbf'
-    holmast_dbf = './holmast.dbf'
-    punches_dbf = './punches.dbf'
-    lvform_dbf = './lvform.dbf'
-    exe = True
-    gsel_date_path = './gseldate.txt'
-    g_option_path = './g_option.txt'
+    # dated_dbf = './dated.dbf'
+    # muster_dbf = './muster.dbf'
+    # holmast_dbf = './holmast.dbf'
+    # punches_dbf = './punches.dbf'
+    # lvform_dbf = './lvform.dbf'
+    # exe = True
+    # gsel_date_path = './gseldate.txt'
+    # g_option_path = './g_option.txt'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
