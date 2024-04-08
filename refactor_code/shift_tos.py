@@ -105,7 +105,6 @@ try:
     make_blank_files(table_paths['empty_tables_path'])
     delete_old_files(table_paths['mismatch_csv_path'])
     delete_old_files(table_paths['payroll_input_path'])
-    # delete_old_files(table_paths['wdtest_path'])
     if pg_data_flag == True:
         print("pg data is true!")
         collect_pg_data()
