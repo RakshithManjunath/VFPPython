@@ -1,6 +1,7 @@
 from dbfread import DBF
 import os
 import pandas as pd
+import requests
 
 def file_paths():
     ## common paths
@@ -179,3 +180,17 @@ def punch_mismatch():
         return 1,mismatch_df
     else:
         return 1,None
+    
+def client_collect_db_data():
+    with open('g_option.txt') as file:
+        data_collect_flag = file.readline().strip()
+        data_process_flag = file.readline().strip()
+        ip_address = file.readline().strip( )
+        start_date = file.readline().strip()
+        end_date = file.readline().strip()
+
+    url = f"http://{ip_address}:9876/collect_data/?start_date={start_date}&end_date={end_date}"
+    response = requests.get(url)
+
+    df = pd.DataFrame(response.json())
+    df.to_csv('wdtest_temp.csv',index=False)

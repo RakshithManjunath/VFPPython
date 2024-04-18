@@ -14,7 +14,7 @@ def collect_pg_data():
 
         # Attempt to read the last row of the CSV to find the last `punch_date_time`
         try:
-            existing_data = pd.read_csv(table_paths['wdtest_path'])
+            existing_data = pd.read_csv('wdtest_temp.csv')
             # Assuming `punch_date_time` is in a sortable string format like 'YYYYMMDD HHMMSS'
             if not existing_data.empty:
                 # If using both punch_date_time and empcode for uniqueness

@@ -1,9 +1,10 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura, check_database
+from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura, check_database, client_collect_db_data
 from payroll_input import pay_input
 # from db_collect import collect_pg_data
 from db_collect_1 import collect_pg_data
+# from syscom_db_collect import collect_pg_data
 import pandas as pd
 import sys
 import os
@@ -107,6 +108,7 @@ try:
     delete_old_files(table_paths['payroll_input_path'])
     if pg_data_flag == True:
         print("pg data is true!")
+        client_collect_db_data()
         collect_pg_data()
     if process_mode_flag == True:
         print("process data is true")        
