@@ -181,7 +181,7 @@ def punch_mismatch():
     else:
         return 1,None
     
-def client_collect_db_data():
+def server_collect_db_data():
     with open('g_option.txt') as file:
         data_collect_flag = file.readline().strip()
         data_process_flag = file.readline().strip()
@@ -194,3 +194,9 @@ def client_collect_db_data():
 
     df = pd.DataFrame(response.json())
     df.to_csv('wdtest_temp.csv',index=False)
+
+def client_collect_db_data():
+    punches_table = DBF('punches.dbf', load=True)
+    punches_df = pd.DataFrame(iter(punches_table))
+    print("punches dbf client",punches_df)
+    punches_df.to_csv('wdtest_temp1.csv',index=False)
