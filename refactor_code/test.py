@@ -18,7 +18,7 @@ def file_paths():
     wdtest_path = './wdtest.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
+    # root_folder = 'D:/SWEETTOS/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -182,7 +182,8 @@ def punch_mismatch():
         return 1,None
     
 def server_collect_db_data():
-    with open('g_option.txt') as file:
+    table_paths = file_paths()
+    with open(table_paths['g_option_path']) as file:
         data_collect_flag = file.readline().strip()
         data_process_flag = file.readline().strip()
         ip_address = file.readline().strip( )
@@ -193,10 +194,57 @@ def server_collect_db_data():
     response = requests.get(url)
 
     df = pd.DataFrame(response.json())
+
+    columns_to_drop = ['punchtime']
+    columns_to_rename = {'empcode': 'TOKEN', 'punchdate': 'PDATE', 'punch_date_time': 'PDTIME', 'terminal_sl': 'MCIP'}
+
+    columns_to_drop = [column for column in columns_to_drop if column in df.columns]
+
+    df = df.drop(columns=columns_to_drop)
+
+    columns_to_rename = {old: new for old, new in columns_to_rename.items() if old in df.columns}
+    df = df.rename(columns=columns_to_rename)
+
+    df['PDTIME'] = pd.to_datetime(df['PDTIME'])
+    df['PDTIME'] = df['PDTIME'].apply(lambda dt: dt.replace(second=0))
+
+    df['PDATE'] = df['PDATE'].astype(str)
+
+    new_order = ['TOKEN','PDATE','PDTIME','MCIP']
+
+    df = df[new_order]
+
+    print('*********')
+    print("server df dtypes", df.dtypes)
     df.to_csv('wdtest_temp.csv',index=False)
+    return df
 
 def client_collect_db_data():
-    punches_table = DBF('punches.dbf', load=True)
+    table_paths = file_paths()
+    punches_table = DBF(table_paths['punches_dbf_path'], load=True)
     punches_df = pd.DataFrame(iter(punches_table))
+    punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
+    punches_df['PDATE'] = punches_df['PDATE'].astype(str)
     print("punches dbf client",punches_df)
+
+    columns_to_drop = ['COMCODE', 'HOURS', 'MINUTES', 'MODE']
+    columns_to_drop = [column for column in columns_to_drop if column in punches_df.columns]
+
+    punches_df = punches_df.drop(columns=columns_to_drop)
+    print('*********')
+    print("client df dtypes", punches_df.dtypes)
     punches_df.to_csv('wdtest_temp1.csv',index=False)
+
+    return punches_df
+
+def create_wdtest(server_df,client_df):
+    result_df = pd.merge(server_df, client_df, on=['TOKEN', 'PDATE', 'PDTIME', 'MCIP'], how='left', indicator=True)
+    # server_df = server_df.astype(str)
+    # client_df = client_df.astype(str)
+    print("server", server_df.dtypes)
+    print("client", client_df.dtypes)
+
+    result_df = result_df[result_df['_merge'] == 'left_only'].drop(columns=['_merge'])
+    result_df.to_csv('wdtest.csv',index=False)
+
+    
