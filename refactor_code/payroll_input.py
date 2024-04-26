@@ -45,3 +45,31 @@ def pay_input(merged_df):
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     merged_df.to_csv(table_paths['payroll_input_path'], index=False)
+
+    data = pd.read_csv(table_paths['punch_csv_path'], usecols=['TOKEN', 'PDATE', 'PUNCH_STATUS'])
+
+    data['PDATE'] = pd.to_datetime(data['PDATE'])
+    data['Day'] = data['PDATE'].dt.day
+
+    pivoted_data = data.pivot(index='TOKEN', columns='Day', values='PUNCH_STATUS')
+    pivoted_data.reset_index(inplace=True)
+
+    min_day = data['Day'].min()
+    max_day = data['Day'].max()
+
+    day_columns = {i: f'day{i}' for i in range(min_day, max_day + 1)}
+    pivoted_data.rename(columns=day_columns, inplace=True)
+
+    other_data = pd.read_csv(table_paths['payroll_input_path'])
+
+    merged_data = pd.merge(other_data, pivoted_data, on='TOKEN', how='outer')
+
+    employee_info_columns = ['TOKEN', 'NAME', 'EMPCODE']
+    day_columns = [f'day{i}' for i in range(min_day, max_day + 1)]
+    totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED']
+
+    new_column_order = employee_info_columns + day_columns + totals_columns
+
+    merged_data = merged_data[new_column_order]
+
+    merged_data.to_csv(table_paths['muster_role_path'], index=False)

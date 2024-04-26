@@ -2,6 +2,7 @@ from dbfread import DBF
 import os
 import pandas as pd
 import requests
+import shutil
 
 def file_paths():
     ## common paths
@@ -17,6 +18,8 @@ def file_paths():
     payroll_input_path = './payroll_input.csv'
     wdtest_path = './wdtest.csv'
 
+    muster_role_path = './muster_role.csv'
+
     ## normal execution
     # root_folder = 'D:/SWEETTOS/'
     # dated_dbf = root_folder + 'dated.dbf'
@@ -29,6 +32,7 @@ def file_paths():
     # g_option_path = root_folder + './g_option.txt'
 
     ## exe
+    root_folder = './'
     dated_dbf = './dated.dbf'
     muster_dbf = './muster.dbf'
     holmast_dbf = './holmast.dbf'
@@ -53,7 +57,9 @@ def file_paths():
             "gsel_date_path":gsel_date_path,
             "g_option_path":g_option_path,
             "payroll_input_path":payroll_input_path,
-            "wdtest_path":wdtest_path}
+            "wdtest_path":wdtest_path,
+            "root_folder":root_folder,
+            "muster_role_path":muster_role_path}
 
 def check_ankura():
     table_paths = file_paths()
