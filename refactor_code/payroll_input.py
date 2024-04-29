@@ -41,8 +41,8 @@ def pay_input(merged_df):
 
     merged_df = merged_df.drop_duplicates(subset='TOKEN')
 
-    columns_to_drop = ['COMCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME']
-    merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
+    # columns_to_drop = ['COMCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME']
+    # merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
     merged_df.to_csv(table_paths['payroll_input_path'], index=False)
 
