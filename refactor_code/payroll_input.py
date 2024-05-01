@@ -46,12 +46,12 @@ def pay_input(merged_df):
 
     merged_df.to_csv(table_paths['payroll_input_path'], index=False)
 
-    data = pd.read_csv(table_paths['punch_csv_path'], usecols=['TOKEN', 'PDATE', 'PUNCH_STATUS'])
+    data = pd.read_csv(table_paths['final_csv_path'], usecols=['TOKEN', 'PDATE', 'STATUS'])
 
     data['PDATE'] = pd.to_datetime(data['PDATE'])
     data['Day'] = data['PDATE'].dt.day
 
-    pivoted_data = data.pivot(index='TOKEN', columns='Day', values='PUNCH_STATUS')
+    pivoted_data = data.pivot(index='TOKEN', columns='Day', values='STATUS')
     pivoted_data.reset_index(inplace=True)
 
     min_day = data['Day'].min()
@@ -64,7 +64,7 @@ def pay_input(merged_df):
 
     merged_data = pd.merge(other_data, pivoted_data, on='TOKEN', how='outer')
 
-    employee_info_columns = ['TOKEN', 'NAME', 'EMPCODE']
+    employee_info_columns = ['TOKEN', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']
     day_columns = [f'day{i}' for i in range(min_day, max_day + 1)]
     totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED']
 
