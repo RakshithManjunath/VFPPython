@@ -57,15 +57,23 @@ def pay_input(merged_df):
     min_day = data['Day'].min()
     max_day = data['Day'].max()
 
-    day_columns = {i: f'day{i}' for i in range(min_day, max_day + 1)}
-    pivoted_data.rename(columns=day_columns, inplace=True)
+    if max_day == 28:
+        for day in range(29, 32):
+            pivoted_data[f'day{day}'] = None
+    elif max_day == 29:
+        for day in range(30, 32):
+            pivoted_data[f'day{day}'] = None
+    elif max_day == 30:
+        pivoted_data['day31'] = None
+
+    pivoted_data.columns = ['TOKEN'] + [f'day{col}' if isinstance(col, int) else col for col in pivoted_data.columns[1:]]
 
     other_data = pd.read_csv(table_paths['payroll_input_path'])
 
     merged_data = pd.merge(other_data, pivoted_data, on='TOKEN', how='outer')
 
     employee_info_columns = ['TOKEN', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']
-    day_columns = [f'day{i}' for i in range(min_day, max_day + 1)]
+    day_columns = list(pivoted_data.columns[1:])
     totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED']
 
     new_column_order = employee_info_columns + day_columns + totals_columns
