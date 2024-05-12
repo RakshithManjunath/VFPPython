@@ -15,13 +15,12 @@ def file_paths():
     punch_csv_path = './punch.csv'
     final_csv_path = './final.csv'
 
-    payroll_input_path = './payroll_input.csv'
-    wdtest_path = './wdtest.csv'
+    payroll_input_path = 'payroll_input.csv'
 
-    muster_role_path = './muster_role.csv'
+    muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/SWEETTOS/'
+    # root_folder = 'D:/ZIONTEST/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -30,6 +29,9 @@ def file_paths():
     # exe = False
     # gsel_date_path = root_folder + './gseldate.txt'
     # g_option_path = root_folder + './g_option.txt'
+    # wdtest_path = root_folder + 'wdtest.csv'
+    # wdtest_server_path = root_folder + 'wdtest_server.csv'
+    # wdtest_client_path = root_folder + 'wdtest_client.csv'
 
     ## exe
     root_folder = './'
@@ -41,6 +43,9 @@ def file_paths():
     exe = True
     gsel_date_path = './gseldate.txt'
     g_option_path = './g_option.txt'
+    wdtest_path = 'wdtest.csv'
+    wdtest_server_path = 'wdtest_server.csv'
+    wdtest_client_path = 'wdtest_client.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -58,6 +63,8 @@ def file_paths():
             "g_option_path":g_option_path,
             "payroll_input_path":payroll_input_path,
             "wdtest_path":wdtest_path,
+            "wdtest_server_path":wdtest_server_path,
+            "wdtest_client_path":wdtest_client_path,
             "root_folder":root_folder,
             "muster_role_path":muster_role_path}
 
@@ -216,41 +223,57 @@ def server_collect_db_data():
 
     df['PDATE'] = df['PDATE'].astype(str)
 
+    df['TOKEN'] = df['TOKEN'].astype(str)
+
     new_order = ['TOKEN','PDATE','PDTIME','MCIP']
 
     df = df[new_order]
 
     print('*********')
     print("server df dtypes", df.dtypes)
-    df.to_csv('wdtest_temp.csv',index=False)
+    print("server", os.getcwd())
+    df.to_csv(table_paths['wdtest_server_path'],index=False)
+    
     return df
 
 def client_collect_db_data():
     table_paths = file_paths()
-    punches_table = DBF(table_paths['punches_dbf_path'], load=True)
-    punches_df = pd.DataFrame(iter(punches_table))
-    punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    punches_df['PDATE'] = punches_df['PDATE'].astype(str)
-    print("punches dbf client",punches_df)
+    punches_dbf = table_paths['punches_dbf_path']
+    punches_table = DBF(punches_dbf, load=False)
+    punches_num_records = len(punches_table)
+    if punches_num_records == 0:
+        df = pd.read_csv(table_paths['wdtest_server_path'])
+        df.to_csv(table_paths['wdtest_path'],index=False)
+        return None
+    else:
+        punches_table = DBF(table_paths['punches_dbf_path'], load=True)
+        punches_df = pd.DataFrame(iter(punches_table))
+        punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
+        punches_df['PDATE'] = punches_df['PDATE'].astype(str)
+        punches_df['TOKEN'] = punches_df['TOKEN'].astype(str)
+        print("punches dbf client",punches_df)
 
-    columns_to_drop = ['COMCODE', 'HOURS', 'MINUTES', 'MODE']
-    columns_to_drop = [column for column in columns_to_drop if column in punches_df.columns]
+        columns_to_drop = ['COMCODE', 'HOURS', 'MINUTES', 'MODE']
+        columns_to_drop = [column for column in columns_to_drop if column in punches_df.columns]
 
-    punches_df = punches_df.drop(columns=columns_to_drop)
-    print('*********')
-    print("client df dtypes", punches_df.dtypes)
-    punches_df.to_csv('wdtest_temp1.csv',index=False)
+        punches_df = punches_df.drop(columns=columns_to_drop)
+        print('*********')
+        print("client df dtypes", punches_df.dtypes)
+        
+        punches_df.to_csv(table_paths['wdtest_client_path'],index=False)
 
-    return punches_df
+        return punches_df
 
 def create_wdtest(server_df,client_df):
+    table_paths = file_paths()
     result_df = pd.merge(server_df, client_df, on=['TOKEN', 'PDATE', 'PDTIME', 'MCIP'], how='left', indicator=True)
-    # server_df = server_df.astype(str)
-    # client_df = client_df.astype(str)
     print("server", server_df.dtypes)
     print("client", client_df.dtypes)
 
     result_df = result_df[result_df['_merge'] == 'left_only'].drop(columns=['_merge'])
-    result_df.to_csv('wdtest.csv',index=False)
+
+    print("wdtest", os.getcwd())
+    
+    result_df.to_csv(table_paths['wdtest_path'],index=False)
 
     
