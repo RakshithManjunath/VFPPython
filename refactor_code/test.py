@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONTEST/'
+    # root_folder = 'D:/VIVKtest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -123,8 +123,10 @@ def test_db_len():
         if lvform_num_records == 0:
             file.write("Blank lvform table\n")
 
-    if dated_num_records != 0 and muster_num_records != 0 and holmast_num_records != 0 and punches_num_records !=0 and lvform_num_records != 0:
-        return 1
+    if dated_num_records != 0 and muster_num_records != 0 and punches_num_records !=0:
+        if holmast_num_records ==0 or lvform_num_records == 0:
+            return {'optional_tables': [holmast_num_records,lvform_num_records]}
+        return {'required_tables': [dated_num_records,muster_num_records,punches_num_records]}
     else:
         return 0
        

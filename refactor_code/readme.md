@@ -39,3 +39,7 @@ tzdata                    2024.1
 wheel                     0.41.2
 
 zipp                      3.17.0
+
+
+Git commit - https://github.com/RakshithManjunath/VFPPython/commit/e278cac638a39fb0d22db9f97ca8b887e1bcdcb8
+Git commit id - 12thMay24_19:34

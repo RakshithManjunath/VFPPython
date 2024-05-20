@@ -2,9 +2,6 @@ from punch import generate_punch
 from muster import generate_muster
 from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura, check_database, server_collect_db_data, client_collect_db_data, create_wdtest
 from payroll_input import pay_input
-# from db_collect import collect_pg_data
-from db_collect_1 import collect_pg_data
-# from syscom_db_collect import collect_pg_data
 import pandas as pd
 import sys
 import os
@@ -120,8 +117,9 @@ try:
         print("punch check flag: ",mismatch_flag)
         print("mismatch df: ",mismatch_df)
 
-        if db_check_flag == 1 and mismatch_flag == 1:
-            muster_df= generate_muster()
+        # if db_check_flag == 1 and mismatch_flag == 1:
+        if isinstance(db_check_flag, dict) and mismatch_flag == 1:
+            muster_df= generate_muster(db_check_flag)
             punch_df = generate_punch()
             create_final_csv(muster_df, punch_df,mismatch_df)
             

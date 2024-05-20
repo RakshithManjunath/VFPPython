@@ -3,8 +3,16 @@ from dbfread import DBF
 from test import file_paths
 from datetime import timedelta
 
-def generate_muster():
+def generate_muster(db_check_flag):
     table_paths = file_paths()
+    
+    holmast_flag = None
+    lvform_flag = None
+    if 'optional_tables' in db_check_flag:
+        print(db_check_flag)
+        holmast_flag = db_check_flag['optional_tables'][0]
+        lvform_flag = db_check_flag['optional_tables'][1]
+        print("holmast flag: ",holmast_flag, "lvform flag:", lvform_flag)
 
     dated_table = DBF(table_paths['dated_dbf_path'], load=True)
     start_date = dated_table.records[0]['MUFRDATE']
@@ -16,15 +24,17 @@ def generate_muster():
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
     muster_df = muster_df[muster_df['SEC_STAFF']==True]
-    
-    lvform_table = DBF(table_paths['lvform_dbf_path'], load=True)
-    lvform_df = pd.DataFrame(iter(lvform_table))
-    lvform_df = lvform_df[['EMPCODE','LV_ST','LV_TYPE']]
-    lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date)]
 
-    holidays_table = DBF(table_paths['holmast_dbf_path'], load=True)
-    holidays_df = pd.DataFrame(holidays_table)
-    filtered_holidays_df = holidays_df[(holidays_df['HOL_DT'] >= start_date) & (holidays_df['HOL_DT'] <= end_date)]
+    if lvform_flag !=0:
+        lvform_table = DBF(table_paths['lvform_dbf_path'], load=True)
+        lvform_df = pd.DataFrame(iter(lvform_table))
+        lvform_df = lvform_df[['EMPCODE','LV_ST','LV_TYPE']]
+        lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date)]
+
+    if holmast_flag !=0:
+        holidays_table = DBF(table_paths['holmast_dbf_path'], load=True)
+        holidays_df = pd.DataFrame(holidays_table)
+        filtered_holidays_df = holidays_df[(holidays_df['HOL_DT'] >= start_date) & (holidays_df['HOL_DT'] <= end_date)]
 
     muster_df = muster_df[(muster_df['DEL'] == False) | ((muster_df['DATE_LEAVE'] >= start_date) & (muster_df['DATE_LEAVE'] <= end_date))]
     muster_df = muster_df.sort_values(by=['TOKEN'])
@@ -83,21 +93,23 @@ def generate_muster():
         final_muster_df = final_muster_df.append(temp_df, ignore_index=True)
 
     # Update the 'ATT_STATUS' for corresponding holiday dates
-    for index, row in filtered_holidays_df.iterrows():
-        holiday_date = row['HOL_DT']
-        hol_type = row['HOL_TYPE']
-        final_muster_df.loc[final_muster_df['PDATE'].dt.date == holiday_date, 'MUSTER_STATUS'] = hol_type
+    if holmast_flag !=0:
+        for index, row in filtered_holidays_df.iterrows():
+            holiday_date = row['HOL_DT']
+            hol_type = row['HOL_TYPE']
+            final_muster_df.loc[final_muster_df['PDATE'].dt.date == holiday_date, 'MUSTER_STATUS'] = hol_type
 
     # Set 'ATT_STATUS' to 'w/o' for the dates in token_dates, otherwise it will be 'AB'
     for token, dates in token_dates.items():
         final_muster_df.loc[(final_muster_df['TOKEN'] == token) & (final_muster_df['PDATE'].dt.strftime('%Y-%m-%d').isin(dates)), 'MUSTER_STATUS'] = 'WO'
 
-    for index, row in lvform_df.iterrows():
-        lv_start = row['LV_ST']
-        lv_type = row['LV_TYPE']
-        empcode = row['EMPCODE']
+    if lvform_flag !=0:
+        for index, row in lvform_df.iterrows():
+            lv_start = row['LV_ST']
+            lv_type = row['LV_TYPE']
+            empcode = row['EMPCODE']
 
-        final_muster_df.loc[(final_muster_df['PDATE'].dt.date == lv_start) & (final_muster_df['EMPCODE']==empcode), 'MUSTER_STATUS'] = lv_type
+            final_muster_df.loc[(final_muster_df['PDATE'].dt.date == lv_start) & (final_muster_df['EMPCODE']==empcode), 'MUSTER_STATUS'] = lv_type
     # Sort the DataFrame by TOKEN and PDATE
     final_muster_df = final_muster_df.sort_values(by=['TOKEN', 'PDATE'])
 
