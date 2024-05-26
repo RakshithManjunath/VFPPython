@@ -142,6 +142,24 @@ def make_blank_files(dbf_path,columns=None):
     else:
         print(f'{dbf_path} does not exist')
 
+def create_new_csvs(muster_dbf_path,muster_columns,
+                    punch_dbf_path,punch_columns,
+                    final_dbf_path,final_columns):
+    if os.path.exists(muster_dbf_path) == False:
+        print(muster_dbf_path, "does not exist")
+        df = pd.DataFrame(columns=muster_columns)
+        df.to_csv(muster_dbf_path,index=False)
+
+    if os.path.exists(punch_dbf_path) == False:
+        print(punch_dbf_path, "does not exist")
+        df = pd.DataFrame(columns=punch_columns)
+        df.to_csv(punch_dbf_path,index=False)
+
+    if os.path.exists(final_dbf_path) == False:
+        print(final_dbf_path, "does not exist")
+        df = pd.DataFrame(columns=final_columns)
+        df.to_csv(final_dbf_path,index=False)
+
 def delete_old_files(file_path):
     if os.path.exists(file_path):
         os.remove(file_path)

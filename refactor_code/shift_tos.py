@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len, make_blank_files, delete_old_files, punch_mismatch, file_paths, check_ankura, check_database, server_collect_db_data, client_collect_db_data, create_wdtest
+from test import test_db_len, make_blank_files, delete_old_files, create_new_csvs, punch_mismatch, file_paths, check_ankura, check_database, server_collect_db_data, client_collect_db_data, create_wdtest
 from payroll_input import pay_input
 import pandas as pd
 import sys
@@ -96,6 +96,9 @@ try:
     print(pg_data_flag, type(pg_data_flag))
     print(process_mode_flag, type(process_mode_flag))
     table_paths = file_paths()
+    create_new_csvs(table_paths['muster_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'],
+                    table_paths['punch_csv_path'],['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'],
+                    table_paths['final_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
     delete_old_files(table_paths['mismatch_csv_path'])
     make_blank_files(table_paths['muster_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'])
     make_blank_files(table_paths['punch_csv_path'],columns=['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'])
