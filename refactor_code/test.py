@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/VIVKtest/'
+    # root_folder = 'D:/ZIONtest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -186,6 +186,7 @@ def punch_mismatch():
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    punches_df.to_csv('is_punches_sorted.csv',index=False)
     mismatch_status = False 
     mask = punches_df['MODE'].eq(0) & punches_df['MODE'].shift(-1).eq(0)
     mismatch_df = punches_df[mask]

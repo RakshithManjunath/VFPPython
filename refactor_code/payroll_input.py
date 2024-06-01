@@ -68,13 +68,14 @@ def pay_input(merged_df):
 
     pivoted_data.columns = ['TOKEN'] + [f'day{col}' if isinstance(col, int) else col for col in pivoted_data.columns[1:]]
 
-    other_data = pd.read_csv(table_paths['payroll_input_path'])
+    # other_data = pd.read_csv(table_paths['payroll_input_path'])
+    # other_data.to_csv('other_data.csv',index=False)
 
-    merged_data = pd.merge(other_data, pivoted_data, on='TOKEN', how='outer')
+    merged_data = pd.merge(merged_df, pivoted_data, on='TOKEN', how='outer')
 
     employee_info_columns = ['TOKEN', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']
     day_columns = list(pivoted_data.columns[1:])
-    totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED']
+    totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED', 'COMCODE']
 
     new_column_order = employee_info_columns + day_columns + totals_columns
 
