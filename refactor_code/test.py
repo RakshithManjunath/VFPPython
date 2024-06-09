@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
+    # root_folder = 'D:/VIVKtest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -186,12 +186,16 @@ def punch_mismatch():
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-    punches_df.to_csv('is_punches_sorted.csv',index=False)
-    mismatch_status = False 
-    mask = punches_df['MODE'].eq(0) & punches_df['MODE'].shift(-1).eq(0)
-    mismatch_df = punches_df[mask]
-    mismatch_df = pd.concat([mismatch_df[mismatch_df['TOKEN'] == token] for token in muster_df['TOKEN']], ignore_index=True)
-    mismatch_df = mismatch_df[['TOKEN','PDATE', 'MODE', 'PDTIME']]
+
+    agg_df = punches_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
+    agg_df = agg_df.reset_index()
+
+    agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
+
+    df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
+
+    mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
+    
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
         file_contents = [string.strip('\n') for string in file_contents]
@@ -202,12 +206,13 @@ def punch_mismatch():
     if ((mismatch_df['MODE'] == 0) & (mismatch_df['PDTIME'].dt.date == gsel_datetime.date())).any():
         mismatch_status = False
 
-    elif len(mismatch_df) > 0:
+    if len(mismatch_df) > 0:
         result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='left')
-        result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE','PDATE','MODE','PDTIME']]
+        result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE_x','PDATE','MODE','PDTIME']]
         mismatch_status = True
         result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
         result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+        result_df = result_df.rename(columns={'COMCODE_x': 'COMCODE'})
         result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
 
     if mismatch_status == True:
