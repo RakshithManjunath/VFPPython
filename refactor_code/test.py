@@ -20,32 +20,32 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    root_folder = 'D:/ZIONtest/'
-    dated_dbf = root_folder + 'dated.dbf'
-    muster_dbf = root_folder + 'muster.dbf'
-    holmast_dbf = root_folder + 'holmast.dbf'
-    punches_dbf = root_folder + 'punches.dbf'
-    lvform_dbf = root_folder + 'lvform.dbf'
-    exe = False
-    gsel_date_path = root_folder + './gseldate.txt'
-    g_option_path = root_folder + './g_option.txt'
-    wdtest_path = root_folder + 'wdtest.csv'
-    wdtest_server_path = root_folder + 'wdtest_server.csv'
-    wdtest_client_path = root_folder + 'wdtest_client.csv'
+    # root_folder = 'D:/ZIONtest/'
+    # dated_dbf = root_folder + 'dated.dbf'
+    # muster_dbf = root_folder + 'muster.dbf'
+    # holmast_dbf = root_folder + 'holmast.dbf'
+    # punches_dbf = root_folder + 'punches.dbf'
+    # lvform_dbf = root_folder + 'lvform.dbf'
+    # exe = False
+    # gsel_date_path = root_folder + './gseldate.txt'
+    # g_option_path = root_folder + './g_option.txt'
+    # wdtest_path = root_folder + 'wdtest.csv'
+    # wdtest_server_path = root_folder + 'wdtest_server.csv'
+    # wdtest_client_path = root_folder + 'wdtest_client.csv'
 
     ## exe
-    # root_folder = './'
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = './gseldate.txt'
-    # g_option_path = './g_option.txt'
-    # wdtest_path = 'wdtest.csv'
-    # wdtest_server_path = 'wdtest_server.csv'
-    # wdtest_client_path = 'wdtest_client.csv'
+    root_folder = './'
+    dated_dbf = './dated.dbf'
+    muster_dbf = './muster.dbf'
+    holmast_dbf = './holmast.dbf'
+    punches_dbf = './punches.dbf'
+    lvform_dbf = './lvform.dbf'
+    exe = True
+    gsel_date_path = './gseldate.txt'
+    g_option_path = './g_option.txt'
+    wdtest_path = 'wdtest.csv'
+    wdtest_server_path = 'wdtest_server.csv'
+    wdtest_client_path = 'wdtest_client.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -196,7 +196,6 @@ def punch_mismatch():
 
     mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
     print("before gseldate", mismatch_df.shape)
-    mismatch_df.to_csv('before_gseldate.csv',index=False)
     
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
@@ -206,23 +205,36 @@ def punch_mismatch():
         print(gseldate, type(gseldate))
 
     if start_date <= gsel_datetime <= end_date:
-        # excluded_df = mismatch_df[mismatch_df['PDTIME'].dt.date == gsel_datetime.date()]
         mismatch_df = mismatch_df[mismatch_df['PDTIME'].dt.date != gsel_datetime.date()]
-        # excluded_df.to_csv('excluded.csv',index=False)
         print("after gseldate", mismatch_df.shape)
-        mismatch_df.to_csv('after_gseldate.csv',index=False)
+
+    agg_df = mismatch_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
+    agg_df = agg_df.reset_index()
+
+    agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
+
+    df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
+
+    mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
+    print("before gseldate", mismatch_df.shape)
 
     if ((mismatch_df['MODE'] == 0) & (mismatch_df['PDTIME'].dt.date == gsel_datetime.date())).any():
         mismatch_status = False
 
     if len(mismatch_df) > 0:
-        result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='right')
-        
+        result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
         result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
         mismatch_status = True
         result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
         result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
         result_df = result_df.rename(columns={'COMCODE_y': 'COMCODE'})
+        # result_df.to_csv('mismatch.csv',index=False)
+
+        day_one_out_excluded = result_df[(result_df['MODE'] == 1) & (pd.to_datetime(result_df['PDATE']).dt.day == 1)]
+        day_one_out_excluded = day_one_out_excluded.sort_values(by='PDTIME').drop_duplicates(subset=['TOKEN', 'EMPCODE', 'PDATE'], keep='first')
+        day_one_out_excluded.to_csv('day_one_out_excluded.csv',index=False)
+
+        result_df = result_df.drop(day_one_out_excluded.index)
         result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
 
     if mismatch_status == True:
