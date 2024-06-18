@@ -228,17 +228,36 @@ def punch_mismatch():
         result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
         result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
         result_df = result_df.rename(columns={'COMCODE_y': 'COMCODE'})
-        # result_df.to_csv('mismatch.csv',index=False)
+        # result_df.to_csv('og_puches.csv',index=False)
 
-        day_one_out_excluded = result_df[(result_df['MODE'] == 1) & (pd.to_datetime(result_df['PDATE']).dt.day == 1)]
-        day_one_out_excluded = day_one_out_excluded.sort_values(by='PDTIME').drop_duplicates(subset=['TOKEN', 'EMPCODE', 'PDATE'], keep='first')
-        day_one_out_excluded.to_csv('day_one_out_excluded.csv',index=False)
+        first_rows = result_df.groupby('TOKEN').first().reset_index()
 
-        result_df = result_df.drop(day_one_out_excluded.index)
-        result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
+        day_one_out_excluded = first_rows[first_rows['MODE'] == 1]
+        day_one_out_excluded.to_csv('day_one_out_excluded.csv', index=False)
+
+        result_df = result_df[~result_df.apply(tuple, 1).isin(day_one_out_excluded.apply(tuple, 1))]
+        result_df.to_csv(table_paths['mismatch_csv_path'],index=False)
+
+        # day_one_out_excluded = result_df[(result_df['MODE'] == 1) & (pd.to_datetime(result_df['PDATE']).dt.day == 1)]
+        # day_one_out_excluded = day_one_out_excluded.sort_values(by='PDTIME').drop_duplicates(subset=['TOKEN', 'EMPCODE', 'PDATE'], keep='first')
+        # day_one_out_excluded.to_csv('day_one_out_excluded.csv',index=False)
+
+        # result_df = result_df.drop(day_one_out_excluded.index)
+
+        # agg_df = result_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
+        # agg_df = agg_df.reset_index()
+
+        # agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
+
+        # df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
+
+        # result_df = result_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
+        # print("before gseldate", result_df.shape)
+        
+        # result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
 
     if mismatch_status == True:
-        return 1,mismatch_df
+        return 1,result_df
     else:
         return 1,None
     

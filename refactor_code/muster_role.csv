@@ -1,324 +1,342 @@
 TOKEN,NAME,EMPCODE,EMP_DEPT,DEPT_NAME,EMP_DESI,DESI_NAME,day1,day2,day3,day4,day5,day6,day7,day8,day9,day10,day11,day12,day13,day14,day15,day16,day17,day18,day19,day20,day21,day22,day23,day24,day25,day26,day27,day28,day29,day30,day31,TOT_AB,TOT_WO,TOT_PR,TOT_PH,TOT_LV,OT,OT_ROUNDED,COMCODE
-1,MUKESH N KESERKER,ZI0001,001,AMT,028,GENERAL MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-2,SARAVANA C,ZI0002,001,AMT,064,ACCOUNTS & STORES EXECUTIVE,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,14.51,15.0,001
-3,K E LAKSHMINARAYANA SHETTY,ZI0003,001,AMT,065,PURCHASE & STORES EXECUTIVE,PR,PR,PR,PR,WO,PR,PR,AB,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,57.2,57.0,001
-4,NAGABHUSHANA K G,ZI0004,001,AMT,070,FINANCE MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-6,RAJU L,ZI0006,002,FRONT OFFICE,026,FOM,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-7,PRAKASH P,ZI0007,002,FRONT OFFICE,071,LOBBY MANAGER,PR,AB,PR,PR,WO,PR,PR,PR,PR,PR,AB,WO,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,8.5,0,0,29.53,30.0,001
-8,ARCHANA,ZI0008,002,FRONT OFFICE,084,FOE,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-9,S.N.NAGESH,ZI0009,002,FRONT OFFICE,007,BELL BOY,PR,PR,PR,PR,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,44.26,44.0,001
-10,ANJAPPA.K,ZI0010,002,FRONT OFFICE,086,FRONT OFFICE ASSITANT,PR,PR,PR,AB,WO,PR,PR,PR,PR,AB,HD,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,8.5,0,0,26.5,27.0,001
-11,RAVI KIRANA B,ZI0011,003,F&B SERVICE,066,F&B MANAGER,PR,PR,PR,AB,WO,PR,HD,PR,AB,AB,AB,WO,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,5.0,2.0,6.0,0,0,39.48,40.0,001
-12,MANOJ BISWAS,ZI0012,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-14,VIJAYA POOJARY,ZI0014,003,F&B SERVICE,006,BAR EXECUTIVE,PR,AB,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,55.22,55.0,001
-15,SULOCHANA,ZI0015,003,F&B SERVICE,022,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-16,RAJINI H.R.,ZI0016,003,F&B SERVICE,008,CAPTAIN,PR,PR,PR,PR,WO,PR,PR,PR,PR,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,8.0,0,0,34.01,34.0,001
-20,JAGANDHU SARANGI,ZI0020,003,F&B SERVICE,049,TR CAPTAIN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-22,SUNIL RAMA POOJARI,ZI0022,003,F&B SERVICE,073,F&B EXECUTIVE,MM,MM,MM,MM,MM,AB,AB,MM,MM,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,0.0,0.0,0,0,22.3,22.0,001
-23,BHUVAN HAMAL,ZI0023,003,F&B SERVICE,008,CAPTAIN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-27,NABAKUMAR BHOWMICK,ZI0027,004,F&B PRODUCTION,034,KST,PR,PR,PR,PR,WO,AB,AB,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,35.34,36.0,001
-28,SURESH PASAWAS,ZI0028,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-29,PINTU MONDAL,ZI0029,004,F&B PRODUCTION,076,BAKERY CDP,MM,MM,MM,MM,MM,MM,MM,MM,AB,MM,MM,WO,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,1.0,0.0,0,0,31.34,32.0,001
-31,SUKANTA MISTRY,ZI0031,004,F&B PRODUCTION,013,COMMI II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-33,SHISHPAL SINGH,ZI0033,004,F&B PRODUCTION,017,DCDP,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-36,ELAVAZHAGAN SENTHIL KUMAR,ZI0036,004,F&B PRODUCTION,017,DCDP,MM,MM,MM,MM,MM,AB,AB,MM,MM,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,0.0,0.0,0,0,16.38,17.0,001
-37,BOMMI,ZI0037,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-38,SOUNDARI MADHAN,ZI0038,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-39,NETAI SAMANTA,ZI0039,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-44,AKSHAY SUNIL KATAKAR,ZI0044,004,F&B PRODUCTION,012,CHINEESE-DCDP,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-47,NAGAMANI P,ZI0047,005,SALE & MARKETING,038,SALES MANAGER,PR,HD,AB,PR,WO,PR,PR,PR,HD,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,9.0,0,0,8.36,9.0,001
-50,MOHAN KUMAR S,ZI0050,006,HOUSE KEEPING,047,SUPERVISOR,MM,MM,MM,AB,MM,MM,MM,MM,MM,MM,MM,WO,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,1.0,0.0,0,0,18.48,19.0,001
-51,PUNGAVANAM,ZI0051,006,HOUSE KEEPING,082,LAUNDRY ATTENDENT,PR,PR,PR,PR,WO,AB,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,23.04,23.0,001
-52,DIPAK JAMATIA,ZI0052,006,HOUSE KEEPING,031,HOUSE MAN,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,20.05,20.0,001
-53,HEMANTA KUMAR NAIK,ZI0053,006,HOUSE KEEPING,047,SUPERVISOR,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-54,BASANTH KUMAR DASH,ZI0054,006,HOUSE KEEPING,031,HOUSE MAN,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,0.0,0.0,0,0,44.16,44.0,001
-55,HARUN BASHA,ZI0055,006,HOUSE KEEPING,047,SUPERVISOR,PR,PR,AB,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,38.42,39.0,002
-57,KEDARMAITY,ZI0057,006,HOUSE KEEPING,031,HOUSE MAN,PR,PR,PR,PR,WO,PR,AB,AB,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,34.37,35.0,001
-58,GOWRISHA D,ZI0058,006,HOUSE KEEPING,047,SUPERVISOR,PR,AB,PR,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,35.08,35.0,001
-62,LINGARAJU,ZI0062,007,SECURITY,040,SECURITY OFFICER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-63,SRIDHARA,ZI0063,012,TIME OFFICE,039,SECURITY,MM,MM,MM,MM,MM,MM,MM,AB,AB,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,0.0,0.0,0,0,135.59,136.0,001
-65,PRAHALAD BHARMAN,ZI0065,007,SECURITY,019,DRIVER,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,47.59,48.0,001
-66,NANDA LAL SHARMA,ZI0066,008,MAINTAINANCE,009,CARPENTER,PR,PR,PR,PR,WO,AB,PR,HD,PR,AB,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,8.5,0,0,27.43,28.0,001
-68,RAVI K,ZI0068,008,MAINTAINANCE,004,ASST. ENGINEER,AB,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,29.08,29.0,001
-71,BOOBALAN J,ZI0071,001,+AMT,052,REVENUE MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-73,SOWJANYA G T,ZI0073,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-78,GOPAL PASWAN,ZI0078,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-83,KHAJE RUNA,ZI0083,004,F&B PRODUCTION,055,TANDOORI COMMI I,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-84,NAVEEN S N,ZI0084,008,MAINTAINANCE,020,ELECTRICIAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-85,SUBASHCHANDRA BOSE G,ZI0085,001,AMT,067,ACCOUNTS ASSITANT,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-88,BHARATH KUMAR SAMAL,ZI0088,003,F&B SERVICE,057,BAR CAPTAIN,MM,MM,MM,MM,MM,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,8.0,1.0,0.0,0,0,14.56,15.0,001
-92,UDAY KUMAR PASWAN,ZI0092,004,F&B PRODUCTION,034,KST,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,33.03,33.0,001
-93,KHAJE CHINA,ZI0093,004,F&B PRODUCTION,010,CDP INDIAN,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,0.0,0.0,001
-95,NANDADULAL DAS,ZI0095,003,F&B SERVICE,045,STEWARD,PR,PR,PR,PR,WO,PR,PR,AB,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,33.06,33.0,001
-102,NEERAJ PADIYAR,ZI0102,004,F&B PRODUCTION,014,COMMI III,PR,AB,PR,PR,WO,PR,PR,PR,PR,AB,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,38.53,39.0,001
-103,SUBRATA MAITY,ZI0103,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-104,SANJAY SAMANTA,ZI0104,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-106,MAHALAKSHMI N,ZI0106,002,FRONT OFFICE,025,FOA,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-112,VINOTH KUMAR V,ZI0112,004,F&B PRODUCTION,035,KST SUPERVISOR,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-113,BIRAN DAHAL,ZI0113,004,F&B PRODUCTION,010,CDP INDIAN,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,30.19,30.0,001
-116,SACHIN KUMAR,ZI0116,004,F&B PRODUCTION,048,TANDOORI COMMI-II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-117,MARINA LAKRA,ZI0117,006,HOUSE KEEPING,068,HK DESK,PR,PR,PR,PR,WO,AB,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,37.52,38.0,001
-118,SUMAN XALXO,ZI0118,003,F&B SERVICE,045,STEWARD,AB,PR,PR,PR,WO,PR,HD,PR,HD,AB,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,7.0,0,0,27.51,28.0,001
-123,VIJAY KUMAR S,ZI0123,004,F&B PRODUCTION,035,KST SUPERVISOR,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,38.37,39.0,001
-124,MD.MUJAHID,ZI0124,004,F&B PRODUCTION,048,TANDOORI COMMI-II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-127,PALLAVI N,ZI0127,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-128,DAMBAR BAHADUR KUNWAR,ZI0128,003,F&B SERVICE,087,SR. CAPTAIN,AB,PR,PR,PR,WO,PR,PR,AB,AB,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,5.0,2.0,7.0,0,0,30.16,30.0,001
-129,E RANI,ZI0129,004,F&B PRODUCTION,034,KST,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,21.27,21.0,001
-130,MUJAHID PASHA,ZI0130,002,FRONT OFFICE,025,FOA,MM,MM,MM,AB,MM,MM,MM,MM,MM,MM,MM,MM,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,0.0,0.0,0,0,29.5,30.0,001
-137,SUJEETHA,ZI0137,006,HOUSE KEEPING,088,EHK,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-501,SAMUVEL MARAPPAN,ZI0501,004,F&B PRODUCTION,054,SWEET MAKER,AB,AB,AB,AB,AB,AB,HD,HD,HD,HD,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,8.0,2.0,2.0,0,0,4.36,5.0,002
-504,PRABHU D,ZI0504,006,HOUSE KEEPING,036,LAUNDREY,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,11.59,12.0,002
-509,JOINUL AHMAD LASKAR,ZI0509,006,HOUSE KEEPING,031,HOUSE MAN,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,40.34,41.0,001
-511,KOUSHIK MANDAL,ZI0511,004,F&B PRODUCTION,034,KST,MM,MM,MM,MM,MM,MM,MM,MM,AB,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,0.0,0.0,0,0,65.23,65.0,001
-518,PRADIP SARKAR,ZI0518,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-523,T VASANTHAKUMAR,ZI0523,004,F&B PRODUCTION,014,COMMI III,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-531,YASHAVANTH H G,ZI0531,002,FRONT OFFICE,007,BELL BOY,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-532,BINOD BAM THAKURI,ZI0532,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-533,SANJAY PRADHAN,ZI0533,006,HOUSE KEEPING,031,HOUSE MAN,PR,AB,PR,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,37.24,37.0,001
-535,ARAKSHIT SETHY,ZI0535,008,MAINTAINANCE,058,PLUMBER,PR,PR,PR,PR,WO,PR,HD,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,10.5,0,0,62.48,63.0,001
-538,KUNAL KRISHTAN,ZI0133,006,HOUSE KEEPING,033,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-539,RAJESH RAI,ZI0134,006,HOUSE KEEPING,033,HOUSEMAN.,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-540,AKASH,ZI0135,006,HOUSE KEEPING,033,HOUSEMAN.,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-542,SUJEETHA  R,ZI0542,006,HOUSE KEEPING,081,EXECUTIVE HOUSEKEEPER,PR,PR,AB,PR,WO,PR,PR,PR,AB,AB,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,8.0,0,0,51.32,52.0,001
-543,SOMENATHPULAI,ZI0138,004,F&B PRODUCTION,021,EXECUTIVE CHEF,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-544,GIRISH S T,ZI0139,004,F&B PRODUCTION,010,CDP INDIAN,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,24.41,25.0,001
-549,SANTOSH KUMAR BISOYI,ZI0537,004,F&B PRODUCTION,012,CHINEESE-DCDP,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,AB,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,0.0,0.0,0,0,30.3,30.0,001
-550,VISHAL RANA,ZI0538,005,SALE & MARKETING,037,SALES,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-551,SUBUNGSAR,ZI0539,003,F&B SERVICE,022,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-553,ANANDA B S,ZI0541,006,HOUSE KEEPING,047,SUPERVISOR,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-555,RIJU CHOWDRIY,ZI0543,004,F&B PRODUCTION,055,TANDOORI COMMI I,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-556,RAHUL PUSWAN,ZI0544,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-559,MAILAVATHI V,ZI0552,002,FRONT OFFICE,060,RESERVATION EXECUTIVE,MM,MM,MM,MM,WO,MM,MM,MM,MM,MM,MM,WO,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,2.0,0.0,0,0,4.51,5.0,001
-560,KARTHIKEYAN,ZI0553,002,FRONT OFFICE,059,DUTY MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-563,N DASAPPA,ZI0563,007,SECURITY,039,SECURITY,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-566,AJIT BAKTI,ZI0566,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-567,RAKHAL GHATUAR,ZI0567,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-568,RAGHU,ZI0568,008,MAINTAINANCE,069,PAINTER,PR,PR,PR,PR,WO,AB,AB,AB,AB,HD,PR,WO,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,5.0,2.0,6.0,0,0,17.0,17.0,001
-570,MD SAJJAD ALAM,ZI0570,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-571,BISWARANJAN GOUDA,ZI0571,004,F&B PRODUCTION,011,CHINEESE -COMMI II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-573,SHASHIRAMAN G,ZI0573,009,HRD,051,HR MANAGER,PR,AB,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,33.26,33.0,001
-574,AKASH SING,ZI0574,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-575,MANJULA  V,ZI0575,001,AMT,002,ACCOUNTS MANAGER,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,23.42,24.0,001
-576,JOYDEB DEBNATH,ZI0576,004,F&B PRODUCTION,013,COMMI II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-577,MD MOSRAF,ZI0577,004,F&B PRODUCTION,048,TANDOORI COMMI-II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-578,SATISH NAYKA S,ZI0578,003,F&B SERVICE,056,TRAINEE STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-579,BASANTA PRADHAN,ZI0579,004,F&B PRODUCTION,080,TR.COMMI III,PR,PR,PR,PR,WO,AB,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,29.23,29.0,001
-583,KHOKAN MONDAL,ZI0583,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-584,BASAVARAJU H C,ZI0584,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-585,MEDIUS THYRNIANG,ZI0585,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-586,G M CHALUVARAJU,ZI0586,006,HOUSE KEEPING,033,HOUSEMAN.,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-588,SHIVARAJU K B,ZI0588,007,SECURITY,019,DRIVER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-589,BIJU LAMA,ZI0589,006,HOUSE KEEPING,033,HOUSEMAN.,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-591,LALITA GOND,ZI0591,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-593,PAPU PRADHAN,ZI0593,006,HOUSE KEEPING,061,TR HOUSEMAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-594,RUBINA TRIPURA,ZI0594,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-595,KRITTI KISHOR TRIPURA,ZI0595,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-596,SALKA TRIPURA,ZI0596,006,HOUSE KEEPING,032,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-597,MOHIT KUMAR,ZI0597,004,F&B PRODUCTION,013,COMMI II,AB,PR,PR,PR,WO,PR,PR,AB,AB,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,5.0,2.0,7.0,0,0,37.47,38.0,001
-598,GOPAL CHANDRA  PATTANAYAK,ZI0598,004,F&B PRODUCTION,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,AB,MM,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,0.0,0.0,0,0,61.03,61.0,001
-599,DEBENDRA TRIPURA,ZI0599,012,TIME OFFICE,019,DRIVER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-600,SANJU SHAI,ZI0600,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-601,SAMIR SHAI,ZI0601,003,F&B SERVICE,,,PR,PR,PR,AB,AB,AB,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,26.25,26.0,001
-602,GURUPANDI ESWARAN,ZI0602,004,F&B PRODUCTION,017,DCDP,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-603,PAWAN SAUD,ZI0603,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-604,SANTU MAITY,ZI0604,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,PR,AB,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,33.43,34.0,001
-605,NABIN BHATTA,ZI0605,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-606,DEEWAS BARDEWA,ZI0606,006,HOUSE KEEPING,,,PR,AB,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,36.47,37.0,002
-607,CHANDAN DEY,ZI0607,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,PR,PR,AB,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,34.35,35.0,002
-608,RAJESH NATH,ZI0608,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-609,RUPAM DAS,ZI0609,006,HOUSE KEEPING,,,PR,PR,PR,AB,WO,PR,PR,PR,PR,PR,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,32.3,32.0,002
-610,PRADIP DEY,ZI0610,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,AB,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,31.31,32.0,002
-611,BIPLAB NATH,ZI0611,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-612,RANJIT DAS,ZI0612,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-613,NEMAI BISWAS,ZI0613,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-614,MOUSINA BANU,ZI0614,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-615,RAKHAL BISWAS,ZI0615,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-616,RAJKUMAR DAS,ZI0616,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,AB,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,49.09,49.0,002
-617,SANJAY DAS,ZI0617,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-618,BIJOY KUMAR TRIPURA,ZI0618,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-619,SAROJ SAMANTARAY,ZI0619,012,TIME OFFICE,039,SECURITY,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-620,SANJIB BAG,ZI0620,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-621,ANIMESH  JANA,ZI0621,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-622,RAJNEESH BAIGA,ZI0622,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-623,GAJENDRA TRIPURA,ZI0623,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-624,SIMLA  DEBBARMA,ZI0624,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-625,DHURB BHAT,ZI0625,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-626,DIJENDRA REANG,ZI0626,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-627,T SAI PAVAN,ZI0627,002,FRONT OFFICE,,,AB,AB,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,8.0,0,0,23.53,24.0,001
-628,ROMIO TUDU,ZI0628,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-629,MANOJ HANSDA,ZI0629,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-630,RAM SINGH BHATT,ZI0630,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-631,DIL KUMAR RAI,ZI0631,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-632,SRI PRIYA KANTI TRIPURA,ZI0632,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-633,ROJA,ZI0633,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-634,Y K THOMAS,ZI0634,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-635,BIREN URAON,ZI0635,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-636,ROHAN MAHALI,ZI0636,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-637,AJAY NAGASIYA,ZI0637,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-638,DIPAK TUDU,ZI0638,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-639,BHIMU  REE,ZI0639,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-640,SARALATA TRIPURA,ZI0640,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-641,GURUSWAMY N,ZI0641,004,F&B PRODUCTION,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,35.31,36.0,001
-642,CALEBA LALCHHUANMAWIA,ZI0642,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-643,LALRINSANGA,ZI0643,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-644,LALHRUAITLUANGA,ZI0644,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-645,ZODINPUIA,ZI0645,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-646,VASANTH,ZI0646,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-647,GURU,ZI0647,004,F&B PRODUCTION,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,AB,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,27.23,27.0,001
-648,GOPUI RONG REANG,ZI0648,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-649,SHARMA RAM REANG,ZI0649,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-650,ROHIT SINGH KAIRA,ZI0650,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-651,NIKHIL S,ZI0651,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-652,ROSHAN CHETTRI,ZI0652,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-653,RAM BAHADUR DHAMI,ZI0653,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-654,RAVI KUMAR PASWAN,ZI0654,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-655,MANOJ RAJ JOSHI,ZI0655,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-656,SHANKAR SINGH SAUD,ZI0656,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-657,HIMAL MALI,ZI0657,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-658,SHER BAHADUR BIST,ZI0658,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-659,SEKHAR DAS,ZI0659,006,HOUSE KEEPING,,,PR,AB,PR,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,37.15,37.0,001
-660,SHYAM CHARAN MAHATO,ZI0660,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,AB,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,31.49,32.0,002
-661,CHANDAN KUMAR SAH,ZI0661,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-662,UPPI SUSHIL KUMAR,ZI0662,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-663,SUZANA NONGREM,ZI0663,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-664,LOKENDRA  NATH,ZI0664,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-665,SUNIL K C,ZI0665,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-666,RAJU KUMAR,ZI0666,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-667,AMAN KUMAR,ZI0667,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-668,GYAN KUMAR,ZI0668,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-669,NISHANTH MURUGAN,ZI0669,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-670,SUBRAT BISHOYI,ZI0670,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-671,ABHINAV CHAUHAN,ZI0671,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-672,LOMOMA THIANGLAI,ZI0672,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-673,MANJEET BHARTI,ZI0673,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-674,ANUP KUMAR K R,ZI0674,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-675,RABINDRA KUMAR PRADHAN,ZI0675,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-676,USHA  A,ZI0676,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-677,ANOOP BIKRAM,ZI0677,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-678,PUSKAR RAJ BHATT,ZI0678,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-679,PAWAN KUMAR PANDEY,ZI0679,003,F&B SERVICE,,,MM,MM,MM,MM,MM,MM,MM,AB,MM,AB,MM,MM,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,0.0,0.0,0,0,50.12,50.0,002
-680,AMIT KUMAR,ZI0680,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-681,SHUMILIN RANI,ZI0681,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-682,THUAMI THIANGLAI,ZI0682,003,F&B SERVICE,,,PR,PR,PR,PR,WO,AB,AB,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,33.56,34.0,002
-683,SUDHAKAR BANWAR,ZI0683,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-684,R NIRMAL,ZI0684,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-685,RAJU DAS,ZI0685,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-686,ANISH MUNDA,ZI0686,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-687,SANJEEB MUNDA,ZI0687,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-688,SHALABH BAHUGUNA,ZI0688,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-689,JUMA DAS,ZI0689,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-690,HARISH VENKATESAN,ZI0690,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-691,PRATAP MAHALI,ZI0691,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-692,MANJUNATHA U,ZI0692,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-693,GANESH SWAIN,ZI0693,004,F&B PRODUCTION,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,WO,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,1.0,0.0,0,0,23.33,24.0,002
-694,PRASAD K B,ZI0694,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-695,KIRAN B,ZI0695,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-696,UJJAL NAMASUDRA,ZI0696,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-698,RAJESH DAS,ZI0698,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-699,SUDEEP GHOSHAL,ZI0699,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-700,JOSHEP BAHADUR,ZIO700,003,F&B SERVICE,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,AB,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,0.0,0.0,0,0,41.45,42.0,002
-701,SHIV KUMAR THAPA,ZIO701,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-702,MANJUNATHA B K,ZI0702,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-703,VENKATESH  S,ZI0703,006,HOUSE KEEPING,,,PR,PR,PR,AB,WO,PR,PR,PR,PR,HD,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,8.5,0,0,31.58,32.0,001
-704,SANTOSH RAVIDAS,ZI0704,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-705,E CHAOYA KONYAK,ZI0705,006,HOUSE KEEPING,,,PR,PR,PR,AB,WO,PR,PR,PR,PR,PR,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,33.24,33.0,002
-706,BADAN RAJVANSHI,ZI0706,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-707,DHANRAJ RAVIDAS,ZI0707,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-708,RANJAN KUMAR,ZI0708,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-709,PURNA CHANDRA BEHERA,ZI0709,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-710,SARAT KUMAR THAPA,ZI0710,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,PR,AB,AB,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,34.47,35.0,002
-711,KARAN JOY REANG,ZI0711,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,32.01,32.0,002
-712,NIRENJOY REANG,ZI0712,006,HOUSE KEEPING,,,PR,PR,PR,AB,WO,PR,PR,PR,PR,PR,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,32.58,33.0,002
-713,UPAR JOY REANG,ZI0713,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-714,SAHIL ALI,ZI0714,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-715,TAPOSH SARKAR,ZI0715,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-716,GULAM SAMDANI,ZI0716,004,F&B PRODUCTION,,,PR,PR,AB,AB,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,8.0,0,0,40.32,41.0,001
-717,SHEKH JAFARULLA,ZI0717,004,F&B PRODUCTION,,,PR,AB,AB,HD,WO,AB,HD,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,9.0,2.0,2.0,0,0,1.49,2.0,001
-718,KIRAN S,ZI0718,008,MAINTAINANCE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-719,BHUPAL SINGH BORA,ZI0719,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-720,INAHO,ZI0720,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-721,BHUTALISIDD,ZI0721,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-722,ANUSUYA M,ZI0722,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-723,BIJAY MAGAR,ZI0723,004,F&B PRODUCTION,,,AB,PR,PR,PR,WO,AB,PR,PR,AB,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,8.0,0,0,38.16,38.0,002
-724,ASHUTOSH KUMAR RAI,ZI0724,004,F&B PRODUCTION,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,AB,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,38.37,39.0,001
-725,RAKESH REE,ZI0725,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-726,RAJENDRA NAYAK,ZI0726,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-727,DURGA SING REANG,ZI0727,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-728,RAMGI KUMAR REANG,ZI0728,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-729,NITESH SEMWAL,ZI0729,004,F&B PRODUCTION,,,MM,MM,AB,MM,MM,MM,MM,AB,MM,MM,MM,MM,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,0.0,0.0,0,0,36.27,36.0,001
-730,BIPLOB DAS,ZI0730,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-731,HARISHKUMAR G,ZI0731,004,F&B PRODUCTION,,,AB,AB,AB,PR,WO,PR,PR,PR,PR,PR,PR,WO,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,7.5,0,0,34.08,34.0,002
-732,FEBIYAN MININ FERNANDIS,ZI0732,008,MAINTAINANCE,,,PR,PR,PR,PR,WO,PR,AB,PR,PR,PR,PR,WO,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,9.5,0,0,48.07,48.0,001
-733,SONIYA  MOTE,ZI0733,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-734,GOWTHAM S,ZI0734,003,F&B SERVICE,062,TR STEWARD,PR,PR,PR,PR,WO,PR,AB,AB,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,52.01,52.0,002
-735,MANIKANDAN SANMUGAM,ZI0735,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-736,ABHISHEK KUMAR PATEL,ZI0736,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-737,R  MAHENDRA,ZI0737,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-738,PRIYO KUMAR SINGHA,ZI0738,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-739,KAMAL CHANDRA TRIPURA,ZI0739,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-740,KABITA TRIPURA,ZI0740,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-741,BIMANTA REANG,ZI0741,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-742,DIJA RAM REANG,ZI0742,003,F&B SERVICE,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,28.52,29.0,002
-743,LALIT REANG,ZI0743,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-744,DARASING REANG,ZI0744,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,11.0,0,0,17.48,18.0,002
-745,NIRANJAN DAS,ZI0745,004,F&B PRODUCTION,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,1.0,2.0,10.5,0,0,18.36,19.0,001
-746,KARAN BAHADUR KUWAR,ZI0746,004,F&B PRODUCTION,,,PR,PR,PR,PR,WO,AB,AB,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,17.14,17.0,002
-747,DHANANTA TRIPURA,ZI0747,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-748,SIBIL RAM REANG,ZI0748,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-749,MITHLESH KUMAR PATEL,ZI0749,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-750,MAHESH A,ZI0750,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-751,DIWAKAR KUMAR,ZI0751,004,F&B PRODUCTION,,,PR,PR,PR,PR,WO,AB,PR,PR,AB,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,3.0,2.0,9.0,0,0,38.45,39.0,001
-752,OMPRAKASH YADAV,ZI0752,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-753,SACHIT SINGH,ZI0753,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-754,SANJAY SEN,ZI0754,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-755,SHANI YADAV,ZI0755,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-756,VIKRAM YADAV,ZI0756,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-757,SANTOSH SALIGRAM,ZI05757,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-758,CHANDON DAS,ZI0758,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-759,LALRINTHARI DARNEI,ZI0759,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-760,ROMINA BEY,ZI0760,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-761,THATPUIA THIANGLAI,ZI0761,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-762,VANLALNGAKA DURPUI,ZI0762,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-763,SUDARMANI RAJ,ZI0763,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-764,PRASHANTH B,ZI0764,006,HOUSE KEEPING,,,AB,AB,AB,AB,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,5.0,2.0,7.0,0,0,31.18,31.0,002
-765,SANU KUMAR SARKAR,ZI0765,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-766,MANI RAM REANG,ZI0766,006,HOUSE KEEPING,,,PR,PR,PR,PR,WO,PR,PR,PR,PR,AB,PR,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,24.29,24.0,002
-767,SHIVLING,ZI0767,002,FRONT OFFICE,,,MM,MM,MM,MM,WO,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,8.0,2.0,0.0,0,0,5.57,6.0,001
-768,RAVIKUMAR  CHANNADASAR,ZI0768,002,FRONT OFFICE,086,FRONT OFFICE ASSITANT,PR,PR,PR,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,2.0,2.0,10.0,0,0,35.43,36.0,001
-769,VIJAYAKUMAR B N,ZI0769,001,AMT,084,FOE,AB,PR,PR,PR,WO,PR,PR,PR,PR,AB,AB,WO,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,4.0,2.0,8.0,0,0,73.5,74.0,001
-770,GITA RUNG REANG,ZI0770,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-771,AKASH BISWAS,ZI0771,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,002
-772,S  BASAVARAJ,ZI0772,012,TIME OFFICE,040,SECURITY OFFICER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,12.0,2.0,0.0,0,0,0.0,0.0,001
-773,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,0.0,0.0,
-774,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,0.0,0.0,
-775,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,17.15,17.0,
-776,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,19.22,19.0,
-777,,,,,,,,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,22.18,22.0,
-778,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,25.19,25.0,
-779,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,0.0,0.0,
-780,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,10.51,11.0,
-781,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,15.12,15.0,
-782,,,,,,,MM,MM,MM,MM,,,,MM,MM,MM,MM,MM,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,37.48,38.0,
-783,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,11.47,12.0,
-784,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,13.23,13.0,
-785,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,13.53,14.0,
-786,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,20.26,20.0,
-787,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,30.04,30.0,
-788,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,21.48,22.0,
-789,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,15.2,15.0,
-790,,,,,,,MM,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,20.45,21.0,
-791,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,34.27,34.0,
-792,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,34.34,35.0,
-793,,,,,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,,MM,MM,MM,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,23.25,23.0,
-794,,,,,,,MM,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,0.35,1.0,
-795,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,26.2,26.0,
-796,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,36.38,37.0,
-797,,,,,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,16.49,17.0,
-798,,,,,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,34.14,34.0,
-799,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,19.02,19.0,
-800,,,,,,,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,MM,,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,65.13,65.0,
-801,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,18.4,19.0,
-802,,,,,,,MM,MM,MM,MM,MM,MM,MM,MM,,MM,MM,MM,,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,8.03,8.0,
-803,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,13.34,14.0,
-804,,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,0.0,0.0,0.0,0,0,11.51,12.0,
-805,RAMESH M B,00805,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,14.0,0.0,0.0,0,0,0.0,0.0,002
+1,MUKESH N KESERKER,ZI0001,001,AMT,028,GENERAL MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+2,SARAVANA C,ZI0002,001,AMT,064,ACCOUNTS & STORES EXECUTIVE,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,14.11,14.0,001
+3,K E LAKSHMINARAYANA SHETTY,ZI0003,001,AMT,065,PURCHASE & STORES EXECUTIVE,PR,WO,PR,PR,AB,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,48.44,49.0,001
+4,NAGABHUSHANA K G,ZI0004,001,AMT,070,FINANCE MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+6,RAJU L,ZI0006,002,FRONT OFFICE,026,FOM,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+7,PRAKASH P,ZI0007,002,FRONT OFFICE,071,LOBBY MANAGER,PR,WO,HD,PR,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,8.5,0,0,67.08,67.0,001
+8,ARCHANA,ZI0008,002,FRONT OFFICE,084,FOE,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+9,S.N.NAGESH,ZI0009,002,FRONT OFFICE,007,BELL BOY,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,45.09,45.0,001
+10,ANJAPPA.K,ZI0010,002,FRONT OFFICE,086,FRONT OFFICE ASSITANT,PR,WO,HD,AB,PR,PR,PR,PR,WO,PR,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,6.5,0,0,24.1,24.0,001
+11,RAVI KIRANA B,ZI0011,003,F&B SERVICE,066,F&B MANAGER,AB,WO,PR,PR,MM,PR,AB,PR,WO,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,6.0,2.0,4.0,0,0,25.27,25.0,001
+12,MANOJ BISWAS,ZI0012,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+14,VIJAYA POOJARY,ZI0014,003,F&B SERVICE,006,BAR EXECUTIVE,MM,MM,PR,AB,PR,AB,MM,PR,WO,PR,PR,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,1.0,5.0,0,0,61.29,61.0,001
+15,SULOCHANA,ZI0015,003,F&B SERVICE,022,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+16,RAJINI H.R.,ZI0016,003,F&B SERVICE,008,CAPTAIN,PR,WO,PR,AB,AB,AB,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,35.36,36.0,001
+20,JAGANDHU SARANGI,ZI0020,003,F&B SERVICE,049,TR CAPTAIN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+22,SUNIL RAMA POOJARI,ZI0022,003,F&B SERVICE,073,F&B EXECUTIVE,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,42.19,42.0,001
+23,BHUVAN HAMAL,ZI0023,003,F&B SERVICE,008,CAPTAIN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+27,NABAKUMAR BHOWMICK,ZI0027,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+28,SURESH PASAWAS,ZI0028,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+29,PINTU MONDAL,ZI0029,004,F&B PRODUCTION,076,BAKERY CDP,PR,MM,MM,MM,HD,AB,PR,PR,WO,MM,PR,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,1.0,4.5,0,0,28.18,28.0,001
+31,SUKANTA MISTRY,ZI0031,004,F&B PRODUCTION,013,COMMI II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+33,SHISHPAL SINGH,ZI0033,004,F&B PRODUCTION,017,DCDP,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+36,ELAVAZHAGAN SENTHIL KUMAR,ZI0036,004,F&B PRODUCTION,017,DCDP,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,22.24,22.0,001
+37,BOMMI,ZI0037,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+38,SOUNDARI MADHAN,ZI0038,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+39,NETAI SAMANTA,ZI0039,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+44,AKSHAY SUNIL KATAKAR,ZI0044,004,F&B PRODUCTION,012,CHINEESE-DCDP,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+47,NAGAMANI P,ZI0047,005,SALE & MARKETING,038,SALES MANAGER,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,7.2,7.0,001
+50,MOHAN KUMAR S,ZI0050,006,HOUSE KEEPING,047,SUPERVISOR,AB,WO,PR,PR,PR,HD,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,7.5,0,0,24.45,25.0,001
+51,PUNGAVANAM,ZI0051,006,HOUSE KEEPING,082,LAUNDRY ATTENDENT,PR,WO,PR,PR,PR,AB,AB,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,25.27,25.0,001
+52,DIPAK JAMATIA,ZI0052,006,HOUSE KEEPING,031,HOUSE MAN,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,16.25,16.0,001
+53,HEMANTA KUMAR NAIK,ZI0053,006,HOUSE KEEPING,047,SUPERVISOR,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+54,BASANTH KUMAR DASH,ZI0054,006,HOUSE KEEPING,031,HOUSE MAN,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,49.36,50.0,001
+55,HARUN BASHA,ZI0055,006,HOUSE KEEPING,047,SUPERVISOR,PR,MM,PR,PR,AB,PR,AB,MM,WO,MM,MM,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,1.0,5.0,0,0,34.37,35.0,002
+57,KEDARMAITY,ZI0057,006,HOUSE KEEPING,031,HOUSE MAN,PR,WO,MM,MM,MM,MM,PR,PR,WO,AB,MM,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,4.0,0,0,20.51,21.0,001
+58,GOWRISHA D,ZI0058,006,HOUSE KEEPING,047,SUPERVISOR,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,36.18,36.0,001
+62,LINGARAJU,ZI0062,007,SECURITY,040,SECURITY OFFICER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+63,SRIDHARA,ZI0063,012,TIME OFFICE,039,SECURITY,AB,WO,MM,PR,AB,PR,PR,PR,WO,MM,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,6.0,0,0,77.27,77.0,001
+65,PRAHALAD BHARMAN,ZI0065,007,SECURITY,019,DRIVER,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,46.03,46.0,001
+66,NANDA LAL SHARMA,ZI0066,008,MAINTAINANCE,009,CARPENTER,PR,WO,PR,PR,HD,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,30.29,30.0,001
+68,RAVI K,ZI0068,008,MAINTAINANCE,004,ASST. ENGINEER,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,14.45,15.0,001
+71,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+73,SOWJANYA G T,ZI0073,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+78,GOPAL PASWAN,ZI0078,004,F&B PRODUCTION,034,KST,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,54.13,54.0,001
+83,KHAJE RUNA,ZI0083,004,F&B PRODUCTION,055,TANDOORI COMMI I,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+84,NAVEEN S N,ZI0084,008,MAINTAINANCE,020,ELECTRICIAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+85,SUBASHCHANDRA BOSE G,ZI0085,001,AMT,067,ACCOUNTS ASSITANT,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+88,BHARATH KUMAR SAMAL,ZI0088,003,F&B SERVICE,057,BAR CAPTAIN,PR,WO,PR,AB,PR,AB,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,45.03,45.0,001
+92,UDAY KUMAR PASWAN,ZI0092,004,F&B PRODUCTION,034,KST,PR,WO,PR,PR,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,46.28,46.0,001
+93,KHAJE CHINA,ZI0093,004,F&B PRODUCTION,010,CDP INDIAN,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,001
+95,NANDADULAL DAS,ZI0095,003,F&B SERVICE,045,STEWARD,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,47.57,48.0,001
+102,NEERAJ PADIYAR,ZI0102,004,F&B PRODUCTION,014,COMMI III,PR,WO,PR,PR,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,39.25,39.0,001
+103,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+104,SANJAY SAMANTA,ZI0104,004,F&B PRODUCTION,034,KST,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+106,MAHALAKSHMI N,ZI0106,002,FRONT OFFICE,025,FOA,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+112,VINOTH KUMAR V,ZI0112,004,F&B PRODUCTION,035,KST SUPERVISOR,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+113,BIRAN DAHAL,ZI0113,004,F&B PRODUCTION,010,CDP INDIAN,PR,WO,PR,HD,AB,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,8.5,0,0,24.34,25.0,001
+116,SACHIN KUMAR,ZI0116,004,F&B PRODUCTION,048,TANDOORI COMMI-II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+117,MARINA LAKRA,ZI0117,006,HOUSE KEEPING,068,HK DESK,PR,WO,AB,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,38.48,39.0,001
+118,SUMAN XALXO,ZI0118,003,F&B SERVICE,045,STEWARD,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,HD,PR,HD,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,2.0,10.0,0,0,33.23,33.0,001
+123,VIJAY KUMAR S,ZI0123,004,F&B PRODUCTION,035,KST SUPERVISOR,PR,WO,PR,PR,PR,PR,PR,PR,WO,HD,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,32.34,33.0,001
+124,MD.MUJAHID,ZI0124,004,F&B PRODUCTION,048,TANDOORI COMMI-II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+127,PALLAVI N,ZI0127,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+128,DAMBAR BAHADUR KUNWAR,ZI0128,003,F&B SERVICE,087,SR. CAPTAIN,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,PR,PR,HD,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,40.27,40.0,001
+129,E RANI,ZI0129,004,F&B PRODUCTION,034,KST,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,17.24,17.0,001
+130,MUJAHID PASHA,ZI0130,002,FRONT OFFICE,025,FOA,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,25.32,26.0,001
+137,SUJEETHA,ZI0137,006,HOUSE KEEPING,088,EHK,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+501,SAMUVEL MARAPPAN,ZI0501,004,F&B PRODUCTION,054,SWEET MAKER,HD,WO,HD,HD,HD,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,7.0,2.0,2.0,0,0,6.35,7.0,002
+504,PRABHU D,ZI0504,006,HOUSE KEEPING,036,LAUNDREY,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,9.57,10.0,002
+509,JOINUL AHMAD LASKAR,ZI0509,006,HOUSE KEEPING,031,HOUSE MAN,PR,WO,MM,PR,PR,PR,AB,PR,WO,AB,PR,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,6.0,0,0,70.42,71.0,001
+511,KOUSHIK MANDAL,ZI0511,004,F&B PRODUCTION,034,KST,PR,WO,PR,MM,PR,MM,MM,PR,MM,PR,AB,PR,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,1.0,6.0,0,0,61.06,61.0,001
+518,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+523,T VASANTHAKUMAR,ZI0523,004,F&B PRODUCTION,014,COMMI III,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+531,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+532,BINOD BAM THAKURI,ZI0532,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+533,SANJAY PRADHAN,ZI0533,006,HOUSE KEEPING,031,HOUSE MAN,PR,WO,AB,PR,PR,PR,PR,PR,WO,PR,PR,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,34.23,34.0,001
+535,ARAKSHIT SETHY,ZI0535,008,MAINTAINANCE,058,PLUMBER,PR,WO,AB,AB,AB,PR,PR,MM,MM,PR,PR,PR,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,1.0,6.0,0,0,36.19,36.0,001
+538,KUNAL KRISHTAN,ZI0133,006,HOUSE KEEPING,033,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+539,RAJESH RAI,ZI0134,006,HOUSE KEEPING,033,HOUSEMAN.,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+540,AKASH,ZI0135,006,HOUSE KEEPING,033,HOUSEMAN.,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+542,SUJEETHA  R,ZI0542,006,HOUSE KEEPING,081,EXECUTIVE HOUSEKEEPER,PR,WO,PR,PR,PR,PR,AB,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,28.44,29.0,001
+543,SOMENATHPULAI,ZI0138,004,F&B PRODUCTION,021,EXECUTIVE CHEF,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+544,GIRISH S T,ZI0139,004,F&B PRODUCTION,010,CDP INDIAN,PR,WO,PR,PR,PR,AB,AB,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,18.43,19.0,001
+549,SANTOSH KUMAR BISOYI,ZI0537,004,F&B PRODUCTION,012,CHINEESE-DCDP,HD,WO,PR,PR,PR,HD,PR,AB,WO,PR,PR,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,7.0,0,0,26.11,26.0,001
+550,VISHAL RANA,ZI0538,005,SALE & MARKETING,037,SALES,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+551,SUBUNGSAR,ZI0539,003,F&B SERVICE,022,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+553,ANANDA B S,ZI0541,006,HOUSE KEEPING,047,SUPERVISOR,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+555,RIJU CHOWDRIY,ZI0543,004,F&B PRODUCTION,055,TANDOORI COMMI I,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+556,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+559,MAILAVATHI V,ZI0552,002,FRONT OFFICE,060,RESERVATION EXECUTIVE,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,6.53,7.0,001
+560,KARTHIKEYAN,ZI0553,002,FRONT OFFICE,059,DUTY MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+563,N DASAPPA,ZI0563,007,SECURITY,039,SECURITY,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+566,AJIT BAKTI,ZI0566,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+567,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+568,RAGHU,ZI0568,008,MAINTAINANCE,069,PAINTER,PR,WO,PR,PR,PR,PR,PR,PR,WO,HD,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,13.24,13.0,001
+570,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+571,BISWARANJAN GOUDA,ZI0571,004,F&B PRODUCTION,011,CHINEESE -COMMI II,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+573,SHASHIRAMAN G,ZI0573,009,HRD,051,HR MANAGER,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,21.12,21.0,001
+574,AKASH SING,ZI0574,003,F&B SERVICE,045,STEWARD,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+575,MANJULA  V,ZI0575,001,AMT,002,ACCOUNTS MANAGER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+576,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+577,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+578,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+579,BASANTA PRADHAN,ZI0579,004,F&B PRODUCTION,080,TR.COMMI III,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+583,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+584,BASAVARAJU H C,ZI0584,006,HOUSE KEEPING,031,HOUSE MAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+585,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+586,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+588,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+589,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+591,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+593,PAPU PRADHAN,ZI0593,006,HOUSE KEEPING,061,TR HOUSEMAN,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+594,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+595,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+596,SALKA TRIPURA,ZI0596,006,HOUSE KEEPING,032,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+597,MOHIT KUMAR,ZI0597,004,F&B PRODUCTION,013,COMMI II,PR,WO,AB,AB,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,39.01,39.0,001
+598,GOPAL CHANDRA  PATTANAYAK,ZI0598,004,F&B PRODUCTION,,,HD,WO,PR,HD,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.0,0,0,34.39,35.0,001
+599,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+600,SANJU SHAI,ZI0600,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+601,SAMIR SHAI,ZI0601,003,F&B SERVICE,,,PR,MM,PR,MM,MM,PR,PR,PR,MM,PR,PR,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,0.0,7.0,0,0,27.05,27.0,001
+602,GURUPANDI ESWARAN,ZI0602,004,F&B PRODUCTION,017,DCDP,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+603,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+604,SANTU MAITY,ZI0604,006,HOUSE KEEPING,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,24.56,25.0,001
+605,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+606,DEEWAS BARDEWA,ZI0606,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+607,CHANDAN DEY,ZI0607,006,HOUSE KEEPING,,,PR,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,32.12,32.0,001
+608,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+609,RUPAM DAS,ZI0609,006,HOUSE KEEPING,,,AB,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,27.42,28.0,001
+610,PRADIP DEY,ZI0610,006,HOUSE KEEPING,,,PR,WO,PR,AB,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,35.56,36.0,002
+611,BIPLAB NATH,ZI0611,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+612,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+613,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+614,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+615,RAKHAL BISWAS,ZI0615,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+616,RAJKUMAR DAS,ZI0616,006,HOUSE KEEPING,,,MM,MM,PR,PR,PR,PR,PR,PR,WO,MM,MM,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,1.0,7.0,0,0,113.07,113.0,002
+617,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+618,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+619,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+620,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+621,ANIMESH  JANA,ZI0621,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+622,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+623,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+624,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+625,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,0.0,0.0,
+626,DIJENDRA REANG,ZI0626,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+627,T SAI PAVAN,ZI0627,002,FRONT OFFICE,,,AB,AB,AB,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,20.29,20.0,001
+628,ROMIO TUDU,ZI0628,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+629,MANOJ HANSDA,ZI0629,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+630,RAM SINGH BHATT,ZI0630,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+631,DIL KUMAR RAI,ZI0631,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+632,SRI PRIYA KANTI TRIPURA,ZI0632,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+633,ROJA,ZI0633,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+634,Y K THOMAS,ZI0634,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+635,BIREN URAON,ZI0635,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+636,ROHAN MAHALI,ZI0636,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+637,AJAY NAGASIYA,ZI0637,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+638,DIPAK TUDU,ZI0638,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+639,BHIMU  REE,ZI0639,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+640,SARALATA TRIPURA,ZI0640,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+641,GURUSWAMY N,ZI0641,004,F&B PRODUCTION,,,PR,WO,AB,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,33.57,34.0,001
+642,CALEBA LALCHHUANMAWIA,ZI0642,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+643,LALRINSANGA,ZI0643,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+644,LALHRUAITLUANGA,ZI0644,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+645,ZODINPUIA,ZI0645,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+646,VASANTH,ZI0646,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+647,GURU,ZI0647,004,F&B PRODUCTION,,,PR,MM,PR,PR,MM,PR,MM,PR,MM,PR,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,0.0,6.0,0,0,39.09,39.0,001
+648,GOPUI RONG REANG,ZI0648,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+649,SHARMA RAM REANG,ZI0649,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+650,ROHIT SINGH KAIRA,ZI0650,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+651,NIKHIL S,ZI0651,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+652,ROSHAN CHETTRI,ZI0652,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+653,RAM BAHADUR DHAMI,ZI0653,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+654,RAVI KUMAR PASWAN,ZI0654,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+655,MANOJ RAJ JOSHI,ZI0655,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+656,SHANKAR SINGH SAUD,ZI0656,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+657,HIMAL MALI,ZI0657,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+658,SHER BAHADUR BIST,ZI0658,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+659,SEKHAR DAS,ZI0659,006,HOUSE KEEPING,,,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,38.14,38.0,001
+660,SHYAM CHARAN MAHATO,ZI0660,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+661,CHANDAN KUMAR SAH,ZI0661,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+662,UPPI SUSHIL KUMAR,ZI0662,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+663,SUZANA NONGREM,ZI0663,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+664,LOKENDRA  NATH,ZI0664,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+665,SUNIL K C,ZI0665,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+666,RAJU KUMAR,ZI0666,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+667,AMAN KUMAR,ZI0667,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+668,GYAN KUMAR,ZI0668,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+669,NISHANTH MURUGAN,ZI0669,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+670,SUBRAT BISHOYI,ZI0670,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+671,ABHINAV CHAUHAN,ZI0671,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+672,LOMOMA THIANGLAI,ZI0672,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+673,MANJEET BHARTI,ZI0673,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+674,ANUP KUMAR K R,ZI0674,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+675,RABINDRA KUMAR PRADHAN,ZI0675,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+676,USHA  A,ZI0676,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+677,ANOOP BIKRAM,ZI0677,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+678,PUSKAR RAJ BHATT,ZI0678,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+679,PAWAN KUMAR PANDEY,ZI0679,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+680,AMIT KUMAR,ZI0680,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+681,SHUMILIN RANI,ZI0681,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+682,THUAMI THIANGLAI,ZI0682,003,F&B SERVICE,,,PR,WO,PR,AB,PR,PR,PR,PR,WO,PR,PR,PR,HD,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,30.38,31.0,002
+683,SUDHAKAR BANWAR,ZI0683,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+684,R NIRMAL,ZI0684,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+685,RAJU DAS,ZI0685,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+686,ANISH MUNDA,ZI0686,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+687,SANJEEB MUNDA,ZI0687,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+688,SHALABH BAHUGUNA,ZI0688,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+689,JUMA DAS,ZI0689,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+690,HARISH VENKATESAN,ZI0690,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+691,PRATAP MAHALI,ZI0691,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+692,MANJUNATHA U,ZI0692,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+693,GANESH SWAIN,ZI0693,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,22.46,23.0,001
+694,PRASAD K B,ZI0694,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+695,KIRAN B,ZI0695,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+696,UJJAL NAMASUDRA,ZI0696,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+698,RAJESH DAS,ZI0698,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+699,SUDEEP GHOSHAL,ZI0699,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+700,JOSHEP BAHADUR,ZIO700,003,F&B SERVICE,062,TR STEWARD,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,38.19,38.0,002
+701,SHIV KUMAR THAPA,ZIO701,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+702,MANJUNATHA B K,ZI0702,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+703,VENKATESH  S,ZI0703,006,HOUSE KEEPING,,,AB,WO,PR,PR,PR,PR,PR,PR,WO,AB,PR,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,7.5,0,0,29.22,29.0,001
+704,SANTOSH RAVIDAS,ZI0704,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+705,E CHAOYA KONYAK,ZI0705,006,HOUSE KEEPING,,,AB,WO,PR,PR,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,35.04,35.0,002
+706,BADAN RAJVANSHI,ZI0706,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+707,DHANRAJ RAVIDAS,ZI0707,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+708,RANJAN KUMAR,ZI0708,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+709,PURNA CHANDRA BEHERA,ZI0709,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+710,SARAT KUMAR THAPA,ZI0710,006,HOUSE KEEPING,,,PR,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,36.27,36.0,001
+711,KARAN JOY REANG,ZI0711,006,HOUSE KEEPING,,,PR,WO,PR,AB,AB,PR,PR,PR,WO,PR,PR,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,29.44,30.0,002
+712,NIRENJOY REANG,ZI0712,006,HOUSE KEEPING,,,AB,WO,PR,PR,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,31.47,32.0,002
+713,UPAR JOY REANG,ZI0713,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+714,SAHIL ALI,ZI0714,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+715,TAPOSH SARKAR,ZI0715,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+716,GULAM SAMDANI,ZI0716,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,41.47,42.0,001
+717,SHEKH JAFARULLA,ZI0717,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+718,KIRAN S,ZI0718,008,MAINTAINANCE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+719,BHUPAL SINGH BORA,ZI0719,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+720,INAHO,ZI0720,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+721,BHUTALISIDD,ZI0721,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+722,ANUSUYA M,ZI0722,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+723,BIJAY MAGAR,ZI0723,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,22.34,23.0,001
+724,ASHUTOSH KUMAR RAI,ZI0724,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,MM,MM,PR,WO,PR,MM,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,6.0,0,0,85.31,86.0,001
+725,RAKESH REE,ZI0725,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+726,RAJENDRA NAYAK,ZI0726,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+727,DURGA SING REANG,ZI0727,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+728,RAMGI KUMAR REANG,ZI0728,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+729,NITESH SEMWAL,ZI0729,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,PR,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,6.0,2.0,5.0,0,0,20.27,20.0,001
+730,BIPLOB DAS,ZI0730,006,HOUSE KEEPING,,,PR,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,32.22,32.0,002
+731,HARISHKUMAR G,ZI0731,004,F&B PRODUCTION,,,PR,WO,PR,MM,MM,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,8.0,0,0,29.4,30.0,001
+732,FEBIYAN MININ FERNANDIS,ZI0732,008,MAINTAINANCE,,,PR,WO,HD,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,15.5,16.0,001
+733,SONIYA  MOTE,ZI0733,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+734,GOWTHAM S,ZI0734,003,F&B SERVICE,062,TR STEWARD,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,46.27,46.0,002
+735,MANIKANDAN SANMUGAM,ZI0735,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+736,ABHISHEK KUMAR PATEL,ZI0736,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+737,R  MAHENDRA,ZI0737,012,TIME OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+738,PRIYO KUMAR SINGHA,ZI0738,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+739,KAMAL CHANDRA TRIPURA,ZI0739,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+740,KABITA TRIPURA,ZI0740,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+741,BIMANTA REANG,ZI0741,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+742,DIJA RAM REANG,ZI0742,003,F&B SERVICE,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,44.31,45.0,002
+743,LALIT REANG,ZI0743,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+744,DARASING REANG,ZI0744,006,HOUSE KEEPING,,,MM,WO,AB,PR,PR,PR,MM,AB,WO,MM,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,5.0,0,0,14.17,14.0,002
+745,NIRANJAN DAS,ZI0745,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,AB,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,34.12,34.0,001
+746,KARAN BAHADUR KUWAR,ZI0746,004,F&B PRODUCTION,,,MM,WO,PR,AB,MM,PR,PR,PR,WO,PR,MM,MM,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,5.0,0,0,36.59,37.0,001
+747,DHANANTA TRIPURA,ZI0747,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+748,SIBIL RAM REANG,ZI0748,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+749,MITHLESH KUMAR PATEL,ZI0749,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+750,MAHESH A,ZI0750,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+751,DIWAKAR KUMAR,ZI0751,004,F&B PRODUCTION,,,PR,WO,PR,AB,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,36.03,36.0,001
+752,OMPRAKASH YADAV,ZI0752,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+753,SACHIT SINGH,ZI0753,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+754,SANJAY SEN,ZI0754,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+755,SHANI YADAV,ZI0755,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+756,VIKRAM YADAV,ZI0756,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+757,SANTOSH SALIGRAM,ZI05757,001,AMT,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+758,CHANDON DAS,ZI0758,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+759,LALRINTHARI DARNEI,ZI0759,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+760,ROMINA BEY,ZI0760,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+761,THATPUIA THIANGLAI,ZI0761,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+762,VANLALNGAKA DURPUI,ZI0762,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+763,SUDARMANI RAJ,ZI0763,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+764,PRASHANTH B,ZI0764,006,HOUSE KEEPING,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,21.24,21.0,001
+765,SANU KUMAR SARKAR,ZI0765,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+766,MANI RAM REANG,ZI0766,006,HOUSE KEEPING,,,AB,WO,PR,PR,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,31.43,32.0,002
+767,SHIVLING,ZI0767,002,FRONT OFFICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+768,RAVIKUMAR  CHANNADASAR,ZI0768,002,FRONT OFFICE,086,FRONT OFFICE ASSITANT,PR,WO,PR,MM,MM,PR,PR,PR,MM,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,1.0,8.0,0,0,31.03,31.0,001
+769,VIJAYAKUMAR B N,ZI0769,001,AMT,084,FOE,PR,WO,PR,PR,PR,AB,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,44.15,44.0,001
+770,GITA RUNG REANG,ZI0770,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+771,AKASH BISWAS,ZI0771,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+772,S  BASAVARAJ,ZI0772,012,TIME OFFICE,040,SECURITY OFFICER,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+773,CHAMBU TRIPURA,ZI0773,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+774,MANI SANKAR CHAKMA,ZI0774,006,HOUSE KEEPING,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+775,DEEPIKA J,ZI0775,002,FRONT OFFICE,,,PR,WO,PR,PR,PR,AB,AB,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,29.28,29.0,002
+776,A PRADEEP ANAND,ZI0776,004,F&B PRODUCTION,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,001
+777,GIRISH S B,ZI0777,004,F&B PRODUCTION,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,45.39,46.0,001
+778,SHAIK ROSHAN,ZI0778,004,F&B PRODUCTION,,,PR,WO,PR,AB,PR,PR,PR,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,39.55,40.0,002
+779,JAGABANDHU SARANGI,ZI0779,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+780,SIBA PRASAD JALLY,ZI0780,008,MAINTAINANCE,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,10.0,0,0,60.04,60.0,001
+781,NIRMALA P,ZI0781,003,F&B SERVICE,,,PR,WO,PR,PR,PR,PR,PR,AB,WO,PR,PR,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,8.5,0,0,31.44,32.0,002
+782,KINJEILE NRIAME,ZI0782,003,F&B SERVICE,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+783,PUTUL DEVI,ZI0783,013,KST,,,PR,MM,MM,MM,PR,AB,MM,AB,WO,PR,MM,HD,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,1.0,3.5,0,0,87.21,87.0,002
+784,PUSU DEVI,ZI0784,013,KST,,,PR,WO,PR,AB,AB,AB,AB,AB,AB,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,7.0,2.0,4.0,0,0,4.15,4.0,002
+785,SONI DEVI,ZI0785,013,KST,,,PR,WO,AB,PR,PR,AB,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,26.31,27.0,002
+786,SARAH RAI,ZI0786,003,F&B SERVICE,,,PR,WO,AB,AB,AB,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,21.0,21.0,001
+787,SAHADEV BAHADUR KUNWAR,ZI0787,013,KST,,,PR,WO,PR,MM,PR,PR,MM,MM,WO,PR,MM,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,6.0,0,0,37.57,38.0,002
+788,MWKTHANG BASUMATARY,ZI0788,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+789,KHUSHBOO J,ZI0789,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+790,SUMAN SEN,ZI0790,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,11.0,2.0,0.0,0,0,0.0,0.0,002
+791,KAMAL BIST,ZI0791,003,F&B SERVICE,,,AB,WO,PR,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,3.0,2.0,8.0,0,0,42.5,43.0,002
+792,SURYA CHAUDHARY,ZI0792,003,F&B SERVICE,,,MM,MM,PR,PR,HD,PR,PR,PR,WO,AB,PR,MM,HD,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,1.0,7.0,0,0,42.52,43.0,002
+793,RAM BAHADUR DHAMI,ZI0793,003,F&B SERVICE,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,54.29,54.0,002
+794,GAIREILIU MALANGMEI,ZI0794,003,F&B SERVICE,,,PR,WO,HD,PR,PR,HD,PR,PR,WO,PR,PR,PR,HD,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,2.0,9.5,0,0,16.13,16.0,002
+795,GANCHUILIU GONMEI,ZI0795,003,F&B SERVICE,,,AB,AB,AB,AB,PR,PR,PR,PR,MM,PR,MM,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,1.0,6.0,0,0,27.51,28.0,002
+796,VICKY CHAUDHARY,ZI0796,003,F&B SERVICE,,,MM,MM,PR,PR,PR,PR,MM,PR,MM,AB,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,0.0,7.0,0,0,54.2,54.0,002
+797,PAWAN SAUD,ZI0797,003,F&B SERVICE,,,PR,WO,PR,PR,PR,PR,PR,PR,WO,PR,AB,PR,HD,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,9.5,0,0,36.07,36.0,002
+798,RAHUL AYER,ZI0798,003,F&B SERVICE,,,MM,WO,PR,PR,PR,MM,PR,PR,WO,PR,MM,AB,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,1.0,2.0,6.0,0,0,37.55,38.0,002
+799,BILIPHANG NARZARY,ZI0799,013,KST,,,AB,AB,AB,AB,AB,AB,AB,AB,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,8.0,2.0,3.0,0,0,12.38,13.0,002
+800,PRAVEEN BASAVARAJ HUNAGUNDA,ZI0800,008,MAINTAINANCE,,,AB,WO,PR,AB,PR,PR,PR,PR,WO,PR,AB,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,4.0,2.0,7.0,0,0,25.09,25.0,002
+801,ESRAVEL Y,ZI0801,006,HOUSE KEEPING,,,PR,WO,AB,PR,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,9.0,2.0,2.0,0,0,13.41,14.0,002
+802,JANAGAN K,ZI0802,003,F&B SERVICE,,,AB,WO,MM,PR,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,9.0,2.0,1.0,0,0,4.05,4.0,002
+803,MYTHREYAN S,ZI0803,003,F&B SERVICE,,,PR,WO,PR,PR,AB,AB,AB,AB,AB,AB,AB,AB,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,8.0,2.0,3.0,0,0,17.52,18.0,002
+804,AYNUL HOQUE,ZI0804,006,HOUSE KEEPING,,,AB,WO,PR,PR,PR,PR,PR,PR,WO,PR,PR,PR,AB,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,2.0,2.0,9.0,0,0,28.15,28.0,002
+805,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,46.53,47.0,
+806,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,27.41,28.0,
+807,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,31.15,31.0,
+808,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,8.05,8.0,
+809,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,52.01,52.0,
+810,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,3.12,3.0,
+811,,,,,,,,,,,,,MM,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,50.16,50.0,
+812,,,,,,,,,MM,MM,MM,MM,,,,MM,MM,MM,MM,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,28.49,29.0,
+813,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,16.17,16.0,
+814,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,16.4,17.0,
+815,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,18.01,18.0,
+816,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,9.37,10.0,
+817,,,,,,,,,,,,,,,MM,,,MM,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,19.36,20.0,
+818,,,,,,,,,,,,MM,,,,MM,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,14.38,15.0,
+819,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,6.59,7.0,
+820,,,,,,,,,MM,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,6.49,7.0,
+821,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,14.43,15.0,
+822,,,,,,,,,,,,,,,,,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,3.28,3.0,
+823,,,,,,,,,,,MM,,,,,MM,,,,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,--,,0.0,0.0,0.0,0,0,175.28,175.0,
