@@ -186,6 +186,7 @@ def punch_mismatch():
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    punches_df.to_csv('original_punches.csv',index=False)
 
     agg_df = punches_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
     agg_df = agg_df.reset_index()
@@ -193,20 +194,25 @@ def punch_mismatch():
     agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
 
     df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
-
     mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
     print("before gseldate", mismatch_df.shape)
-    
+
+    df_difference_equal_0 = agg_df[agg_df['DIFFERENCE'] == 0]
+    passed_df = punches_df[punches_df['TOKEN'].isin(df_difference_equal_0['TOKEN'])]
+
+    result_passed_df = pd.merge(passed_df, muster_df, on='TOKEN', how='inner')
+    result_passed_df = result_passed_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
+    result_passed_df['PDTIME'] = pd.to_datetime(result_passed_df['PDTIME'])
+    result_passed_df['PDTIME'] = result_passed_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+    result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE'})
+    result_passed_df.to_csv('passed.csv',index=False)
+
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
         file_contents = [string.strip('\n') for string in file_contents]
         gseldate = file_contents[0]
         gsel_datetime = pd.to_datetime(gseldate)
         print(gseldate, type(gseldate))
-
-    if start_date <= gsel_datetime <= end_date:
-        mismatch_df = mismatch_df[mismatch_df['PDTIME'].dt.date != gsel_datetime.date()]
-        print("after gseldate", mismatch_df.shape)
 
     agg_df = mismatch_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
     agg_df = agg_df.reset_index()
@@ -222,17 +228,31 @@ def punch_mismatch():
         mismatch_status = False
 
     if len(mismatch_df) > 0:
+
+        if start_date <= gsel_datetime <= end_date:
+            gseldate_exclude_df = mismatch_df[mismatch_df['PDTIME'].dt.date == gsel_datetime.date()]
+
+            result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
+            result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
+            result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'])
+            result_gseldate_exclude_df['PDTIME'] = result_gseldate_exclude_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+            result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
+
+
+            mismatch_df = mismatch_df[mismatch_df['PDTIME'].dt.date != gsel_datetime.date()]
+
         result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
         result_df = result_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
         mismatch_status = True
         result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
         result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
         result_df = result_df.rename(columns={'COMCODE_y': 'COMCODE'})
-        # result_df.to_csv('og_puches.csv',index=False)
-
+            
         first_rows = result_df.groupby('TOKEN').first().reset_index()
 
         day_one_out_excluded = first_rows[first_rows['MODE'] == 1]
+
+        day_one_out_excluded = pd.concat([day_one_out_excluded, result_gseldate_exclude_df], ignore_index=True)
         day_one_out_excluded.to_csv('day_one_out_excluded.csv', index=False)
 
         result_df = result_df[~result_df.apply(tuple, 1).isin(day_one_out_excluded.apply(tuple, 1))]
