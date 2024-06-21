@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
+    # root_folder = 'D:/VIVKtest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -258,6 +258,27 @@ def punch_mismatch():
         result_df = result_df[~result_df.apply(tuple, 1).isin(day_one_out_excluded.apply(tuple, 1))]
         result_df.to_csv(table_paths['mismatch_csv_path'],index=False)
 
+        passed_df_len = result_passed_df.shape[0]
+        print(passed_df_len)
+        day_one_out_excluded_df_len = day_one_out_excluded.shape[0]
+        print(day_one_out_excluded_df_len)
+        result_df_len = result_df.shape[0]
+        print(result_df_len)
+        punches_df_len = punches_df.shape[0]
+        print(punches_df_len)
+
+        punches_merged_muster_df = pd.merge(punches_df, muster_df, on='TOKEN', how='left')
+        punches_merged_muster_df = punches_merged_muster_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
+        punches_merged_muster_df['PDTIME'] = pd.to_datetime(punches_merged_muster_df['PDTIME'])
+        punches_merged_muster_df['PDTIME'] = punches_merged_muster_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+        punches_merged_muster_df = punches_merged_muster_df.rename(columns={'COMCODE_y': 'COMCODE'})
+
+        concatenated_mismatch_dayone_passed = pd.concat([result_df, day_one_out_excluded, result_passed_df])
+
+        if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_df_len:
+            print('length mismatch between punches and muster')
+            orphaned_df = punches_merged_muster_df[~punches_merged_muster_df.astype(str).apply(tuple, 1).isin(concatenated_mismatch_dayone_passed.astype(str).apply(tuple, 1))]
+            orphaned_df.to_csv('orphaned_punches.csv',index=False)
         # day_one_out_excluded = result_df[(result_df['MODE'] == 1) & (pd.to_datetime(result_df['PDATE']).dt.day == 1)]
         # day_one_out_excluded = day_one_out_excluded.sort_values(by='PDTIME').drop_duplicates(subset=['TOKEN', 'EMPCODE', 'PDATE'], keep='first')
         # day_one_out_excluded.to_csv('day_one_out_excluded.csv',index=False)
