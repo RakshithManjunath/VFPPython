@@ -20,18 +20,26 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/VIVKtest/'
+    # root_folder = 'D:/SWEETTOS/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
     # punches_dbf = root_folder + 'punches.dbf'
     # lvform_dbf = root_folder + 'lvform.dbf'
     # exe = False
-    # gsel_date_path = root_folder + './gseldate.txt'
-    # g_option_path = root_folder + './g_option.txt'
+    # gsel_date_path = root_folder + 'gseldate.txt'
+    # g_option_path = root_folder + 'g_option.txt'
     # wdtest_path = root_folder + 'wdtest.csv'
     # wdtest_server_path = root_folder + 'wdtest_server.csv'
     # wdtest_client_path = root_folder + 'wdtest_client.csv'
+
+    # passed_csv_path = root_folder + 'passed.csv'
+    # original_punches_path = root_folder + 'original_punches.csv'
+    # day_one_out_excluded_path = root_folder + 'day_one_out_excluded.csv'
+    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    # punches_full_len_df_path = root_folder + 'punches_full_len_df.csv'
+
 
     ## exe
     root_folder = './'
@@ -43,9 +51,16 @@ def file_paths():
     exe = True
     gsel_date_path = './gseldate.txt'
     g_option_path = './g_option.txt'
-    wdtest_path = 'wdtest.csv'
-    wdtest_server_path = 'wdtest_server.csv'
-    wdtest_client_path = 'wdtest_client.csv'
+    wdtest_path = './wdtest.csv'
+    wdtest_server_path = './wdtest_server.csv'
+    wdtest_client_path = './wdtest_client.csv'
+
+    passed_csv_path = './passed.csv'
+    original_punches_path = './original_punches.csv'
+    day_one_out_excluded_path = './day_one_out_excluded.csv'
+    orphaned_punches_path = './orphaned_punches.csv'
+    out_of_range_punches_path = './out_of_range_punches.csv'
+    punches_full_len_df_path = './punches_full_len_df.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -66,7 +81,14 @@ def file_paths():
             "wdtest_server_path":wdtest_server_path,
             "wdtest_client_path":wdtest_client_path,
             "root_folder":root_folder,
-            "muster_role_path":muster_role_path}
+            "muster_role_path":muster_role_path,
+
+            "passed_csv_path":passed_csv_path,
+            "original_punches_path":original_punches_path,
+            "day_one_out_excluded_path":day_one_out_excluded_path,
+            "orphaned_punches_path":orphaned_punches_path,
+            "out_of_range_punches_path":out_of_range_punches_path,
+            "punches_full_len_df_path":punches_full_len_df_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -186,7 +208,17 @@ def punch_mismatch():
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-    punches_df.to_csv('original_punches.csv',index=False)
+    punches_df.to_csv(table_paths['original_punches_path'],index=False)
+
+    not_modifed_punches_df = pd.DataFrame(iter(punches_table))
+    not_satisfying_condition_df = not_modifed_punches_df[~((not_modifed_punches_df['PDATE'] >= start_date) & (not_modifed_punches_df['PDATE'] <= end_date))]
+    not_satisfying_condition_df['PDTIME'] = pd.to_datetime(not_satisfying_condition_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
+    not_satisfying_condition_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    not_satisfying_condition_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
+
+    punches_full_len_df = pd.DataFrame(iter(punches_table))
+    print("punches table:", len(punches_table))
+    punches_full_len_df.to_csv(table_paths['punches_full_len_df_path'],index=False)
 
     agg_df = punches_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
     agg_df = agg_df.reset_index()
@@ -205,7 +237,7 @@ def punch_mismatch():
     result_passed_df['PDTIME'] = pd.to_datetime(result_passed_df['PDTIME'])
     result_passed_df['PDTIME'] = result_passed_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
     result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE'})
-    result_passed_df.to_csv('passed.csv',index=False)
+    result_passed_df.to_csv(table_paths['passed_csv_path'],index=False)
 
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
@@ -253,19 +285,23 @@ def punch_mismatch():
         day_one_out_excluded = first_rows[first_rows['MODE'] == 1]
 
         day_one_out_excluded = pd.concat([day_one_out_excluded, result_gseldate_exclude_df], ignore_index=True)
-        day_one_out_excluded.to_csv('day_one_out_excluded.csv', index=False)
+        day_one_out_excluded.to_csv(table_paths['day_one_out_excluded_path'], index=False)
 
         result_df = result_df[~result_df.apply(tuple, 1).isin(day_one_out_excluded.apply(tuple, 1))]
         result_df.to_csv(table_paths['mismatch_csv_path'],index=False)
 
         passed_df_len = result_passed_df.shape[0]
-        print(passed_df_len)
+        print("passed csv len: ",passed_df_len)
         day_one_out_excluded_df_len = day_one_out_excluded.shape[0]
-        print(day_one_out_excluded_df_len)
+        print("day one out excluded df len: ",day_one_out_excluded_df_len)
         result_df_len = result_df.shape[0]
-        print(result_df_len)
+        print("mismatch df len: ",result_df_len)
         punches_df_len = punches_df.shape[0]
-        print(punches_df_len)
+        print("og punches df len: ",punches_df_len)
+        not_satisfying_condition_df_len = not_satisfying_condition_df.shape[0]
+        print("date out of range len: ",not_satisfying_condition_df_len)
+        punches_full_len_df_len = punches_full_len_df.shape[0]
+        print("punches full len: ",punches_full_len_df_len)
 
         punches_merged_muster_df = pd.merge(punches_df, muster_df, on='TOKEN', how='left')
         punches_merged_muster_df = punches_merged_muster_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
@@ -278,7 +314,9 @@ def punch_mismatch():
         if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_df_len:
             print('length mismatch between punches and muster')
             orphaned_df = punches_merged_muster_df[~punches_merged_muster_df.astype(str).apply(tuple, 1).isin(concatenated_mismatch_dayone_passed.astype(str).apply(tuple, 1))]
-            orphaned_df.to_csv('orphaned_punches.csv',index=False)
+            orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+            orphaned_df_len = orphaned_df.shape[0]
+            print("orphaned punches df len",orphaned_df_len)
         # day_one_out_excluded = result_df[(result_df['MODE'] == 1) & (pd.to_datetime(result_df['PDATE']).dt.day == 1)]
         # day_one_out_excluded = day_one_out_excluded.sort_values(by='PDTIME').drop_duplicates(subset=['TOKEN', 'EMPCODE', 'PDATE'], keep='first')
         # day_one_out_excluded.to_csv('day_one_out_excluded.csv',index=False)

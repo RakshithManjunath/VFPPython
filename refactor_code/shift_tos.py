@@ -106,6 +106,11 @@ make_blank_files(table_paths['final_csv_path'],columns=['TOKEN','COMCODE','NAME'
 make_blank_files(table_paths['empty_tables_path'])
 delete_old_files(table_paths['mismatch_csv_path'])
 delete_old_files(table_paths['payroll_input_path'])
+
+delete_old_files(table_paths['passed_csv_path'])
+delete_old_files(table_paths['original_punches_path'])
+delete_old_files(table_paths['day_one_out_excluded_path'])
+delete_old_files(table_paths['orphaned_punches_path'])
 if pg_data_flag == True:
     print("pg data is true!")
     server_df = server_collect_db_data()
