@@ -220,31 +220,32 @@ def punch_mismatch():
     print("punches table:", len(punches_table))
     punches_full_len_df.to_csv(table_paths['punches_full_len_df_path'],index=False)
 
-    raw_punches_merged_muster_df = pd.merge(punches_df, muster_df, on='TOKEN', how='inner')
-    raw_punches_merged_muster_df = raw_punches_merged_muster_df[['TOKEN','EMPCODE','NAME','COMCODE_y','EMP_CO_COD','PDATE','MODE','PDTIME']]
-    raw_punches_merged_muster_df['PDTIME'] = pd.to_datetime(raw_punches_merged_muster_df['PDTIME'])
-    raw_punches_merged_muster_df['PDTIME'] = raw_punches_merged_muster_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
-    raw_punches_merged_muster_df = raw_punches_merged_muster_df.rename(columns={'COMCODE_y': 'COMCODE'})
-    raw_punches_merged_muster_df.to_csv('raw_punches_merged_muster_df.csv',index=False)
+    agg_df = punches_df.groupby(['COMCODE', 'TOKEN', 'MODE']).size().reset_index(name='COUNT')
 
-    agg_df = raw_punches_merged_muster_df.groupby('EMP_CO_COD')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
-    agg_df = agg_df.reset_index()
+    pivot_df = agg_df.pivot_table(index=['COMCODE', 'TOKEN'], columns='MODE', values='COUNT', fill_value=0).reset_index()
 
-    agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
+    if 0 not in pivot_df.columns:
+        pivot_df[0] = 0
+    if 1 not in pivot_df.columns:
+        pivot_df[1] = 0
 
-    df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
-    mismatch_df = raw_punches_merged_muster_df[raw_punches_merged_muster_df['EMP_CO_COD'].isin(df_difference_greater_than_0['EMP_CO_COD'])]
+    pivot_df.columns = ['COMCODE', 'TOKEN', 'MODE_0_COUNT', 'MODE_1_COUNT']
+    pivot_df.to_csv('agg_to_check_mode.csv',index=False)
+
+    pivot_df['DIFFERENCE'] = abs(pivot_df['MODE_0_COUNT'] - pivot_df['MODE_1_COUNT'])
+
+    df_difference_greater_than_0 = pivot_df[pivot_df['DIFFERENCE'] > 0]
+    mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
     print("before gseldate", mismatch_df.shape)
 
-    df_difference_equal_0 = agg_df[agg_df['DIFFERENCE'] == 0]
-    passed_df = raw_punches_merged_muster_df[raw_punches_merged_muster_df['EMP_CO_COD'].isin(df_difference_equal_0['EMP_CO_COD'])]
+    df_difference_equal_0 = pivot_df[pivot_df['DIFFERENCE'] == 0]
+    passed_df = punches_df[punches_df['TOKEN'].isin(df_difference_equal_0['TOKEN'])]
 
-    result_passed_df = pd.merge(passed_df, muster_df, on='EMP_CO_COD', how='inner')
-    result_passed_df = result_passed_df[['TOKEN_y','EMPCODE_y','NAME_y','COMCODE_y','PDATE','MODE','PDTIME']]
+    result_passed_df = pd.merge(passed_df, muster_df, on='TOKEN', how='inner')
+    result_passed_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
     result_passed_df['PDTIME'] = pd.to_datetime(result_passed_df['PDTIME'])
     result_passed_df['PDTIME'] = result_passed_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
-    result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE', 'TOKEN_y': 'TOKEN',
-                                                        'EMPCODE_y': 'EMPCODE', 'NAME_y': 'NAME'})
+    result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE'})
     result_passed_df.to_csv(table_paths['passed_csv_path'],index=False)
 
     with open(table_paths['gsel_date_path']) as file:
@@ -254,14 +255,21 @@ def punch_mismatch():
         gsel_datetime = pd.to_datetime(gseldate)
         print(gseldate, type(gseldate))
 
-    agg_df = mismatch_df.groupby('EMP_CO_COD')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
-    agg_df = agg_df.reset_index()
+    agg_df = mismatch_df.groupby(['COMCODE', 'TOKEN', 'MODE']).size().reset_index(name='COUNT')
 
-    agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
+    pivot_df = agg_df.pivot_table(index=['COMCODE', 'TOKEN'], columns='MODE', values='COUNT', fill_value=0).reset_index()
 
-    df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
+    if 0 not in pivot_df.columns:
+        pivot_df[0] = 0
+    if 1 not in pivot_df.columns:
+        pivot_df[1] = 0
 
-    mismatch_df = raw_punches_merged_muster_df[raw_punches_merged_muster_df['EMP_CO_COD'].isin(df_difference_greater_than_0['EMP_CO_COD'])]
+    pivot_df.columns = ['COMCODE', 'TOKEN', 'MODE_0_COUNT', 'MODE_1_COUNT']
+
+    pivot_df['DIFFERENCE'] = abs(pivot_df['MODE_0_COUNT'] - pivot_df['MODE_1_COUNT'])
+
+    df_difference_greater_than_0 = pivot_df[pivot_df['DIFFERENCE'] > 0]
+    mismatch_df = punches_full_len_df[punches_full_len_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
     print("before gseldate", mismatch_df.shape)
     mismatch_df['PDTIME'] = pd.to_datetime(mismatch_df['PDTIME'])
 
@@ -273,23 +281,21 @@ def punch_mismatch():
         if start_date <= gsel_datetime <= end_date:
             gseldate_exclude_df = mismatch_df[mismatch_df['PDTIME'].dt.date == gsel_datetime.date()]
 
-            result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='EMP_CO_COD', how='inner')
-            result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN_y','EMPCODE_y','NAME_y','COMCODE_y','PDATE','MODE','PDTIME']]
+            result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
+            result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
             result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'])
             result_gseldate_exclude_df['PDTIME'] = result_gseldate_exclude_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
-            result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE', 'TOKEN_y': 'TOKEN',
-                                                        'EMPCODE_y': 'EMPCODE', 'NAME_y': 'NAME'})
+            result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
 
 
             mismatch_df = mismatch_df[mismatch_df['PDTIME'].dt.date != gsel_datetime.date()]
 
-        result_df = pd.merge(mismatch_df, muster_df, on='EMP_CO_COD', how='inner')
-        result_df = result_df[['TOKEN_y','EMPCODE_y','NAME_y','COMCODE_y','PDATE','MODE','PDTIME']]
+        result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
+        result_df = result_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
         mismatch_status = True
         result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
         result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
-        result_df = result_df.rename(columns={'COMCODE_y': 'COMCODE', 'TOKEN_y': 'TOKEN',
-                                                        'EMPCODE_y': 'EMPCODE', 'NAME_y': 'NAME'})
+        result_df = result_df.rename(columns={'COMCODE_y': 'COMCODE'})
             
         first_rows = result_df.groupby('TOKEN').first().reset_index()
 
@@ -307,44 +313,21 @@ def punch_mismatch():
         print("day one out excluded df len: ",day_one_out_excluded_df_len)
         result_df_len = result_df.shape[0]
         print("mismatch df len: ",result_df_len)
-        punches_df_len = raw_punches_merged_muster_df.shape[0]
-        print("og punches df len: ",punches_df_len)
         not_satisfying_condition_df_len = not_satisfying_condition_df.shape[0]
         print("date out of range len: ",not_satisfying_condition_df_len)
-        punches_full_len_df_len = punches_full_len_df.shape[0]
+        punches_full_len_df_len = punches_df.shape[0]
         print("punches full len: ",punches_full_len_df_len)
 
-        # punches_merged_muster_df = pd.merge(punches_df, muster_df, on='TOKEN', how='left')
-        # punches_merged_muster_df = punches_merged_muster_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
-        # punches_merged_muster_df['PDTIME'] = pd.to_datetime(punches_merged_muster_df['PDTIME'])
-        # punches_merged_muster_df['PDTIME'] = punches_merged_muster_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
-        # punches_merged_muster_df = punches_merged_muster_df.rename(columns={'COMCODE_y': 'COMCODE'})
 
         concatenated_mismatch_dayone_passed = pd.concat([result_df, day_one_out_excluded, result_passed_df])
 
-        if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_df_len:
-            print('length mismatch between punches and muster')
-            orphaned_df = raw_punches_merged_muster_df[~raw_punches_merged_muster_df.astype(str).apply(tuple, 1).isin(concatenated_mismatch_dayone_passed.astype(str).apply(tuple, 1))]
-            orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
-            orphaned_df_len = orphaned_df.shape[0]
-            print("orphaned punches df len",orphaned_df_len)
-        # day_one_out_excluded = result_df[(result_df['MODE'] == 1) & (pd.to_datetime(result_df['PDATE']).dt.day == 1)]
-        # day_one_out_excluded = day_one_out_excluded.sort_values(by='PDTIME').drop_duplicates(subset=['TOKEN', 'EMPCODE', 'PDATE'], keep='first')
-        # day_one_out_excluded.to_csv('day_one_out_excluded.csv',index=False)
+        # if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_full_len_df_len:
+        #     print('length mismatch between punches and muster', (passed_df_len + day_one_out_excluded_df_len + result_df_len))
+        #     orphaned_df = punches_full_len_df_len[~punches_full_len_df_len.astype(str).apply(tuple, 1).isin(concatenated_mismatch_dayone_passed.astype(str).apply(tuple, 1))]
+        #     orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        #     orphaned_df_len = orphaned_df.shape[0]
+        #     print("orphaned punches df len",orphaned_df_len)
 
-        # result_df = result_df.drop(day_one_out_excluded.index)
-
-        # agg_df = result_df.groupby('TOKEN')['MODE'].value_counts().unstack(fill_value=0).rename(columns={0: 'MODE_0_COUNT', 1: 'MODE_1_COUNT'})
-        # agg_df = agg_df.reset_index()
-
-        # agg_df['DIFFERENCE'] = abs(agg_df['MODE_0_COUNT'] - agg_df['MODE_1_COUNT'])
-
-        # df_difference_greater_than_0 = agg_df[agg_df['DIFFERENCE'] > 0]
-
-        # result_df = result_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
-        # print("before gseldate", result_df.shape)
-        
-        # result_df.to_csv(table_paths['mismatch_csv_path'], index=False)
 
     if mismatch_status == True:
         return 1,result_df
