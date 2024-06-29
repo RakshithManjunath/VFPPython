@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/SWEETTOS/'
+    # root_folder = 'D:/JPDSHIFT_Makali/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -208,6 +208,7 @@ def punch_mismatch():
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    punches_df = punches_df[['TOKEN','COMCODE','PDATE','MODE','PDTIME']]
     punches_df.to_csv(table_paths['original_punches_path'],index=False)
 
     not_modifed_punches_df = pd.DataFrame(iter(punches_table))
@@ -243,8 +244,7 @@ def punch_mismatch():
 
     result_passed_df = pd.merge(passed_df, muster_df, on='TOKEN', how='inner')
     result_passed_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
-    result_passed_df['PDTIME'] = pd.to_datetime(result_passed_df['PDTIME'])
-    result_passed_df['PDTIME'] = result_passed_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+    result_passed_df['PDTIME'] = pd.to_datetime(result_passed_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE'})
     result_passed_df.to_csv(table_paths['passed_csv_path'],index=False)
 
@@ -269,7 +269,7 @@ def punch_mismatch():
     pivot_df['DIFFERENCE'] = abs(pivot_df['MODE_0_COUNT'] - pivot_df['MODE_1_COUNT'])
 
     df_difference_greater_than_0 = pivot_df[pivot_df['DIFFERENCE'] > 0]
-    mismatch_df = punches_full_len_df[punches_full_len_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
+    mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
     print("before gseldate", mismatch_df.shape)
     mismatch_df['PDTIME'] = pd.to_datetime(mismatch_df['PDTIME'])
 
@@ -283,18 +283,15 @@ def punch_mismatch():
 
             result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
             result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
-            result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'])
-            result_gseldate_exclude_df['PDTIME'] = result_gseldate_exclude_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+            result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
             result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
-
 
             mismatch_df = mismatch_df[mismatch_df['PDTIME'].dt.date != gsel_datetime.date()]
 
         result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
         result_df = result_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
         mismatch_status = True
-        result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'])
-        result_df['PDTIME'] = result_df['PDTIME'].dt.strftime('%Y-%m-%d %I:%M:%S %p')
+        result_df['PDTIME'] = pd.to_datetime(result_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
         result_df = result_df.rename(columns={'COMCODE_y': 'COMCODE'})
             
         first_rows = result_df.groupby('TOKEN').first().reset_index()
@@ -318,16 +315,15 @@ def punch_mismatch():
         punches_full_len_df_len = punches_df.shape[0]
         print("punches full len: ",punches_full_len_df_len)
 
-
         concatenated_mismatch_dayone_passed = pd.concat([result_df, day_one_out_excluded, result_passed_df])
+        print("concatenated mismatch dayone passed: ",concatenated_mismatch_dayone_passed.shape[0])
 
-        # if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_full_len_df_len:
-        #     print('length mismatch between punches and muster', (passed_df_len + day_one_out_excluded_df_len + result_df_len))
-        #     orphaned_df = punches_full_len_df_len[~punches_full_len_df_len.astype(str).apply(tuple, 1).isin(concatenated_mismatch_dayone_passed.astype(str).apply(tuple, 1))]
-        #     orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
-        #     orphaned_df_len = orphaned_df.shape[0]
-        #     print("orphaned punches df len",orphaned_df_len)
-
+        if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_full_len_df_len:
+            print('length mismatch between punches and muster', (passed_df_len + day_one_out_excluded_df_len + result_df_len))
+            orphaned_df = pd.concat([punches_df,concatenated_mismatch_dayone_passed]).drop_duplicates(keep=False)
+            orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+            orphaned_df_len = orphaned_df.shape[0]
+            print("orphaned punches df len: ",orphaned_df_len)
 
     if mismatch_status == True:
         return 1,result_df
