@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/JPDSHIFT_Makali/'
+    # root_folder = 'D:/PARAPAY/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -312,18 +312,37 @@ def punch_mismatch():
         print("mismatch df len: ",result_df_len)
         not_satisfying_condition_df_len = not_satisfying_condition_df.shape[0]
         print("date out of range len: ",not_satisfying_condition_df_len)
-        punches_full_len_df_len = punches_df.shape[0]
-        print("punches full len: ",punches_full_len_df_len)
+        punches_in_date_range_len = punches_df.shape[0]
+        print("punches in date range len: ",punches_in_date_range_len)
+        punches_full_len = punches_full_len_df.shape[0]
+        print("punches full len: ",punches_full_len)
 
-        concatenated_mismatch_dayone_passed = pd.concat([result_df, day_one_out_excluded, result_passed_df])
-        print("concatenated mismatch dayone passed: ",concatenated_mismatch_dayone_passed.shape[0])
 
-        if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_full_len_df_len:
-            print('length mismatch between punches and muster', (passed_df_len + day_one_out_excluded_df_len + result_df_len))
-            orphaned_df = pd.concat([punches_df,concatenated_mismatch_dayone_passed]).drop_duplicates(keep=False)
+        if punches_full_len > punches_in_date_range_len:
+            print("More punches in punches dbf than current date range")
+            merged_orphaned_df = punches_full_len_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
+            orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
+            orphaned_df = orphaned_df.drop(columns=['_merge'])
             orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
             orphaned_df_len = orphaned_df.shape[0]
             print("orphaned punches df len: ",orphaned_df_len)
+
+        elif punches_full_len == punches_in_date_range_len:
+            print("Equal punches in punches full len and in current date range")
+            merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
+            orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
+            orphaned_df = orphaned_df.drop(columns=['_merge'])
+            orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+            orphaned_df_len = orphaned_df.shape[0]
+            print("orphaned punches df len: ",orphaned_df_len)
+
+
+        # if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_full_len_df_len:
+        #     print('length mismatch between punches and muster', (passed_df_len + day_one_out_excluded_df_len + result_df_len))
+        #     orphaned_df = pd.concat([punches_df,concatenated_mismatch_dayone_passed]).drop_duplicates(keep=False)
+        #     orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        #     orphaned_df_len = orphaned_df.shape[0]
+        #     print("orphaned punches df len: ",orphaned_df_len)
 
     if mismatch_status == True:
         return 1,result_df
