@@ -20,47 +20,47 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/PARAPAY/'
-    # dated_dbf = root_folder + 'dated.dbf'
-    # muster_dbf = root_folder + 'muster.dbf'
-    # holmast_dbf = root_folder + 'holmast.dbf'
-    # punches_dbf = root_folder + 'punches.dbf'
-    # lvform_dbf = root_folder + 'lvform.dbf'
-    # exe = False
-    # gsel_date_path = root_folder + 'gseldate.txt'
-    # g_option_path = root_folder + 'g_option.txt'
-    # wdtest_path = root_folder + 'wdtest.csv'
-    # wdtest_server_path = root_folder + 'wdtest_server.csv'
-    # wdtest_client_path = root_folder + 'wdtest_client.csv'
+    root_folder = 'D:/SWEETTOS/'
+    dated_dbf = root_folder + 'dated.dbf'
+    muster_dbf = root_folder + 'muster.dbf'
+    holmast_dbf = root_folder + 'holmast.dbf'
+    punches_dbf = root_folder + 'punches.dbf'
+    lvform_dbf = root_folder + 'lvform.dbf'
+    exe = False
+    gsel_date_path = root_folder + 'gseldate.txt'
+    g_option_path = root_folder + 'g_option.txt'
+    wdtest_path = root_folder + 'wdtest.csv'
+    wdtest_server_path = root_folder + 'wdtest_server.csv'
+    wdtest_client_path = root_folder + 'wdtest_client.csv'
 
-    # passed_csv_path = root_folder + 'passed.csv'
-    # original_punches_path = root_folder + 'original_punches.csv'
-    # day_one_out_excluded_path = root_folder + 'day_one_out_excluded.csv'
-    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    # punches_full_len_df_path = root_folder + 'punches_full_len_df.csv'
+    passed_csv_path = root_folder + 'passed.csv'
+    original_punches_path = root_folder + 'original_punches.csv'
+    day_one_out_excluded_path = root_folder + 'day_one_out_excluded.csv'
+    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    punches_full_len_df_path = root_folder + 'punches_full_len_df.csv'
 
 
     ## exe
-    root_folder = './'
-    dated_dbf = './dated.dbf'
-    muster_dbf = './muster.dbf'
-    holmast_dbf = './holmast.dbf'
-    punches_dbf = './punches.dbf'
-    lvform_dbf = './lvform.dbf'
-    exe = True
-    gsel_date_path = './gseldate.txt'
-    g_option_path = './g_option.txt'
-    wdtest_path = './wdtest.csv'
-    wdtest_server_path = './wdtest_server.csv'
-    wdtest_client_path = './wdtest_client.csv'
+    # root_folder = './'
+    # dated_dbf = './dated.dbf'
+    # muster_dbf = './muster.dbf'
+    # holmast_dbf = './holmast.dbf'
+    # punches_dbf = './punches.dbf'
+    # lvform_dbf = './lvform.dbf'
+    # exe = True
+    # gsel_date_path = './gseldate.txt'
+    # g_option_path = './g_option.txt'
+    # wdtest_path = './wdtest.csv'
+    # wdtest_server_path = './wdtest_server.csv'
+    # wdtest_client_path = './wdtest_client.csv'
 
-    passed_csv_path = './passed.csv'
-    original_punches_path = './original_punches.csv'
-    day_one_out_excluded_path = './day_one_out_excluded.csv'
-    orphaned_punches_path = './orphaned_punches.csv'
-    out_of_range_punches_path = './out_of_range_punches.csv'
-    punches_full_len_df_path = './punches_full_len_df.csv'
+    # passed_csv_path = './passed.csv'
+    # original_punches_path = './original_punches.csv'
+    # day_one_out_excluded_path = './day_one_out_excluded.csv'
+    # orphaned_punches_path = './orphaned_punches.csv'
+    # out_of_range_punches_path = './out_of_range_punches.csv'
+    # punches_full_len_df_path = './punches_full_len_df.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -205,6 +205,7 @@ def punch_mismatch():
     punches_dbf = table_paths['punches_dbf_path']
     punches_table = DBF(punches_dbf, load=True)
     punches_df = pd.DataFrame(iter(punches_table))
+    
     punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
@@ -218,8 +219,34 @@ def punch_mismatch():
     not_satisfying_condition_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
 
     punches_full_len_df = pd.DataFrame(iter(punches_table))
-    print("punches table:", len(punches_table))
     punches_full_len_df.to_csv(table_paths['punches_full_len_df_path'],index=False)
+
+    punches_in_date_range_len = punches_df.shape[0]
+    print("punches in date range len: ",punches_in_date_range_len)
+    punches_full_len = punches_full_len_df.shape[0]
+    print("punches full len: ",punches_full_len)
+
+    if punches_full_len > punches_in_date_range_len:
+        print("More punches in punches dbf than current date range")
+        merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
+        orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
+        orphaned_df = orphaned_df.drop(columns=['_merge'])
+        orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        orphaned_df_len = orphaned_df.shape[0]
+        print("orphaned punches df len: ",orphaned_df_len)
+
+    elif punches_full_len == punches_in_date_range_len:
+        print("Equal punches in punches full len and in current date range")
+        merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
+        orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
+        orphaned_df = orphaned_df.drop(columns=['_merge'])
+        orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        orphaned_df_len = orphaned_df.shape[0]
+        print("orphaned punches df len: ",orphaned_df_len)
+
+    common_rows = punches_df.merge(orphaned_df, on='TOKEN', how='outer', indicator=True)
+
+    # df1_filtered = df1[~df1.isin(common_rows).all(axis=1)]
 
     agg_df = punches_df.groupby(['COMCODE', 'TOKEN', 'MODE']).size().reset_index(name='COUNT')
 
@@ -278,16 +305,6 @@ def punch_mismatch():
 
     if len(mismatch_df) > 0:
 
-        if start_date <= gsel_datetime <= end_date:
-            gseldate_exclude_df = mismatch_df[mismatch_df['PDTIME'].dt.date == gsel_datetime.date()]
-
-            result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
-            result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
-            result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-            result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
-
-            mismatch_df = mismatch_df[mismatch_df['PDTIME'].dt.date != gsel_datetime.date()]
-
         result_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
         result_df = result_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
         mismatch_status = True
@@ -298,7 +315,6 @@ def punch_mismatch():
 
         day_one_out_excluded = first_rows[first_rows['MODE'] == 1]
 
-        day_one_out_excluded = pd.concat([day_one_out_excluded, result_gseldate_exclude_df], ignore_index=True)
         day_one_out_excluded.to_csv(table_paths['day_one_out_excluded_path'], index=False)
 
         result_df = result_df[~result_df.apply(tuple, 1).isin(day_one_out_excluded.apply(tuple, 1))]
@@ -312,37 +328,28 @@ def punch_mismatch():
         print("mismatch df len: ",result_df_len)
         not_satisfying_condition_df_len = not_satisfying_condition_df.shape[0]
         print("date out of range len: ",not_satisfying_condition_df_len)
-        punches_in_date_range_len = punches_df.shape[0]
-        print("punches in date range len: ",punches_in_date_range_len)
-        punches_full_len = punches_full_len_df.shape[0]
-        print("punches full len: ",punches_full_len)
 
 
-        if punches_full_len > punches_in_date_range_len:
-            print("More punches in punches dbf than current date range")
-            merged_orphaned_df = punches_full_len_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
-            orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
-            orphaned_df = orphaned_df.drop(columns=['_merge'])
-            orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
-            orphaned_df_len = orphaned_df.shape[0]
-            print("orphaned punches df len: ",orphaned_df_len)
-
-        elif punches_full_len == punches_in_date_range_len:
-            print("Equal punches in punches full len and in current date range")
-            merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
-            orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
-            orphaned_df = orphaned_df.drop(columns=['_merge'])
-            orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
-            orphaned_df_len = orphaned_df.shape[0]
-            print("orphaned punches df len: ",orphaned_df_len)
-
-
-        # if (passed_df_len + day_one_out_excluded_df_len + result_df_len) != punches_full_len_df_len:
-        #     print('length mismatch between punches and muster', (passed_df_len + day_one_out_excluded_df_len + result_df_len))
-        #     orphaned_df = pd.concat([punches_df,concatenated_mismatch_dayone_passed]).drop_duplicates(keep=False)
+        # if punches_full_len > punches_in_date_range_len:
+        #     print("More punches in punches dbf than current date range")
+        #     merged_orphaned_df = punches_full_len_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
+        #     orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
+        #     orphaned_df = orphaned_df.drop(columns=['_merge'])
         #     orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
         #     orphaned_df_len = orphaned_df.shape[0]
         #     print("orphaned punches df len: ",orphaned_df_len)
+
+        # elif punches_full_len == punches_in_date_range_len:
+        #     print("Equal punches in punches full len and in current date range")
+        #     merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
+        #     orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
+        #     orphaned_df = orphaned_df.drop(columns=['_merge'])
+        #     orphaned_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        #     orphaned_df_len = orphaned_df.shape[0]
+        #     print("orphaned punches df len: ",orphaned_df_len)
+
+
+        
 
     if mismatch_status == True:
         return 1,result_df
