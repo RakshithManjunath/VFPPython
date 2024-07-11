@@ -2,6 +2,13 @@ import pandas as pd
 from dbfread import DBF
 from test import file_paths
 from datetime import timedelta
+import dbf
+
+def safe_parse_date(date_str):
+    try:
+        return dbf.Date(date_str)
+    except (ValueError, TypeError):
+        return None
 
 def generate_muster(db_check_flag):
     table_paths = file_paths()

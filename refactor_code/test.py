@@ -20,50 +20,50 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    root_folder = 'D:/JPDJOSHI/'
-    dated_dbf = root_folder + 'dated.dbf'
-    muster_dbf = root_folder + 'muster.dbf'
-    holmast_dbf = root_folder + 'holmast.dbf'
-    punches_dbf = root_folder + 'punches.dbf'
-    lvform_dbf = root_folder + 'lvform.dbf'
-    exe = False
-    gsel_date_path = root_folder + 'gseldate.txt'
-    g_option_path = root_folder + 'g_option.txt'
-    wdtest_path = root_folder + 'wdtest.csv'
-    wdtest_server_path = root_folder + 'wdtest_server.csv'
-    wdtest_client_path = root_folder + 'wdtest_client.csv'
+    # root_folder = 'D:/JPDSHIFT_Makali/'
+    # dated_dbf = root_folder + 'dated.dbf'
+    # muster_dbf = root_folder + 'muster.dbf'
+    # holmast_dbf = root_folder + 'holmast.dbf'
+    # punches_dbf = root_folder + 'punches.dbf'
+    # lvform_dbf = root_folder + 'lvform.dbf'
+    # exe = False
+    # gsel_date_path = root_folder + 'gseldate.txt'
+    # g_option_path = root_folder + 'g_option.txt'
+    # wdtest_path = root_folder + 'wdtest.csv'
+    # wdtest_server_path = root_folder + 'wdtest_server.csv'
+    # wdtest_client_path = root_folder + 'wdtest_client.csv'
 
-    passed_csv_path = root_folder + 'passed.csv'
-    punches_without_duplicates_path = root_folder + 'punches_without_duplicates.csv'
-    day_one_out_excluded_path = root_folder + 'day_one_out_excluded.csv'
-    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    punches_full_len_df_path = root_folder + 'punches_full_len_df.csv'
-    actual_punches_len_df_path = root_folder + 'actual_punches.csv'
-    gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_excluded.csv'
+    # passed_csv_path = root_folder + 'passed.csv'
+    # punches_without_duplicates_path = root_folder + 'punches_without_duplicates.csv'
+    # day_one_out_excluded_path = root_folder + 'day_one_out_excluded.csv'
+    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    # punches_full_len_df_path = root_folder + 'punches_full_len_df.csv'
+    # actual_punches_len_df_path = root_folder + 'actual_punches.csv'
+    # gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_excluded.csv'
 
     ## exe
-    # root_folder = './'
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = './gseldate.txt'
-    # g_option_path = './g_option.txt'
-    # wdtest_path = './wdtest.csv'
-    # wdtest_server_path = './wdtest_server.csv'
-    # wdtest_client_path = './wdtest_client.csv'
+    root_folder = './'
+    dated_dbf = './dated.dbf'
+    muster_dbf = './muster.dbf'
+    holmast_dbf = './holmast.dbf'
+    punches_dbf = './punches.dbf'
+    lvform_dbf = './lvform.dbf'
+    exe = True
+    gsel_date_path = './gseldate.txt'
+    g_option_path = './g_option.txt'
+    wdtest_path = './wdtest.csv'
+    wdtest_server_path = './wdtest_server.csv'
+    wdtest_client_path = './wdtest_client.csv'
 
-    # passed_csv_path = './passed.csv'
-    # punches_without_duplicates_path = './original_punches.csv'
-    # day_one_out_excluded_path = './day_one_out_excluded.csv'
-    # orphaned_punches_path = './orphaned_punches.csv'
-    # out_of_range_punches_path = './out_of_range_punches.csv'
-    # punches_full_len_df_path = './punches_full_len_df.csv'
-    # actual_punches_len_df_path = './actual_punches.csv'
-    # gsel_date_excluded_punches_len_df_path = './gsel_date_excluded.csv'
+    passed_csv_path = './passed.csv'
+    punches_without_duplicates_path = './original_punches.csv'
+    day_one_out_excluded_path = './day_one_out_excluded.csv'
+    orphaned_punches_path = './orphaned_punches.csv'
+    out_of_range_punches_path = './out_of_range_punches.csv'
+    punches_full_len_df_path = './punches_full_len_df.csv'
+    actual_punches_len_df_path = './actual_punches.csv'
+    gsel_date_excluded_punches_len_df_path = './gsel_date_excluded.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -228,7 +228,6 @@ def punch_mismatch():
         gsel_datetime = pd.to_datetime(gseldate)
         print(gseldate, type(gseldate))
 
-    # if punches_df.shape[0] != punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)].shape[0]:
     not_satisfying_condition_df = punches_df[~((punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date))]
     print(f"Out of range punches: {not_satisfying_condition_df.shape[0]} {not_satisfying_condition_df}")
     not_satisfying_condition_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
@@ -307,7 +306,7 @@ def punch_mismatch():
         mismatch_status = False
 
     result_mismatch_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
-    result_mismatch_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
+    result_mismatch_df = result_mismatch_df[['TOKEN','NAME','EMPCODE','PDTIME','MODE','COMCODE_y','PDATE']]
     mismatch_status = True
     result_mismatch_df['PDTIME'] = pd.to_datetime(result_mismatch_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     result_mismatch_df = result_mismatch_df.rename(columns={'COMCODE_y': 'COMCODE'})
@@ -321,7 +320,7 @@ def punch_mismatch():
     print("mismatch df len: ",mismatch_df_len)
 
     if mismatch_status == True:
-        return 1,result_mismatch_df
+        return 1,result_mismatch_df,punches_df
     else:
         return 1,None
     

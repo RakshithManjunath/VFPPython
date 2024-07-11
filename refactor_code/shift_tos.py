@@ -40,7 +40,7 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
     merged_df.loc[merged_df['STATUS'].isin(['WO', 'PH']), 'OT'] = merged_df['TOTALTIME']
 
     if mismatch_df is not None:
-        print('Missing dates')
+        # print('Missing dates')
         mask = merged_df.apply(lambda row: (row['TOKEN'], row['PDATE']) in \
                       zip(mismatch_df['TOKEN'], mismatch_df['PDATE']), axis=1)
 
@@ -90,52 +90,52 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
 
     pay_input(merged_df)
 
-# try:
-check_ankura()
-pg_data_flag, process_mode_flag = check_database()
-print(pg_data_flag, type(pg_data_flag))
-print(process_mode_flag, type(process_mode_flag))
-table_paths = file_paths()
-create_new_csvs(table_paths['muster_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'],
-                table_paths['punch_csv_path'],['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'],
-                table_paths['final_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
-delete_old_files(table_paths['mismatch_csv_path'])
-make_blank_files(table_paths['muster_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'])
-make_blank_files(table_paths['punch_csv_path'],columns=['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'])
-make_blank_files(table_paths['final_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
-make_blank_files(table_paths['empty_tables_path'])
-delete_old_files(table_paths['mismatch_csv_path'])
-delete_old_files(table_paths['payroll_input_path'])
+try:
+    check_ankura()
+    pg_data_flag, process_mode_flag = check_database()
+    print(pg_data_flag, type(pg_data_flag))
+    print(process_mode_flag, type(process_mode_flag))
+    table_paths = file_paths()
+    create_new_csvs(table_paths['muster_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'],
+                    table_paths['punch_csv_path'],['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'],
+                    table_paths['final_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
+    delete_old_files(table_paths['mismatch_csv_path'])
+    make_blank_files(table_paths['muster_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'])
+    make_blank_files(table_paths['punch_csv_path'],columns=['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'])
+    make_blank_files(table_paths['final_csv_path'],columns=['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
+    make_blank_files(table_paths['empty_tables_path'])
+    delete_old_files(table_paths['mismatch_csv_path'])
+    delete_old_files(table_paths['payroll_input_path'])
 
-delete_old_files(table_paths['passed_csv_path'])
-delete_old_files(table_paths['punches_without_duplicates_path'])
-delete_old_files(table_paths['day_one_out_excluded_path'])
-delete_old_files(table_paths['orphaned_punches_path'])
-if pg_data_flag == True:
-    print("pg data is true!")
-    server_df = server_collect_db_data()
-    client_df = client_collect_db_data()
-    if client_df is not None:
-        create_wdtest(server_df,client_df)
-if process_mode_flag == True:
-    print("process data is true")        
-    db_check_flag = test_db_len()
-    print("db check flag: ",db_check_flag)
-    mismatch_flag,mismatch_df = punch_mismatch()
-    print("punch check flag: ",mismatch_flag)
-    print("mismatch df: ",mismatch_df)
+    delete_old_files(table_paths['passed_csv_path'])
+    delete_old_files(table_paths['punches_without_duplicates_path'])
+    delete_old_files(table_paths['day_one_out_excluded_path'])
+    delete_old_files(table_paths['orphaned_punches_path'])
+    if pg_data_flag == True:
+        print("pg data is true!")
+        server_df = server_collect_db_data()
+        client_df = client_collect_db_data()
+        if client_df is not None:
+            create_wdtest(server_df,client_df)
+    if process_mode_flag == True:
+        print("process data is true")        
+        db_check_flag = test_db_len()
+        print("db check flag: ",db_check_flag)
+        mismatch_flag,mismatch_df,processed_punches = punch_mismatch()
+        print("punch check flag: ",mismatch_flag)
+        print("mismatch df: ",mismatch_df)
+        print("mismatch flag: ",mismatch_flag)
 
-    # if db_check_flag == 1 and mismatch_flag == 1:
-    if isinstance(db_check_flag, dict) and mismatch_flag == 1:
-        muster_df= generate_muster(db_check_flag)
-        punch_df = generate_punch()
-        create_final_csv(muster_df, punch_df,mismatch_df)
-        
-    else:
-        print("Either check empty_tables.txt or mismatch.csv")
+        if isinstance(db_check_flag, dict) and mismatch_flag == 1:
+            muster_df = generate_muster(db_check_flag)
+            punch_df = generate_punch(processed_punches)
+            create_final_csv(muster_df, punch_df,mismatch_df)
+            
+        else:
+            print("Either check empty_tables.txt or mismatch.csv")
 
 # except Exception as e:
 #     print(e)
 
-# except IOError:
-#     sys.exit()
+except IOError:
+    sys.exit()

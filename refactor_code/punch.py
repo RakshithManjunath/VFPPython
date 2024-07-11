@@ -5,7 +5,7 @@ from datetime import datetime
 from datetime import timedelta
 from test import file_paths
 
-def generate_punch():
+def generate_punch(punches_df):
     table_paths = file_paths()
 
     with open(table_paths['gsel_date_path']) as file:
@@ -28,11 +28,11 @@ def generate_punch():
     muster_df = muster_df[['TOKEN', 'COMCODE', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']]
     muster_df = muster_df.sort_values(by=['TOKEN'])
 
-    punches_table = DBF(table_paths['punches_dbf_path'], load=True)
-    punches_df = pd.DataFrame(iter(punches_table))
-    punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
-    punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    # punches_table = DBF(table_paths['punches_dbf_path'], load=True)
+    # punches_df = pd.DataFrame(iter(punches_table))
+    # punches_df = punches_df[(punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date)]
+    # punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
+    # punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
     punch_df = pd.DataFrame(columns=['TOKEN', 'PDATE', 'INTIME1', 'OUTTIME1', 'INTIME2', 'OUTTIME2', 'INTIME3', 'OUTTIME3', 'INTIME4', 'OUTTIME4', 'INTIME', 'OUTTIME', 'TOTALTIME','REMARKS'])
     in_punch_time = None
