@@ -30,18 +30,20 @@ def generate_muster(db_check_flag):
 
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
-    muster_df = muster_df[muster_df['SEC_STAFF']==True]
+    muster_df['DEL'] = muster_df['DEL'].fillna(False)
 
     if lvform_flag !=0:
-        lvform_table = DBF(table_paths['lvform_dbf_path'], load=True)
-        lvform_df = pd.DataFrame(iter(lvform_table))
-        lvform_df = lvform_df[['EMPCODE','LV_ST','LV_TYPE']]
-        lvform_df = lvform_df[(lvform_df['LV_ST'] >= start_date) & (lvform_df['LV_ST'] <= end_date)]
+        lvform_df = pd.read_csv(table_paths['lvform_csv_path'])
+        lvform_df = lvform_df[['empcode','lv_st','lv_type']]
+        lvform_df['lv_st'] = pd.to_datetime(lvform_df['lv_st'])
+        lvform_df['lv_st'] = lvform_df['lv_st'].dt.date
+        lvform_df = lvform_df[(lvform_df['lv_st'] >= start_date) & (lvform_df['lv_st'] <= end_date)]
 
     if holmast_flag !=0:
-        holidays_table = DBF(table_paths['holmast_dbf_path'], load=True)
-        holidays_df = pd.DataFrame(holidays_table)
-        filtered_holidays_df = holidays_df[(holidays_df['HOL_DT'] >= start_date) & (holidays_df['HOL_DT'] <= end_date)]
+        holidays_df = pd.read_csv(table_paths['holmast_csv_path'])
+        holidays_df['hol_dt'] = pd.to_datetime(holidays_df['hol_dt'])
+        holidays_df['hol_dt'] = holidays_df['hol_dt'].dt.date
+        filtered_holidays_df = holidays_df[(holidays_df['hol_dt'] >= start_date) & (holidays_df['hol_dt'] <= end_date)]
 
     muster_df = muster_df[(muster_df['DEL'] == False) | ((muster_df['DATE_LEAVE'] >= start_date) & (muster_df['DATE_LEAVE'] <= end_date))]
     muster_df = muster_df.sort_values(by=['TOKEN'])
@@ -56,31 +58,22 @@ def generate_muster(db_check_flag):
 
     selected_columns.index = muster_df['TOKEN']
 
-    # Create an empty dictionary to store the results
     token_dates = {}
 
-    # Iterate through each row of the DataFrame
     for index, row in selected_columns.iterrows():
-        # Get the token value
         token = index
         
-        # Get the dates where the value is True
         true_dates = [col for col, value in row.items() if value]
         
-        # Store the result in the dictionary
         token_dates[token] = true_dates
 
-    # Create a new DataFrame to store the expanded dates
     final_muster_df = pd.DataFrame()
 
-    # Iterate through each row in muster_df
     for index, row in muster_df.iterrows():
-        # Extract relevant information
         token = row['TOKEN']
 
         date_range = pd.date_range(start_date_str, end_date_str, closed=None)
 
-        # Create a DataFrame with repeated information for each date in the range
         temp_df = pd.DataFrame({
             'TOKEN': [token] * len(date_range),
             'COMCODE': row['COMCODE'],
@@ -96,17 +89,14 @@ def generate_muster(db_check_flag):
             'MUSTER_STATUS': "",
         })
 
-        # Append the temporary DataFrame to the expanded_dates_df
         final_muster_df = final_muster_df.append(temp_df, ignore_index=True)
 
-    # Update the 'ATT_STATUS' for corresponding holiday dates
     if holmast_flag !=0:
         for index, row in filtered_holidays_df.iterrows():
             holiday_date = row['HOL_DT']
             hol_type = row['HOL_TYPE']
             final_muster_df.loc[final_muster_df['PDATE'].dt.date == holiday_date, 'MUSTER_STATUS'] = hol_type
 
-    # Set 'ATT_STATUS' to 'w/o' for the dates in token_dates, otherwise it will be 'AB'
     for token, dates in token_dates.items():
         final_muster_df.loc[(final_muster_df['TOKEN'] == token) & (final_muster_df['PDATE'].dt.strftime('%Y-%m-%d').isin(dates)), 'MUSTER_STATUS'] = 'WO'
 
@@ -117,10 +107,10 @@ def generate_muster(db_check_flag):
             empcode = row['EMPCODE']
 
             final_muster_df.loc[(final_muster_df['PDATE'].dt.date == lv_start) & (final_muster_df['EMPCODE']==empcode), 'MUSTER_STATUS'] = lv_type
-    # Sort the DataFrame by TOKEN and PDATE
+
     final_muster_df = final_muster_df.sort_values(by=['TOKEN', 'PDATE'])
 
-    # Save the result to a new CSV file
+
     final_muster_df.to_csv(table_paths['muster_csv_path'], index=False)
 
-    return final_muster_df
+    return final_muster_df,muster_df

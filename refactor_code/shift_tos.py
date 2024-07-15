@@ -127,8 +127,8 @@ try:
         print("mismatch flag: ",mismatch_flag)
 
         if isinstance(db_check_flag, dict) and mismatch_flag == 1:
-            muster_df = generate_muster(db_check_flag)
-            punch_df = generate_punch(processed_punches)
+            muster_df,muster_del_filtered = generate_muster(db_check_flag)
+            punch_df = generate_punch(processed_punches,muster_del_filtered)
             create_final_csv(muster_df, punch_df,mismatch_df)
             
         else:

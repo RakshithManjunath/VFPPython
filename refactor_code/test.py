@@ -20,7 +20,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/JPDSHIFT_Makali/'
+    # root_folder = 'D:/ZIONtest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -32,7 +32,6 @@ def file_paths():
     # wdtest_path = root_folder + 'wdtest.csv'
     # wdtest_server_path = root_folder + 'wdtest_server.csv'
     # wdtest_client_path = root_folder + 'wdtest_client.csv'
-
     # passed_csv_path = root_folder + 'passed.csv'
     # punches_without_duplicates_path = root_folder + 'punches_without_duplicates.csv'
     # day_one_out_excluded_path = root_folder + 'day_one_out_excluded.csv'
@@ -41,6 +40,8 @@ def file_paths():
     # punches_full_len_df_path = root_folder + 'punches_full_len_df.csv'
     # actual_punches_len_df_path = root_folder + 'actual_punches.csv'
     # gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_excluded.csv'
+    # holmast_csv_path = root_folder + 'holiday.csv'
+    # lvform_csv_path = root_folder + 'leave.csv'
 
     ## exe
     root_folder = './'
@@ -55,7 +56,6 @@ def file_paths():
     wdtest_path = './wdtest.csv'
     wdtest_server_path = './wdtest_server.csv'
     wdtest_client_path = './wdtest_client.csv'
-
     passed_csv_path = './passed.csv'
     punches_without_duplicates_path = './original_punches.csv'
     day_one_out_excluded_path = './day_one_out_excluded.csv'
@@ -64,6 +64,8 @@ def file_paths():
     punches_full_len_df_path = './punches_full_len_df.csv'
     actual_punches_len_df_path = './actual_punches.csv'
     gsel_date_excluded_punches_len_df_path = './gsel_date_excluded.csv'
+    holmast_csv_path = './holiday.csv'
+    lvform_csv_path = './leave.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -93,7 +95,10 @@ def file_paths():
             "out_of_range_punches_path":out_of_range_punches_path,
             "punches_full_len_df_path":punches_full_len_df_path,
             "actual_punches_len_df_path":actual_punches_len_df_path,
-            "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path}
+            "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
+            
+            "holmast_csv_path":holmast_csv_path,
+            "lvform_csv_path":lvform_csv_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -204,7 +209,6 @@ def punch_mismatch():
     muster_dbf = table_paths['muster_dbf_path']
     muster_table = DBF(muster_dbf, load=True)
     muster_df = pd.DataFrame(iter(muster_table))
-    muster_df = muster_df[muster_df['SEC_STAFF']==True]
     print("mismatch muster_df ", muster_df['TOKEN'])
 
     punches_dbf = table_paths['punches_dbf_path']
@@ -259,7 +263,9 @@ def punch_mismatch():
     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
     print(f"After removing day one out punches: {punches_df.shape[0]}")
 
-    if start_date <= gsel_datetime <= end_date:
+    print(start_date, type(start_date), gsel_datetime.date(), type(gsel_datetime.date()), end_date, type(end_date))
+
+    if start_date <= gsel_datetime.date() <= end_date:
         gseldate_exclude_df = punches_df[punches_df['PDTIME'].dt.date == gsel_datetime.date()]
 
         result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
