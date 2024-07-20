@@ -217,8 +217,22 @@ def punch_mismatch():
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     print(f"Before dropping duplicates: {punches_df.shape[0]}")
-    punches_df = punches_df.drop_duplicates()
+
+    # Identify columns to be considered for dropping duplicates (excluding 'MODE' and 'MCIP')
+    columns_to_consider = punches_df.columns.difference(['MODE', 'MCIP'])
+
+    # Find the duplicated rows based on the specified columns, keeping only the first occurrence
+    duplicates = punches_df[punches_df.duplicated(subset=columns_to_consider, keep='first')]
+
+    # Drop duplicates from the DataFrame based on the specified columns, keeping only the first occurrence
+    punches_df = punches_df.drop_duplicates(subset=columns_to_consider, keep='first')
+
+    # Display the number of rows after dropping duplicates
     print(f"After dropping duplicates: {punches_df.shape[0]}")
+
+    # Display the rows that were removed
+    print("Rows that were removed:")
+    print(duplicates)
     punches_df.to_csv(table_paths['punches_without_duplicates_path'],index=False)
 
     punches_full_len_df = pd.DataFrame(iter(punches_table))
@@ -266,7 +280,7 @@ def punch_mismatch():
     print(start_date, type(start_date), gsel_datetime.date(), type(gsel_datetime.date()), end_date, type(end_date))
 
     if start_date <= gsel_datetime.date() <= end_date:
-        gseldate_exclude_df = punches_df[punches_df['PDTIME'].dt.date == gsel_datetime.date()]
+        gseldate_exclude_df = punches_df[(punches_df['PDTIME'].dt.date == gsel_datetime.date()) & (punches_df['MODE'] == 0)]
 
         result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
         result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
@@ -305,7 +319,6 @@ def punch_mismatch():
     result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE'})
     result_passed_df.to_csv(table_paths['passed_csv_path'],index=False)
 
-    
     mismatch_df['PDTIME'] = pd.to_datetime(mismatch_df['PDTIME'])
 
     if ((mismatch_df['MODE'] == 0) & (mismatch_df['PDTIME'].dt.date == gsel_datetime.date())).any():
@@ -318,7 +331,8 @@ def punch_mismatch():
     result_mismatch_df = result_mismatch_df.rename(columns={'COMCODE_y': 'COMCODE'})
         
     result_mismatch_df = result_mismatch_df[~result_mismatch_df.apply(tuple, 1).isin(day_one_out_excluded_df.apply(tuple, 1))]
-    result_mismatch_df.to_csv(table_paths['mismatch_csv_path'],index=False)
+    if len(result_mismatch_df) !=0:
+        result_mismatch_df.to_csv(table_paths['mismatch_csv_path'],index=False)
 
     passed_df_len = result_passed_df.shape[0]
     print("passed csv len: ",passed_df_len)
