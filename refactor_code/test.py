@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import requests
 import shutil
+from dbf import Table,READ_WRITE
 
 def file_paths():
     ## common paths
@@ -20,7 +21,7 @@ def file_paths():
     muster_role_path = 'muster_role.csv'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
+    # root_folder = 'D:/Glentest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -42,6 +43,8 @@ def file_paths():
     # gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_excluded.csv'
     # holmast_csv_path = root_folder + 'holiday.csv'
     # lvform_csv_path = root_folder + 'leave.csv'
+    # pymismatch_dbf_path = root_folder + 'pymismatch.dbf'
+    # mismatch_for_editing_path = root_folder + 'mismatch_for_editing.csv'
 
     ## exe
     root_folder = './'
@@ -66,6 +69,8 @@ def file_paths():
     gsel_date_excluded_punches_len_df_path = './gsel_date_excluded.csv'
     holmast_csv_path = './holiday.csv'
     lvform_csv_path = './leave.csv'
+    pymismatch_dbf_path = './pymismatch.dbf'
+    mismatch_for_editing_path = './mismatch_for_editing.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -98,7 +103,9 @@ def file_paths():
             "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
             
             "holmast_csv_path":holmast_csv_path,
-            "lvform_csv_path":lvform_csv_path}
+            "lvform_csv_path":lvform_csv_path,
+            "pymismatch_dbf_path":pymismatch_dbf_path,
+            "mismatch_for_editing_path":mismatch_for_editing_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -218,6 +225,24 @@ def punch_mismatch():
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     print(f"Before dropping duplicates: {punches_df.shape[0]}")
 
+    pymismatch_dbf = table_paths['pymismatch_dbf_path']
+    pymismatch_table = DBF(pymismatch_dbf, load=True)
+    pymismatch_df = pd.DataFrame(iter(pymismatch_table))
+    pymismatch_num_records = len(pymismatch_df)
+    if pymismatch_num_records !=0:
+        print('********* Making pymismatch as punches **********')
+        punches_df = pymismatch_df
+    elif pymismatch_num_records == 0:
+        punches_df['PDATE'] = pd.to_datetime(punches_df['PDATE'])
+        punches_df['PDATE'] = punches_df['PDATE'].dt.date
+        table = Table(table_paths['pymismatch_dbf_path'])
+        table.open(mode=READ_WRITE)
+
+        for index, row in mismatch_for_editing.iterrows():
+            record = {field: row[field] for field in table.field_names if field in mismatch_for_editing.columns}
+            table.append(record)
+        table.close()
+
     # Identify columns to be considered for dropping duplicates (excluding 'MODE' and 'MCIP')
     columns_to_consider = punches_df.columns.difference(['MODE', 'MCIP'])
 
@@ -265,7 +290,8 @@ def punch_mismatch():
     print(f"After removing orphaned punches: {punches_df.shape[0]}")
 
     day_one_excluded = pd.merge(punches_df, muster_df, on='TOKEN', how='inner')
-    day_one_excluded = day_one_excluded[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
+    day_one_excluded = day_one_excluded[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
+    print('day one out all columns: ',day_one_excluded.columns)
     day_one_excluded['PDTIME'] = pd.to_datetime(day_one_excluded['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     day_one_excluded = day_one_excluded.rename(columns={'COMCODE_y': 'COMCODE'})
     first_rows = day_one_excluded.groupby('TOKEN').first().reset_index()
@@ -283,7 +309,8 @@ def punch_mismatch():
         gseldate_exclude_df = punches_df[(punches_df['PDTIME'].dt.date == gsel_datetime.date()) & (punches_df['MODE'] == 0)]
 
         result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
-        result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
+        result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
+        print('gseldate exclude columns: ',result_gseldate_exclude_df.columns)
         result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
         result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
         result_gseldate_exclude_df.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'], index=False)
@@ -293,6 +320,19 @@ def punch_mismatch():
         punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
         print(f"After removing gsel date excluded punches: {punches_df.shape[0]}")
         punches_df.to_csv(table_paths['actual_punches_len_df_path'],index=False)
+
+        mismatch_for_editing = pd.concat([day_one_out_excluded_df, result_gseldate_exclude_df, punches_df], axis=0)
+        mismatch_for_editing.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        mismatch_for_editing['PDATE'] = pd.to_datetime(mismatch_for_editing['PDATE'])
+        mismatch_for_editing['PDATE'] = mismatch_for_editing['PDATE'].dt.date
+        table = Table(table_paths['pymismatch_dbf_path'])
+        table.open(mode=READ_WRITE)
+
+        for index, row in mismatch_for_editing.iterrows():
+            record = {field: row[field] for field in table.field_names if field in mismatch_for_editing.columns}
+            table.append(record)
+        table.close()
+        # mismatch_for_editing.to_csv(table_paths['mismatch_for_editing_path'],index=False)
 
     agg_df = punches_df.groupby(['COMCODE', 'TOKEN', 'MODE']).size().reset_index(name='COUNT')
 
