@@ -108,7 +108,6 @@ try:
     delete_old_files(table_paths['payroll_input_path'])
 
     delete_old_files(table_paths['passed_csv_path'])
-    delete_old_files(table_paths['punches_without_duplicates_path'])
     delete_old_files(table_paths['day_one_out_excluded_path'])
     delete_old_files(table_paths['orphaned_punches_path'])
     if pg_data_flag == True:
