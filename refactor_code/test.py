@@ -11,82 +11,82 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    root_folder = 'D:/JPDSHIFT_Makali/'
-    dated_dbf = root_folder + 'dated.dbf'
-    muster_dbf = root_folder + 'muster.dbf'
-    holmast_dbf = root_folder + 'holmast.dbf'
-    punches_dbf = root_folder + 'punches.dbf'
-    lvform_dbf = root_folder + 'lvform.dbf'
-    exe = False
-    gsel_date_path = root_folder + 'gseldate.txt'
-    g_option_path = root_folder + 'g_option.txt'
-    wdtest_path = root_folder + 'wdtest.csv'
-    wdtest_server_path = root_folder + 'wdtest_server.csv'
-    wdtest_client_path = root_folder + 'wdtest_client.csv'
-    passed_csv_path = root_folder + 'passed.csv'
-    day_one_out_excluded_path = root_folder + 'day_one_out_punches.csv'
-    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    actual_punches_len_df_path = root_folder + 'actual_punches.csv'
-    gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_punches.csv'
-    holmast_csv_path = root_folder + 'holiday.csv'
-    lvform_csv_path = root_folder + 'leave.csv'
-    pymismatch_dbf_path = root_folder + 'pymismatch.dbf'
-    mismatch_for_editing_path = root_folder + 'mismatch_for_editing.csv'
-    passed_punches_df_path = root_folder + 'passed_punches.csv'
-    mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
-    total_punches_df_path = root_folder + 'total_punches.csv'
+    # root_folder = 'D:/JPDSHIFT_Makali/'
+    # dated_dbf = root_folder + 'dated.dbf'
+    # muster_dbf = root_folder + 'muster.dbf'
+    # holmast_dbf = root_folder + 'holmast.dbf'
+    # punches_dbf = root_folder + 'punches.dbf'
+    # lvform_dbf = root_folder + 'lvform.dbf'
+    # exe = False
+    # gsel_date_path = root_folder + 'gseldate.txt'
+    # g_option_path = root_folder + 'g_option.txt'
+    # wdtest_path = root_folder + 'wdtest.csv'
+    # wdtest_server_path = root_folder + 'wdtest_server.csv'
+    # wdtest_client_path = root_folder + 'wdtest_client.csv'
+    # passed_csv_path = root_folder + 'passed.csv'
+    # day_one_out_excluded_path = root_folder + 'day_one_out_punches.csv'
+    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    # actual_punches_len_df_path = root_folder + 'actual_punches.csv'
+    # gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_punches.csv'
+    # holmast_csv_path = root_folder + 'holiday.csv'
+    # lvform_csv_path = root_folder + 'leave.csv'
+    # pymismatch_dbf_path = root_folder + 'pymismatch.dbf'
+    # mismatch_for_editing_path = root_folder + 'mismatch_for_editing.csv'
+    # passed_punches_df_path = root_folder + 'passed_punches.csv'
+    # mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
+    # total_punches_df_path = root_folder + 'total_punches.csv'
 
-    empty_tables_path = root_folder + 'empty_tables.txt'
-    mismatch_csv_path = root_folder + 'mismatch.csv'
+    # empty_tables_path = root_folder + 'empty_tables.txt'
+    # mismatch_csv_path = root_folder + 'mismatch.csv'
 
-    muster_csv_path = root_folder + 'muster.csv'
+    # muster_csv_path = root_folder + 'muster.csv'
 
-    punch_csv_path = root_folder + 'punch.csv'
-    final_csv_path = root_folder + 'final.csv'
+    # punch_csv_path = root_folder + 'punch.csv'
+    # final_csv_path = root_folder + 'final.csv'
 
-    payroll_input_path = root_folder + 'payroll_input.csv'
+    # payroll_input_path = root_folder + 'payroll_input.csv'
 
-    muster_role_path = root_folder + 'muster_role.csv'
+    # muster_role_path = root_folder + 'muster_role.csv'
 
     ## exe
-    # root_folder = './'
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = './gseldate.txt'
-    # g_option_path = './g_option.txt'
-    # wdtest_path = './wdtest.csv'
-    # wdtest_server_path = './wdtest_server.csv'
-    # wdtest_client_path = './wdtest_client.csv'
-    # passed_csv_path = './passed.csv'
-    # day_one_out_excluded_path = './day_one_out_punches.csv'
-    # orphaned_punches_path = './orphaned_punches.csv'
-    # out_of_range_punches_path = './out_of_range_punches.csv'
-    # actual_punches_len_df_path = './actual_punches.csv'
-    # gsel_date_excluded_punches_len_df_path = './gsel_date_punches.csv'
-    # holmast_csv_path = './holiday.csv'
-    # lvform_csv_path = './leave.csv'
-    # pymismatch_dbf_path = './pymismatch.dbf'
-    # mismatch_for_editing_path = './mismatch_for_editing.csv'
-    # passed_punches_df_path = './passed_punches.csv'
-    # mismatch_punches_df_path = './mismatch_punches.csv'
-    # total_punches_df_path = './total_punches.csv'
+    root_folder = './'
+    dated_dbf = './dated.dbf'
+    muster_dbf = './muster.dbf'
+    holmast_dbf = './holmast.dbf'
+    punches_dbf = './punches.dbf'
+    lvform_dbf = './lvform.dbf'
+    exe = True
+    gsel_date_path = './gseldate.txt'
+    g_option_path = './g_option.txt'
+    wdtest_path = './wdtest.csv'
+    wdtest_server_path = './wdtest_server.csv'
+    wdtest_client_path = './wdtest_client.csv'
+    passed_csv_path = './passed.csv'
+    day_one_out_excluded_path = './day_one_out_punches.csv'
+    orphaned_punches_path = './orphaned_punches.csv'
+    out_of_range_punches_path = './out_of_range_punches.csv'
+    actual_punches_len_df_path = './actual_punches.csv'
+    gsel_date_excluded_punches_len_df_path = './gsel_date_punches.csv'
+    holmast_csv_path = './holiday.csv'
+    lvform_csv_path = './leave.csv'
+    pymismatch_dbf_path = './pymismatch.dbf'
+    mismatch_for_editing_path = './mismatch_for_editing.csv'
+    passed_punches_df_path = './passed_punches.csv'
+    mismatch_punches_df_path = './mismatch_punches.csv'
+    total_punches_df_path = './total_punches.csv'
 
-    # empty_tables_path = './empty_tables.txt'
-    # mismatch_csv_path = './mismatch.csv'
+    empty_tables_path = './empty_tables.txt'
+    mismatch_csv_path = './mismatch.csv'
 
-    # muster_csv_path = './muster.csv'
+    muster_csv_path = './muster.csv'
 
-    # punch_csv_path = './punch.csv'
-    # final_csv_path = './final.csv'
+    punch_csv_path = './punch.csv'
+    final_csv_path = './final.csv'
 
-    # payroll_input_path = './payroll_input.csv'
+    payroll_input_path = './payroll_input.csv'
 
-    # muster_role_path = './muster_role.csv'
+    muster_role_path = './muster_role.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -248,6 +248,7 @@ def punch_mismatch():
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     print(f"Before dropping duplicates: {punches_df.shape[0]}")
+    punches_df.to_csv('before_dropping_dupli.csv',index=False)
 
     pymismatch_dbf = table_paths['pymismatch_dbf_path']
     pymismatch_table = DBF(pymismatch_dbf, load=True)
@@ -270,7 +271,7 @@ def punch_mismatch():
         punches_df.to_csv(table_paths['total_punches_df_path'],index=False)
 
     # Identify columns to be considered for dropping duplicates (excluding 'MODE' and 'MCIP')
-    columns_to_consider = punches_df.columns.difference(['MODE', 'MCIP'])
+    columns_to_consider = punches_df.columns.difference(['TOKEN', 'COMCODE', 'PDTIME', 'MODE', 'MCIP'])
 
     # Find the duplicated rows based on the specified columns, keeping only the first occurrence
     duplicates = punches_df[punches_df.duplicated(subset=columns_to_consider, keep='first')]
@@ -401,6 +402,13 @@ def punch_mismatch():
     result_mismatch_df = result_mismatch_df[~result_mismatch_df.apply(tuple, 1).isin(day_one_out_excluded_df.apply(tuple, 1))]
     if len(result_mismatch_df) !=0:
         result_mismatch_df.to_csv(table_paths['mismatch_csv_path'],index=False)
+
+    # Concatenating the dataframes for editing mismatch
+    mismatch_for_editing = pd.concat([mismatch_punches_df, result_gseldate_exclude_df, day_one_out_excluded_df], ignore_index=True)
+    mismatch_for_editing_merged_with_muster = pd.merge(mismatch_for_editing, muster_df, on='TOKEN', how='inner')
+    mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','PDTIME','MODE','COMCODE_y','PDATE','HOURS','MINUTES','MCIP']]
+    mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
+    mismatch_for_editing_with_name.to_csv(table_paths['mismatch_for_editing_path'],index=False)
 
     passed_df_len = result_passed_df.shape[0]
     print("passed csv len: ",passed_df_len)
