@@ -16,5 +16,5 @@ def dbf_2_df(filename,type):
     df = pd.DataFrame(data)
     return df
 
-print(dbf_2_df(filename="D:/ZIONtest/punches.dbf",type="dataframe"))
-print(dbf_2_df(filename="D:/ZIONtest/punches.dbf",type="len"))
+# print(dbf_2_df(filename="D:/ZIONtest/punches.dbf",type="dataframe"))
+# print(dbf_2_df(filename="D:/ZIONtest/punches.dbf",type="len"))

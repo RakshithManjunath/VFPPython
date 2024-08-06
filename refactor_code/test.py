@@ -1,4 +1,5 @@
 from dbfread import DBF
+from dbf_handler import dbf_2_df
 import os
 import pandas as pd
 import requests
@@ -10,82 +11,82 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    # root_folder = 'D:/ZIONtest/'
-    # dated_dbf = root_folder + 'dated.dbf'
-    # muster_dbf = root_folder + 'muster.dbf'
-    # holmast_dbf = root_folder + 'holmast.dbf'
-    # punches_dbf = root_folder + 'punches.dbf'
-    # lvform_dbf = root_folder + 'lvform.dbf'
-    # exe = False
-    # gsel_date_path = root_folder + 'gseldate.txt'
-    # g_option_path = root_folder + 'g_option.txt'
-    # wdtest_path = root_folder + 'wdtest.csv'
-    # wdtest_server_path = root_folder + 'wdtest_server.csv'
-    # wdtest_client_path = root_folder + 'wdtest_client.csv'
-    # passed_csv_path = root_folder + 'passed.csv'
-    # day_one_out_excluded_path = root_folder + 'day_one_out_punches.csv'
-    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    # actual_punches_len_df_path = root_folder + 'actual_punches.csv'
-    # gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_punches.csv'
-    # holmast_csv_path = root_folder + 'holiday.csv'
-    # lvform_csv_path = root_folder + 'leave.csv'
-    # pymismatch_dbf_path = root_folder + 'pymismatch.dbf'
-    # mismatch_for_editing_path = root_folder + 'mismatch_for_editing.csv'
-    # passed_punches_df_path = root_folder + 'passed_punches.csv'
-    # mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
-    # total_punches_df_path = root_folder + 'total_punches.csv'
+    root_folder = 'D:/JPDSHIFT_Makali/'
+    dated_dbf = root_folder + 'dated.dbf'
+    muster_dbf = root_folder + 'muster.dbf'
+    holmast_dbf = root_folder + 'holmast.dbf'
+    punches_dbf = root_folder + 'punches.dbf'
+    lvform_dbf = root_folder + 'lvform.dbf'
+    exe = False
+    gsel_date_path = root_folder + 'gseldate.txt'
+    g_option_path = root_folder + 'g_option.txt'
+    wdtest_path = root_folder + 'wdtest.csv'
+    wdtest_server_path = root_folder + 'wdtest_server.csv'
+    wdtest_client_path = root_folder + 'wdtest_client.csv'
+    passed_csv_path = root_folder + 'passed.csv'
+    day_one_out_excluded_path = root_folder + 'day_one_out_punches.csv'
+    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    actual_punches_len_df_path = root_folder + 'actual_punches.csv'
+    gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_punches.csv'
+    holmast_csv_path = root_folder + 'holiday.csv'
+    lvform_csv_path = root_folder + 'leave.csv'
+    pymismatch_dbf_path = root_folder + 'pymismatch.dbf'
+    mismatch_for_editing_path = root_folder + 'mismatch_for_editing.csv'
+    passed_punches_df_path = root_folder + 'passed_punches.csv'
+    mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
+    total_punches_df_path = root_folder + 'total_punches.csv'
 
-    # empty_tables_path = root_folder + 'empty_tables.txt'
-    # mismatch_csv_path = root_folder + 'mismatch.csv'
+    empty_tables_path = root_folder + 'empty_tables.txt'
+    mismatch_csv_path = root_folder + 'mismatch.csv'
 
-    # muster_csv_path = root_folder + 'muster.csv'
+    muster_csv_path = root_folder + 'muster.csv'
 
-    # punch_csv_path = root_folder + 'punch.csv'
-    # final_csv_path = root_folder + 'final.csv'
+    punch_csv_path = root_folder + 'punch.csv'
+    final_csv_path = root_folder + 'final.csv'
 
-    # payroll_input_path = root_folder + 'payroll_input.csv'
+    payroll_input_path = root_folder + 'payroll_input.csv'
 
-    # muster_role_path = root_folder + 'muster_role.csv'
+    muster_role_path = root_folder + 'muster_role.csv'
 
     ## exe
-    root_folder = './'
-    dated_dbf = './dated.dbf'
-    muster_dbf = './muster.dbf'
-    holmast_dbf = './holmast.dbf'
-    punches_dbf = './punches.dbf'
-    lvform_dbf = './lvform.dbf'
-    exe = True
-    gsel_date_path = './gseldate.txt'
-    g_option_path = './g_option.txt'
-    wdtest_path = './wdtest.csv'
-    wdtest_server_path = './wdtest_server.csv'
-    wdtest_client_path = './wdtest_client.csv'
-    passed_csv_path = './passed.csv'
-    day_one_out_excluded_path = './day_one_out_punches.csv'
-    orphaned_punches_path = './orphaned_punches.csv'
-    out_of_range_punches_path = './out_of_range_punches.csv'
-    actual_punches_len_df_path = './actual_punches.csv'
-    gsel_date_excluded_punches_len_df_path = './gsel_date_punches.csv'
-    holmast_csv_path = './holiday.csv'
-    lvform_csv_path = './leave.csv'
-    pymismatch_dbf_path = './pymismatch.dbf'
-    mismatch_for_editing_path = './mismatch_for_editing.csv'
-    passed_punches_df_path = './passed_punches.csv'
-    mismatch_punches_df_path = './mismatch_punches.csv'
-    total_punches_df_path = './total_punches.csv'
+    # root_folder = './'
+    # dated_dbf = './dated.dbf'
+    # muster_dbf = './muster.dbf'
+    # holmast_dbf = './holmast.dbf'
+    # punches_dbf = './punches.dbf'
+    # lvform_dbf = './lvform.dbf'
+    # exe = True
+    # gsel_date_path = './gseldate.txt'
+    # g_option_path = './g_option.txt'
+    # wdtest_path = './wdtest.csv'
+    # wdtest_server_path = './wdtest_server.csv'
+    # wdtest_client_path = './wdtest_client.csv'
+    # passed_csv_path = './passed.csv'
+    # day_one_out_excluded_path = './day_one_out_punches.csv'
+    # orphaned_punches_path = './orphaned_punches.csv'
+    # out_of_range_punches_path = './out_of_range_punches.csv'
+    # actual_punches_len_df_path = './actual_punches.csv'
+    # gsel_date_excluded_punches_len_df_path = './gsel_date_punches.csv'
+    # holmast_csv_path = './holiday.csv'
+    # lvform_csv_path = './leave.csv'
+    # pymismatch_dbf_path = './pymismatch.dbf'
+    # mismatch_for_editing_path = './mismatch_for_editing.csv'
+    # passed_punches_df_path = './passed_punches.csv'
+    # mismatch_punches_df_path = './mismatch_punches.csv'
+    # total_punches_df_path = './total_punches.csv'
 
-    empty_tables_path = './empty_tables.txt'
-    mismatch_csv_path = './mismatch.csv'
+    # empty_tables_path = './empty_tables.txt'
+    # mismatch_csv_path = './mismatch.csv'
 
-    muster_csv_path = './muster.csv'
+    # muster_csv_path = './muster.csv'
 
-    punch_csv_path = './punch.csv'
-    final_csv_path = './final.csv'
+    # punch_csv_path = './punch.csv'
+    # final_csv_path = './final.csv'
 
-    payroll_input_path = './payroll_input.csv'
+    # payroll_input_path = './payroll_input.csv'
 
-    muster_role_path = './muster_role.csv'
+    # muster_role_path = './muster_role.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -144,24 +145,29 @@ def check_database():
 def test_db_len():
     table_paths = file_paths()
     dated_dbf = table_paths['dated_dbf_path']
-    dated_table = DBF(dated_dbf, load=False) 
-    dated_num_records = len(dated_table)
+    dated_num_records = dbf_2_df(filename=dated_dbf,type="len")
+    # dated_table = DBF(dated_dbf, load=False) 
+    # dated_num_records = len(dated_table)
 
     muster_dbf = table_paths['muster_dbf_path']
-    muster_table = DBF(muster_dbf, load=False) 
-    muster_num_records = len(muster_table)
+    muster_num_records = dbf_2_df(filename=muster_dbf,type="len")
+    # muster_table = DBF(muster_dbf, load=False) 
+    # muster_num_records = len(muster_table)
 
     holmast_dbf = table_paths['holmast_dbf_path']
-    holmast_table = DBF(holmast_dbf, load=False) 
-    holmast_num_records = len(holmast_table)
+    holmast_num_records = dbf_2_df(filename=holmast_dbf,type="len")
+    # holmast_table = DBF(holmast_dbf, load=False) 
+    # holmast_num_records = len(holmast_table)
 
     punches_dbf = table_paths['punches_dbf_path']
-    punches_table = DBF(punches_dbf, load=False) 
-    punches_num_records = len(punches_table)
+    punches_num_records = dbf_2_df(filename=punches_dbf,type="len")
+    # punches_table = DBF(punches_dbf, load=False) 
+    # punches_num_records = len(punches_table)
 
     lvform_dbf = table_paths['lvform_dbf_path']
-    lvform_table = DBF(lvform_dbf, load=False) 
-    lvform_num_records = len(lvform_table)
+    lvform_num_records = dbf_2_df(filename=punches_dbf,type="len")
+    # lvform_table = DBF(lvform_dbf, load=False) 
+    # lvform_num_records = len(lvform_table)
 
     with open(table_paths['empty_tables_path'], 'w') as file:
         if dated_num_records == 0:
@@ -286,15 +292,16 @@ def punch_mismatch():
         gsel_datetime = pd.to_datetime(gseldate)
         print(gseldate, type(gseldate))
 
-    not_satisfying_condition_df = punches_df[~((punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date))]
-    out_of_range_punches_df = not_satisfying_condition_df.merge(punches_df, on='TOKEN', how='inner')
-    print('Out of range columns: ',out_of_range_punches_df.columns)
-    out_of_range_punches_df = out_of_range_punches_df[['TOKEN','COMCODE_y','PDATE_x','HOURS_x','MINUTES_x','MODE_x','PDTIME_x','MCIP_x']]
-    out_of_range_punches_df = out_of_range_punches_df.rename(columns={'COMCODE_y':'COMCODE','PDATE_x':'PDATE',
-                                                          'HOURS_x':'HOURS','MINUTES_x':'MINUTES',
-                                                          'MODE_x':'MODE','PDTIME_x':'PDTIME','MCIP_x':'MCIP'})
-    print(f"Out of range punches: {out_of_range_punches_df.shape[0]} {out_of_range_punches_df}")
+    out_of_range_punches_df = punches_df[~((punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date))]
     out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
+    # out_of_range_punches_df = out_of_range_punches_df.merge(punches_df, on='TOKEN', how='inner')
+    # print('Out of range columns: ',out_of_range_punches_df.columns)
+    # out_of_range_punches_df = out_of_range_punches_df[['TOKEN','COMCODE_y','PDATE_x','HOURS_x','MINUTES_x','MODE_x','PDTIME_x','MCIP_x']]
+    # out_of_range_punches_df = out_of_range_punches_df.rename(columns={'COMCODE_y':'COMCODE','PDATE_x':'PDATE',
+    #                                                       'HOURS_x':'HOURS','MINUTES_x':'MINUTES',
+    #                                                       'MODE_x':'MODE','PDTIME_x':'PDTIME','MCIP_x':'MCIP'})
+    # print(f"Out of range punches: {out_of_range_punches_df.shape[0]} {out_of_range_punches_df}")
+    # out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
 
     merged_df = punches_df.merge(out_of_range_punches_df, on=['TOKEN','PDTIME','MODE'], how='inner')
     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
@@ -303,14 +310,10 @@ def punch_mismatch():
     merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)
     orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
     orphaned_df = orphaned_df.drop(columns=['_merge'])
-    orphaned_punches_df = orphaned_df.merge(punches_df, on='TOKEN', how='inner')
-    print("Orphaned punches cols: ",orphaned_punches_df.columns)
-    orphaned_punches_df = orphaned_punches_df[['TOKEN','COMCODE_y','PDATE_x','HOURS_x','MINUTES_x','MODE_x','PDTIME_x','MCIP_x']]
-    orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE','PDATE_x':'PDATE',
-                                                          'HOURS_x':'HOURS','MINUTES_x':'MINUTES',
-                                                          'MODE_x':'MODE','PDTIME_x':'PDTIME','MCIP_x':'MCIP'})
+    print("Orphaned columns: ",orphaned_df.columns)
+    orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
+    orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
     orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
-    print("Orphaned punches cols: ",orphaned_punches_df.columns)
 
     merged_df = punches_df.merge(orphaned_punches_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
@@ -333,7 +336,7 @@ def punch_mismatch():
     print(start_date, type(start_date), gsel_datetime.date(), type(gsel_datetime.date()), end_date, type(end_date))
 
     if start_date <= gsel_datetime.date() <= end_date:
-        gseldate_exclude_df = punches_df[(punches_df['PDTIME'].dt.date == gsel_datetime.date()) & (punches_df['MODE'] == 0)]
+        gseldate_exclude_df = punches_df[(punches_df['PDTIME'].dt.date == gsel_datetime.date())]
 
         result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
         result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
@@ -361,10 +364,8 @@ def punch_mismatch():
     pivot_df.columns = ['COMCODE', 'TOKEN', 'MODE_0_COUNT', 'MODE_1_COUNT']
 
     pivot_df['DIFFERENCE'] = abs(pivot_df['MODE_0_COUNT'] - pivot_df['MODE_1_COUNT'])
-    print("Pivot difference: ",pivot_df['DIFFERENCE'])
 
     df_difference_greater_than_0 = pivot_df[pivot_df['DIFFERENCE'] > 0]
-    df_difference_greater_than_0.to_csv('pivot_difference.csv')
     mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
 
     df_difference_equal_0 = pivot_df[pivot_df['DIFFERENCE'] == 0]
