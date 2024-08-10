@@ -402,15 +402,16 @@ def punch_mismatch():
     if len(result_mismatch_df) !=0:
         result_mismatch_df.to_csv(table_paths['mismatch_csv_path'],index=False)
 
-        mismatch_for_editing = pd.concat([mismatch_punches_df,result_gseldate_exclude_df,day_one_out_excluded_df], ignore_index=True)
-        mismatch_for_editing_merged_with_muster = pd.merge(mismatch_for_editing, muster_df, on='TOKEN', how='inner')
-        mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','PDTIME','MODE','COMCODE_y','PDATE','HOURS','MINUTES','MCIP']]
-        mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
+    mismatch_for_editing = pd.concat([mismatch_punches_df,result_gseldate_exclude_df,day_one_out_excluded_df], ignore_index=True)
+    mismatch_for_editing_merged_with_muster = pd.merge(mismatch_for_editing, muster_df, on='TOKEN', how='inner')
+    mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE']]
+    mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
+    mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop_duplicates()
+    if len(mismatch_for_editing_with_name) !=0:
         mismatch_for_editing_with_name.to_csv(table_paths['mismatch_report_path'],index=False)
 
 
     pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,result_gseldate_exclude_df,day_one_out_excluded_df], ignore_index=True)
-    pytotpun_df.to_csv('pytotpun_for_checking.csv',index=False)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
     pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date

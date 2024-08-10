@@ -118,6 +118,8 @@ delete_old_files(table_paths['gsel_date_excluded_punches_len_df_path'])
 delete_old_files(table_paths['passed_punches_df_path'])
 delete_old_files(table_paths['mismatch_punches_df_path'])
 delete_old_files(table_paths['total_punches_df_path'])
+
+delete_old_files(table_paths['mismatch_report_path'])
 if pg_data_flag == True:
     print("pg data is true!")
     server_df = server_collect_db_data()
