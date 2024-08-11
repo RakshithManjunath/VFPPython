@@ -348,59 +348,47 @@ def punch_mismatch():
         punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
         print(f"After removing gsel date excluded punches: {punches_df.shape[0]}")
 
-        # punches_df = pd.concat([punches_df, result_gseldate_exclude_df, day_one_out_excluded_df], ignore_index=True)
+        punches_df = pd.concat([punches_df, result_gseldate_exclude_df, day_one_out_excluded_df], ignore_index=True)
+        punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        # punches_df.to_csv('merged_punches_dayone_gsel.csv',index=False)
 
-    agg_df = punches_df.groupby(['COMCODE', 'TOKEN', 'MODE']).size().reset_index(name='COUNT')
+    def is_alternating(sequence):
+        return all(sequence[i] != sequence[i + 1] for i in range(len(sequence) - 1))
 
-    pivot_df = agg_df.pivot_table(index=['COMCODE', 'TOKEN'], columns='MODE', values='COUNT', fill_value=0).reset_index()
+    passed_list = []
+    mismatch_list = []
 
-    if 0 not in pivot_df.columns:
-        pivot_df[0] = 0
-    if 1 not in pivot_df.columns:
-        pivot_df[1] = 0
+    for token, group in punches_df.groupby('TOKEN'):
+        mode_sequence = group['MODE'].tolist()
+        
+        if mode_sequence[0] == 0 and is_alternating(mode_sequence):
+            passed_list.append(group)
+        else:
+            mismatch_list.append(group)
 
-    pivot_df.columns = ['COMCODE', 'TOKEN', 'MODE_0_COUNT', 'MODE_1_COUNT']
+    mismatch = pd.concat(mismatch_list)
 
-    pivot_df['DIFFERENCE'] = abs(pivot_df['MODE_0_COUNT'] - pivot_df['MODE_1_COUNT'])
+    passed = punches_df[~punches_df['TOKEN'].isin(mismatch['TOKEN'].unique())]
 
-    df_difference_greater_than_0 = pivot_df[pivot_df['DIFFERENCE'] > 0]
-    mismatch_df = punches_df[punches_df['TOKEN'].isin(df_difference_greater_than_0['TOKEN'])]
-
-    df_difference_equal_0 = pivot_df[pivot_df['DIFFERENCE'] == 0]
-    passed_df = punches_df[punches_df['TOKEN'].isin(df_difference_equal_0['TOKEN'])]
-
-    result_passed_df = pd.merge(passed_df, muster_df, on='TOKEN', how='inner')
+    result_passed_df = pd.merge(passed, muster_df, on='TOKEN', how='inner')
     print("result passed df cols: ",result_passed_df.columns)
 
     passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
     passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
     passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
-    result_passed_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','MODE','PDTIME']]
-    result_passed_df['PDTIME'] = pd.to_datetime(result_passed_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    result_passed_df = result_passed_df.rename(columns={'COMCODE_y': 'COMCODE'})
 
-    if len(result_passed_df) !=0:
-        result_passed_df.to_csv(table_paths['passed_csv_path'],index=False)
+    mismatch['PDTIME'] = pd.to_datetime(mismatch['PDTIME'])
 
-    mismatch_df['PDTIME'] = pd.to_datetime(mismatch_df['PDTIME'])
-
-    if ((mismatch_df['MODE'] == 0) & (mismatch_df['PDTIME'].dt.date == gsel_datetime.date())).any():
+    if ((mismatch['MODE'] == 0) & (mismatch['PDTIME'].dt.date == gsel_datetime.date())).any():
         mismatch_status = False
 
-    result_mismatch_df = pd.merge(mismatch_df, muster_df, on='TOKEN', how='inner')
+    result_mismatch_df = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
     print("Mismatch punches columns: ",result_mismatch_df.columns)
 
     mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
     mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
     mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
-    result_mismatch_df = result_mismatch_df[['TOKEN','NAME','EMPCODE','PDTIME','MODE','COMCODE_y','PDATE']]
     mismatch_status = True
-    result_mismatch_df['PDTIME'] = pd.to_datetime(result_mismatch_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    result_mismatch_df = result_mismatch_df.rename(columns={'COMCODE_y': 'COMCODE'})
-        
-    result_mismatch_df = result_mismatch_df[~result_mismatch_df.apply(tuple, 1).isin(day_one_out_excluded_df.apply(tuple, 1))]
-    if len(result_mismatch_df) !=0:
-        result_mismatch_df.to_csv(table_paths['mismatch_csv_path'],index=False)
 
     mismatch_for_editing = pd.concat([mismatch_punches_df,result_gseldate_exclude_df,day_one_out_excluded_df], ignore_index=True)
     mismatch_for_editing_merged_with_muster = pd.merge(mismatch_for_editing, muster_df, on='TOKEN', how='inner')
