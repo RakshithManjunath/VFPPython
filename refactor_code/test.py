@@ -11,7 +11,7 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    # root_folder = 'D:/JPDSHIFT_Makali/'
+    # root_folder = 'D:/AUTHN/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -24,10 +24,8 @@ def file_paths():
     # wdtest_server_path = root_folder + 'wdtest_server.csv'
     # wdtest_client_path = root_folder + 'wdtest_client.csv'
     # passed_csv_path = root_folder + 'passed.csv'
-    # day_one_out_excluded_path = root_folder + 'day_one_out_punches.csv'
     # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
     # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    # gsel_date_excluded_punches_len_df_path = root_folder + 'gsel_date_punches.csv'
     # holmast_csv_path = root_folder + 'holiday.csv'
     # lvform_csv_path = root_folder + 'leave.csv'
     # pytotpun_dbf_path = root_folder + 'pytotpun.dbf'
@@ -35,6 +33,7 @@ def file_paths():
     # passed_punches_df_path = root_folder + 'passed_punches.csv'
     # mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
     # total_punches_df_path = root_folder + 'total_punches.csv'
+    # actual_punches_df_path = root_folder + 'actual_punches.csv'
 
     # empty_tables_path = root_folder + 'empty_tables.txt'
     # mismatch_csv_path = root_folder + 'mismatch.csv'
@@ -62,10 +61,8 @@ def file_paths():
     wdtest_server_path = './wdtest_server.csv'
     wdtest_client_path = './wdtest_client.csv'
     passed_csv_path = './passed.csv'
-    day_one_out_excluded_path = './day_one_out_punches.csv'
     orphaned_punches_path = './orphaned_punches.csv'
     out_of_range_punches_path = './out_of_range_punches.csv'
-    gsel_date_excluded_punches_len_df_path = './gsel_date_punches.csv'
     holmast_csv_path = './holiday.csv'
     lvform_csv_path = './leave.csv'
     pytotpun_dbf_path = './pytotpun.dbf'
@@ -73,6 +70,7 @@ def file_paths():
     passed_punches_df_path = './passed_punches.csv'
     mismatch_punches_df_path = './mismatch_punches.csv'
     total_punches_df_path = './total_punches.csv'
+    actual_punches_df_path = './actual_punches.csv'
 
     empty_tables_path = './empty_tables.txt'
     mismatch_csv_path = './mismatch.csv'
@@ -108,10 +106,8 @@ def file_paths():
             "muster_role_path":muster_role_path,
 
             "passed_csv_path":passed_csv_path,
-            "day_one_out_excluded_path":day_one_out_excluded_path,
             "orphaned_punches_path":orphaned_punches_path,
             "out_of_range_punches_path":out_of_range_punches_path,
-            "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
             
             "holmast_csv_path":holmast_csv_path,
             "lvform_csv_path":lvform_csv_path,
@@ -120,7 +116,8 @@ def file_paths():
             
             "passed_punches_df_path":passed_punches_df_path,
             "mismatch_punches_df_path":mismatch_punches_df_path,
-            "total_punches_df_path":total_punches_df_path}
+            "total_punches_df_path":total_punches_df_path,
+            "actual_punches_df_path":actual_punches_df_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -307,42 +304,7 @@ def punch_mismatch():
     merged_df = punches_df.merge(orphaned_punches_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
     print(f"After removing orphaned punches: {punches_df.shape[0]}")
-
-    # day_one_excluded = pd.merge(punches_df, muster_df, on='TOKEN', how='inner')
-    # day_one_excluded = day_one_excluded[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
-    # print('day one out all columns: ',day_one_excluded.columns)
-    # day_one_excluded['PDTIME'] = pd.to_datetime(day_one_excluded['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    # day_one_excluded = day_one_excluded.rename(columns={'COMCODE_y': 'COMCODE'})
-    # first_rows = day_one_excluded.groupby('TOKEN').first().reset_index()
-    # day_one_out_excluded_df = first_rows[first_rows['MODE'] == 1]
-    # day_one_out_excluded_df.to_csv(table_paths['day_one_out_excluded_path'], index=False)
-    # print(f"Day one out excluded: {day_one_out_excluded_df.shape[0]} {day_one_out_excluded_df}")
-
-    # merged_df = punches_df.merge(day_one_out_excluded_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
-    # punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
-    # print(f"After removing day one out punches: {punches_df.shape[0]}")
-
-    # print(start_date, type(start_date), gsel_datetime.date(), type(gsel_datetime.date()), end_date, type(end_date))
-
-    # if start_date <= gsel_datetime.date() <= end_date:
-    #     gseldate_exclude_df = punches_df[(punches_df['PDTIME'].dt.date == gsel_datetime.date())]
-
-    #     result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
-    #     result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
-    #     print('gseldate exclude columns: ',result_gseldate_exclude_df.columns)
-    #     result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    #     result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
-    #     result_gseldate_exclude_df.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'], index=False)
-    #     print(f"Gsel date excluded: {result_gseldate_exclude_df.shape[0]} {result_gseldate_exclude_df}")
-
-    #     merged_df = punches_df.merge(result_gseldate_exclude_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
-    #     print("merged df columns: ",merged_df.columns)
-    #     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
-    #     print(f"After removing gsel date excluded punches: {punches_df.shape[0]}")
-
-    #     punches_df = pd.concat([punches_df, result_gseldate_exclude_df, day_one_out_excluded_df], ignore_index=True)
-    #     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-        # punches_df.to_csv('merged_punches_dayone_gsel.csv',index=False)
+    punches_df.to_csv(table_paths['actual_punches_df_path'],index=False)
 
     # Function to check the 0101... pattern and count equality
     def check_pattern(group):

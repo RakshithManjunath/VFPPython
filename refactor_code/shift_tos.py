@@ -108,16 +108,15 @@ delete_old_files(table_paths['mismatch_csv_path'])
 delete_old_files(table_paths['payroll_input_path'])
 
 delete_old_files(table_paths['passed_csv_path'])
-delete_old_files(table_paths['day_one_out_excluded_path'])
 delete_old_files(table_paths['orphaned_punches_path'])
 
 delete_old_files(table_paths['mismatch_punches_df_path'])
 delete_old_files(table_paths['out_of_range_punches_path'])
-delete_old_files(table_paths['gsel_date_excluded_punches_len_df_path'])
 
 delete_old_files(table_paths['passed_punches_df_path'])
 delete_old_files(table_paths['mismatch_punches_df_path'])
 delete_old_files(table_paths['total_punches_df_path'])
+delete_old_files(table_paths['actual_punches_df_path'])
 
 delete_old_files(table_paths['mismatch_report_path'])
 if pg_data_flag == True:
