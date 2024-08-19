@@ -11,7 +11,7 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    # root_folder = 'D:/AUTHN/'
+    # root_folder = 'D:/Glentest/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -32,8 +32,10 @@ def file_paths():
     # mismatch_report_path = root_folder + 'mismatch_report.csv'
     # passed_punches_df_path = root_folder + 'passed_punches.csv'
     # mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
-    # total_punches_df_path = root_folder + 'total_punches.csv'
+    # total_punches_punches_df_path = root_folder + 'total_punches_punches.csv'
+    # total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
     # actual_punches_df_path = root_folder + 'actual_punches.csv'
+    # duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
 
     # empty_tables_path = root_folder + 'empty_tables.txt'
     # mismatch_csv_path = root_folder + 'mismatch.csv'
@@ -69,8 +71,10 @@ def file_paths():
     mismatch_report_path = './mismatch_report.csv'
     passed_punches_df_path = './passed_punches.csv'
     mismatch_punches_df_path = './mismatch_punches.csv'
-    total_punches_df_path = './total_punches.csv'
+    total_punches_punches_df_path = './total_punches_punches.csv'
+    total_pytotpun_punches_df_path = './total_pytotpun_punches.csv'
     actual_punches_df_path = './actual_punches.csv'
+    duplicate_punches_df_path = './duplicates_punches.csv'
 
     empty_tables_path = './empty_tables.txt'
     mismatch_csv_path = './mismatch.csv'
@@ -116,8 +120,10 @@ def file_paths():
             
             "passed_punches_df_path":passed_punches_df_path,
             "mismatch_punches_df_path":mismatch_punches_df_path,
-            "total_punches_df_path":total_punches_df_path,
-            "actual_punches_df_path":actual_punches_df_path}
+            "total_punches_punches_df_path":total_punches_punches_df_path,
+            "actual_punches_df_path":actual_punches_df_path,
+            "duplicate_punches_df_path":duplicate_punches_df_path,
+            "total_pytotpun_punches_df_path":total_pytotpun_punches_df_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -148,8 +154,8 @@ def test_db_len():
     # muster_table = DBF(muster_dbf, load=False) 
     # muster_num_records = len(muster_table)
 
-    holmast_dbf = table_paths['holmast_dbf_path']
-    holmast_num_records = dbf_2_df(filename=holmast_dbf,type="len")
+    holmast_csv = table_paths['holmast_csv_path']
+    holmast_num_records = dbf_2_df(filename=holmast_csv,type="csv")
     # holmast_table = DBF(holmast_dbf, load=False) 
     # holmast_num_records = len(holmast_table)
 
@@ -158,8 +164,8 @@ def test_db_len():
     # punches_table = DBF(punches_dbf, load=False) 
     # punches_num_records = len(punches_table)
 
-    lvform_dbf = table_paths['lvform_dbf_path']
-    lvform_num_records = dbf_2_df(filename=punches_dbf,type="len")
+    lvform_csv = table_paths['lvform_csv_path']
+    lvform_num_records = dbf_2_df(filename=lvform_csv,type="csv")
     # lvform_table = DBF(lvform_dbf, load=False) 
     # lvform_num_records = len(lvform_table)
 
@@ -250,7 +256,7 @@ def punch_mismatch():
     if pytotpun_num_records !=0:
         print('********* Making pymismatch as punches **********')
         punches_df = pytotpun_df
-        pytotpun_df.to_csv(table_paths['total_punches_df_path'],index=False)
+        pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     elif pytotpun_num_records == 0:
         punches_df['PDATE'] = pd.to_datetime(punches_df['PDATE'])
         punches_df['PDATE'] = punches_df['PDATE'].dt.date
@@ -261,23 +267,14 @@ def punch_mismatch():
             record = {field: row[field] for field in table.field_names if field in punches_df.columns}
             table.append(record)
         table.close()
-        punches_df.to_csv(table_paths['total_punches_df_path'],index=False)
+        punches_df.to_csv(table_paths['total_punches_punches_df_path'],index=False)
 
-    # Identify columns to be considered for dropping duplicates (excluding 'MODE' and 'MCIP')
-    columns_to_consider = punches_df.columns.difference(['TOKEN', 'COMCODE', 'PDTIME', 'MODE', 'MCIP'])
+    # Removing duplicates based on TOKEN, COMCODE, and PDTIME
+    unique_punches_df = punches_df.drop_duplicates(subset=["TOKEN", "COMCODE", "PDTIME"], keep='first')
 
-    # Find the duplicated rows based on the specified columns, keeping only the first occurrence
-    duplicates = punches_df[punches_df.duplicated(subset=columns_to_consider, keep='first')]
-
-    # Drop duplicates from the DataFrame based on the specified columns, keeping only the first occurrence
-    punches_df = punches_df.drop_duplicates(subset=columns_to_consider, keep='first')
-
-    # Display the number of rows after dropping duplicates
-    print(f"After dropping duplicates: {punches_df.shape[0]}")
-
-    # Display the rows that were removed
-    print("Rows that were removed:")
-    print(duplicates)
+    # Identifying and creating a DataFrame for the removed rows
+    duplicates_removed_df = punches_df[~punches_df.index.isin(unique_punches_df.index)]
+    duplicates_removed_df.to_csv(table_paths['duplicate_punches_df_path'],index=False)
 
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
@@ -286,11 +283,11 @@ def punch_mismatch():
         gsel_datetime = pd.to_datetime(gseldate)
         print(gseldate, type(gseldate))
 
-    out_of_range_punches_df = punches_df[~((punches_df['PDATE'] >= start_date) & (punches_df['PDATE'] <= end_date))]
+    out_of_range_punches_df = unique_punches_df[~((unique_punches_df['PDATE'] >= start_date) & (unique_punches_df['PDATE'] <= end_date))]
     out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
 
-    merged_df = punches_df.merge(out_of_range_punches_df, on=['TOKEN','PDTIME','MODE'], how='inner')
-    punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
+    merged_df = unique_punches_df.merge(out_of_range_punches_df, on=['TOKEN','PDTIME','MODE'], how='inner')
+    punches_df = unique_punches_df[~unique_punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
     print(f"After removing out of range punches: {punches_df.shape[0]}")
 
     merged_orphaned_df = punches_df.merge(muster_df, on='TOKEN', how='outer', indicator=True)

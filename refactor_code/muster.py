@@ -3,6 +3,7 @@ from dbfread import DBF
 from test import file_paths
 from datetime import timedelta
 import dbf
+from dbf_handler import dbf_2_df
 
 def safe_parse_date(date_str):
     try:
@@ -35,13 +36,13 @@ def generate_muster(db_check_flag):
     if lvform_flag !=0:
         lvform_df = pd.read_csv(table_paths['lvform_csv_path'])
         lvform_df = lvform_df[['empcode','lv_st','lv_type']]
-        lvform_df['lv_st'] = pd.to_datetime(lvform_df['lv_st'])
+        lvform_df['lv_st'] = pd.to_datetime(lvform_df['lv_st'],dayfirst=True)
         lvform_df['lv_st'] = lvform_df['lv_st'].dt.date
         lvform_df = lvform_df[(lvform_df['lv_st'] >= start_date) & (lvform_df['lv_st'] <= end_date)]
 
     if holmast_flag !=0:
         holidays_df = pd.read_csv(table_paths['holmast_csv_path'])
-        holidays_df['hol_dt'] = pd.to_datetime(holidays_df['hol_dt'])
+        holidays_df['hol_dt'] = pd.to_datetime(holidays_df['hol_dt'],dayfirst=True)
         holidays_df['hol_dt'] = holidays_df['hol_dt'].dt.date
         filtered_holidays_df = holidays_df[(holidays_df['hol_dt'] >= start_date) & (holidays_df['hol_dt'] <= end_date)]
 
@@ -93,8 +94,8 @@ def generate_muster(db_check_flag):
 
     if holmast_flag !=0:
         for index, row in filtered_holidays_df.iterrows():
-            holiday_date = row['HOL_DT']
-            hol_type = row['HOL_TYPE']
+            holiday_date = row['hol_dt']
+            hol_type = row['hol_type']
             final_muster_df.loc[final_muster_df['PDATE'].dt.date == holiday_date, 'MUSTER_STATUS'] = hol_type
 
     for token, dates in token_dates.items():
@@ -102,9 +103,9 @@ def generate_muster(db_check_flag):
 
     if lvform_flag !=0:
         for index, row in lvform_df.iterrows():
-            lv_start = row['LV_ST']
-            lv_type = row['LV_TYPE']
-            empcode = row['EMPCODE']
+            lv_start = row['lv_st']
+            lv_type = row['lv_type']
+            empcode = row['empcode']
 
             final_muster_df.loc[(final_muster_df['PDATE'].dt.date == lv_start) & (final_muster_df['EMPCODE']==empcode), 'MUSTER_STATUS'] = lv_type
 

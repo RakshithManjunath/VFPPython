@@ -115,7 +115,8 @@ delete_old_files(table_paths['out_of_range_punches_path'])
 
 delete_old_files(table_paths['passed_punches_df_path'])
 delete_old_files(table_paths['mismatch_punches_df_path'])
-delete_old_files(table_paths['total_punches_df_path'])
+delete_old_files(table_paths['total_punches_punches_df_path'])
+delete_old_files(table_paths['total_pytotpun_punches_df_path'])
 delete_old_files(table_paths['actual_punches_df_path'])
 
 delete_old_files(table_paths['mismatch_report_path'])
