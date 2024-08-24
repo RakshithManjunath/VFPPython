@@ -11,7 +11,7 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    # root_folder = 'D:/Glentest/'
+    # root_folder = 'D:/PARSON/'
     # dated_dbf = root_folder + 'dated.dbf'
     # muster_dbf = root_folder + 'muster.dbf'
     # holmast_dbf = root_folder + 'holmast.dbf'
@@ -270,7 +270,7 @@ def punch_mismatch():
         punches_df.to_csv(table_paths['total_punches_punches_df_path'],index=False)
 
     # Removing duplicates based on TOKEN, COMCODE, and PDTIME
-    unique_punches_df = punches_df.drop_duplicates(subset=["TOKEN", "COMCODE", "PDTIME"], keep='first')
+    unique_punches_df = punches_df.drop_duplicates(subset=["TOKEN", "PDTIME"], keep='first')
 
     # Identifying and creating a DataFrame for the removed rows
     duplicates_removed_df = punches_df[~punches_df.index.isin(unique_punches_df.index)]
@@ -315,7 +315,7 @@ def punch_mismatch():
     passed = pd.DataFrame(columns=punches_df.columns)
     mismatch = pd.DataFrame(columns=punches_df.columns)
 
-    for _, group in punches_df.groupby(['TOKEN', 'COMCODE']):
+    for _, group in punches_df.groupby(['TOKEN']):
         if group.iloc[0]['MODE'] == 0 and check_pattern(group):
             passed = pd.concat([passed, group])
         else:
