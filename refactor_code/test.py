@@ -255,6 +255,7 @@ def punch_mismatch():
     pytotpun_num_records = len(pytotpun_df)
     if pytotpun_num_records !=0:
         print('********* Making pymismatch as punches **********')
+        pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
         pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     elif pytotpun_num_records == 0:
@@ -322,7 +323,7 @@ def punch_mismatch():
             mismatch = pd.concat([mismatch, group])
 
     # Add a new column 'Remarks'
-    mismatch['Remarks'] = ""
+    mismatch['REMARKS'] = ""
 
     # Function to check the pattern and stop after the first break
     def check_pattern_stop_on_first_break_v4(df):
@@ -339,15 +340,14 @@ def punch_mismatch():
             # Check if the pattern is broken
             if current_mode == previous_mode and not pattern_broken:
                 # Directly update the 'Remarks' column in the same row
-                df.iloc[i, df.columns.get_loc('Remarks')] = df.iloc[i]['PDTIME']
+                df.iloc[i, df.columns.get_loc('REMARKS')] = df.iloc[i]['PDTIME']
                 pattern_broken = True  # Stop further checks after the first break
                 break
                 
         return df
 
     # Apply the pattern check for each TOKEN
-    result_df_final_corrected_v4 = mismatch.groupby('TOKEN', group_keys=False).apply(check_pattern_stop_on_first_break_v4)
-    result_df_final_corrected_v4.to_csv('mismatch_check_results_corrected.csv',index=False)
+    mismatch = mismatch.groupby('TOKEN', group_keys=False).apply(check_pattern_stop_on_first_break_v4)
 
     result_passed_df = pd.merge(passed, muster_df, on='TOKEN', how='inner')
     print("result passed df cols: ",result_passed_df.columns)
@@ -373,7 +373,7 @@ def punch_mismatch():
 
     # mismatch_for_editing = pd.concat([mismatch_punches_df,result_gseldate_exclude_df,day_one_out_excluded_df], ignore_index=True)
     mismatch_for_editing_merged_with_muster = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
-    mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','MODE','PDTIME']]
+    mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','MODE']]
     mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
 
     mismatch_for_editing_with_name['MODE_0_COUNT'] = mismatch_for_editing_with_name.groupby('TOKEN')['MODE'].transform(lambda x: (x == 0).sum())
@@ -390,11 +390,26 @@ def punch_mismatch():
 
     mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop(columns={'MODE'})
     mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop_duplicates()
+
+    mismatch['REMARKS'].replace('', pd.NA, inplace=True)
+
+    # Filter the mismatch_check_results dataframe for rows that have remarks
+    remarked_results = mismatch[mismatch['REMARKS'].notnull()]
+
+
+    # Now substitute the remark for the corresponding TOKEN in mismatch_report
+    for _, row in remarked_results.iterrows():
+        token = row['TOKEN']
+        remark = row['REMARKS']
+        
+        # Substitute the remark in the mismatch_report dataframe
+        mismatch_for_editing_with_name.loc[mismatch_for_editing_with_name['TOKEN'] == token, 'REMARKS'] = remark
     if len(mismatch_for_editing_with_name) !=0:
         mismatch_for_editing_with_name.to_csv(table_paths['mismatch_report_path'],index=False)
 
 
     pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
+    pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
     pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
