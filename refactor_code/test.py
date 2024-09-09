@@ -11,86 +11,90 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    # root_folder = 'D:/JPDSHIFT_Makali/'
-    # dated_dbf = root_folder + 'dated.dbf'
-    # muster_dbf = root_folder + 'muster.dbf'
-    # holmast_dbf = root_folder + 'holmast.dbf'
-    # punches_dbf = root_folder + 'punches.dbf'
-    # lvform_dbf = root_folder + 'lvform.dbf'
-    # exe = False
-    # gsel_date_path = root_folder + 'gseldate.txt'
-    # g_option_path = root_folder + 'g_option.txt'
-    # wdtest_path = root_folder + 'wdtest.csv'
-    # wdtest_server_path = root_folder + 'wdtest_server.csv'
-    # wdtest_client_path = root_folder + 'wdtest_client.csv'
-    # passed_csv_path = root_folder + 'passed.csv'
-    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    # holmast_csv_path = root_folder + 'holiday.csv'
-    # lvform_csv_path = root_folder + 'leave.csv'
-    # pytotpun_dbf_path = root_folder + 'pytotpun.dbf'
-    # mismatch_report_path = root_folder + 'mismatch_report.csv'
-    # passed_punches_df_path = root_folder + 'passed_punches.csv'
-    # mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
-    # total_punches_punches_df_path = root_folder + 'total_punches_punches.csv'
-    # total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
-    # actual_punches_df_path = root_folder + 'actual_punches.csv'
-    # duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
+    root_folder = 'D:/JPDSHIFT_Makali/'
+    dated_dbf = root_folder + 'dated.dbf'
+    muster_dbf = root_folder + 'muster.dbf'
+    holmast_dbf = root_folder + 'holmast.dbf'
+    punches_dbf = root_folder + 'punches.dbf'
+    lvform_dbf = root_folder + 'lvform.dbf'
+    exe = False
+    gsel_date_path = root_folder + 'gseldate.txt'
+    g_option_path = root_folder + 'g_option.txt'
+    wdtest_path = root_folder + 'wdtest.csv'
+    wdtest_server_path = root_folder + 'wdtest_server.csv'
+    wdtest_client_path = root_folder + 'wdtest_client.csv'
+    passed_csv_path = root_folder + 'passed.csv'
+    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    holmast_csv_path = root_folder + 'holiday.csv'
+    lvform_csv_path = root_folder + 'leave.csv'
+    pytotpun_dbf_path = root_folder + 'pytotpun.dbf'
+    mismatch_report_path = root_folder + 'mismatch_report.csv'
+    passed_punches_df_path = root_folder + 'passed_punches.csv'
+    mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
+    total_punches_punches_df_path = root_folder + 'total_punches_punches.csv'
+    total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
+    actual_punches_df_path = root_folder + 'actual_punches.csv'
+    duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
 
-    # empty_tables_path = root_folder + 'empty_tables.txt'
-    # mismatch_csv_path = root_folder + 'mismatch.csv'
+    empty_tables_path = root_folder + 'empty_tables.txt'
+    mismatch_csv_path = root_folder + 'mismatch.csv'
 
-    # muster_csv_path = root_folder + 'muster.csv'
+    muster_csv_path = root_folder + 'muster.csv'
 
-    # punch_csv_path = root_folder + 'punch.csv'
-    # final_csv_path = root_folder + 'final.csv'
+    punch_csv_path = root_folder + 'punch.csv'
+    final_csv_path = root_folder + 'final.csv'
 
-    # payroll_input_path = root_folder + 'payroll_input.csv'
+    payroll_input_path = root_folder + 'payroll_input.csv'
 
-    # muster_role_path = root_folder + 'muster_role.csv'
+    muster_role_path = root_folder + 'muster_role.csv'
 
-    # gsel_date_excluded_punches_len_df_path = root_folder + 'gseldate_punches.csv'
+    gsel_date_excluded_punches_len_df_path = root_folder + 'gseldate_punches.csv'
+
+    dayone_out_path = root_folder + 'dayone_out_punches.csv'
 
     ## exe
-    root_folder = './'
-    dated_dbf = './dated.dbf'
-    muster_dbf = './muster.dbf'
-    holmast_dbf = './holmast.dbf'
-    punches_dbf = './punches.dbf'
-    lvform_dbf = './lvform.dbf'
-    exe = True
-    gsel_date_path = './gseldate.txt'
-    g_option_path = './g_option.txt'
-    wdtest_path = './wdtest.csv'
-    wdtest_server_path = './wdtest_server.csv'
-    wdtest_client_path = './wdtest_client.csv'
-    passed_csv_path = './passed.csv'
-    orphaned_punches_path = './orphaned_punches.csv'
-    out_of_range_punches_path = './out_of_range_punches.csv'
-    holmast_csv_path = './holiday.csv'
-    lvform_csv_path = './leave.csv'
-    pytotpun_dbf_path = './pytotpun.dbf'
-    mismatch_report_path = './mismatch_report.csv'
-    passed_punches_df_path = './passed_punches.csv'
-    mismatch_punches_df_path = './mismatch_punches.csv'
-    total_punches_punches_df_path = './total_punches_punches.csv'
-    total_pytotpun_punches_df_path = './total_pytotpun_punches.csv'
-    actual_punches_df_path = './actual_punches.csv'
-    duplicate_punches_df_path = './duplicates_punches.csv'
+    # root_folder = './'
+    # dated_dbf = './dated.dbf'
+    # muster_dbf = './muster.dbf'
+    # holmast_dbf = './holmast.dbf'
+    # punches_dbf = './punches.dbf'
+    # lvform_dbf = './lvform.dbf'
+    # exe = True
+    # gsel_date_path = './gseldate.txt'
+    # g_option_path = './g_option.txt'
+    # wdtest_path = './wdtest.csv'
+    # wdtest_server_path = './wdtest_server.csv'
+    # wdtest_client_path = './wdtest_client.csv'
+    # passed_csv_path = './passed.csv'
+    # orphaned_punches_path = './orphaned_punches.csv'
+    # out_of_range_punches_path = './out_of_range_punches.csv'
+    # holmast_csv_path = './holiday.csv'
+    # lvform_csv_path = './leave.csv'
+    # pytotpun_dbf_path = './pytotpun.dbf'
+    # mismatch_report_path = './mismatch_report.csv'
+    # passed_punches_df_path = './passed_punches.csv'
+    # mismatch_punches_df_path = './mismatch_punches.csv'
+    # total_punches_punches_df_path = './total_punches_punches.csv'
+    # total_pytotpun_punches_df_path = './total_pytotpun_punches.csv'
+    # actual_punches_df_path = './actual_punches.csv'
+    # duplicate_punches_df_path = './duplicates_punches.csv'
 
-    empty_tables_path = './empty_tables.txt'
-    mismatch_csv_path = './mismatch.csv'
+    # empty_tables_path = './empty_tables.txt'
+    # mismatch_csv_path = './mismatch.csv'
 
-    muster_csv_path = './muster.csv'
+    # muster_csv_path = './muster.csv'
 
-    punch_csv_path = './punch.csv'
-    final_csv_path = './final.csv'
+    # punch_csv_path = './punch.csv'
+    # final_csv_path = './final.csv'
 
-    payroll_input_path = './payroll_input.csv'
+    # payroll_input_path = './payroll_input.csv'
 
-    muster_role_path = './muster_role.csv'
+    # muster_role_path = './muster_role.csv'
 
-    gsel_date_excluded_punches_len_df_path = './gseldate_punches.csv'
+    # gsel_date_excluded_punches_len_df_path = './gseldate_punches.csv'
+
+    # dayone_out_path = './dayone_out_punches.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -128,7 +132,8 @@ def file_paths():
             "actual_punches_df_path":actual_punches_df_path,
             "duplicate_punches_df_path":duplicate_punches_df_path,
             "total_pytotpun_punches_df_path":total_pytotpun_punches_df_path,
-            "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path}
+            "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
+            "dayone_out_path":dayone_out_path}
 
 def check_ankura():
     table_paths = file_paths()
@@ -309,6 +314,22 @@ def punch_mismatch():
     print(f"After removing orphaned punches: {punches_df.shape[0]}")
     punches_df.to_csv(table_paths['actual_punches_df_path'],index=False)
 
+    dayone_out = pd.DataFrame(columns=punches_df.columns)
+
+    for token, token_group in punches_df.groupby('TOKEN'):
+        first_pdate = token_group['PDATE'].min()
+        first_day_rows = token_group[token_group['PDATE'] == first_pdate]
+        first_day_rows = first_day_rows.sort_values(by='PDTIME')
+        mode_1_rows = first_day_rows[first_day_rows['MODE'] == 1]
+        
+        if len(mode_1_rows) >= 1:
+            first_mode_1_row = mode_1_rows.iloc[0]
+            dayone_out = pd.concat([dayone_out, first_day_rows[first_day_rows.index == first_mode_1_row.name]])
+            punches_df = punches_df.drop(first_mode_1_row.name)
+
+    if len(dayone_out) !=0:
+        dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
+
     # if start_date <= gsel_datetime <= end_date:
     #     gseldate_exclude_df = punches_df[punches_df['PDTIME'].dt.date == gsel_datetime.date()]
     #     # gseldate_exclude_df = gseldate_exclude_df[gseldate_exclude_df['MODE'] == 0]
@@ -325,6 +346,8 @@ def punch_mismatch():
     #     print(f"After removing gsel date excluded punches: {punches_df.shape[0]}")
 
     # Function to check the 0101... pattern and count equality
+
+    mismatch_status = True
 
     def check_pattern(group):
         modes = group['MODE'].tolist()
@@ -363,8 +386,9 @@ def punch_mismatch():
                 print(f"Last MODE is not 0 for TOKEN: {group.iloc[0]['TOKEN']}")
                 mismatch = pd.concat([mismatch, group])
 
-    # Save the gseldate_punches to CSV
-    gseldate_punches.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'], index=False)
+    if len(gseldate_punches) !=0:
+        # Save the gseldate_punches to CSV
+        gseldate_punches.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'], index=False)
 
     # Add a new column 'Remarks'
     mismatch['REMARKS'] = ""
@@ -393,6 +417,11 @@ def punch_mismatch():
     # Apply the pattern check for each TOKEN
     mismatch = mismatch.groupby('TOKEN', group_keys=False).apply(check_pattern_stop_on_first_break_v4)
 
+    if len(mismatch) ==0:
+
+        columns = ['TOKEN','COMCODE','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','REMARKS']
+        mismatch = pd.DataFrame(columns=columns)
+
     result_passed_df = pd.merge(passed, muster_df, on='TOKEN', how='inner')
     print("result passed df cols: ",result_passed_df.columns)
 
@@ -414,43 +443,42 @@ def punch_mismatch():
     mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
 
-    mismatch_status = True
+    if len(mismatch) !=0:
+        mismatch_status = True
+        mismatch_for_editing_merged_with_muster = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
+        mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','MODE']]
+        mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
 
-    # mismatch_for_editing = pd.concat([mismatch_punches_df,result_gseldate_exclude_df,day_one_out_excluded_df], ignore_index=True)
-    mismatch_for_editing_merged_with_muster = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
-    mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','MODE']]
-    mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
+        mismatch_for_editing_with_name['MODE_0_COUNT'] = mismatch_for_editing_with_name.groupby('TOKEN')['MODE'].transform(lambda x: (x == 0).sum())
+        mismatch_for_editing_with_name['MODE_1_COUNT'] = mismatch_for_editing_with_name.groupby('TOKEN')['MODE'].transform(lambda x: (x == 1).sum())
 
-    mismatch_for_editing_with_name['MODE_0_COUNT'] = mismatch_for_editing_with_name.groupby('TOKEN')['MODE'].transform(lambda x: (x == 0).sum())
-    mismatch_for_editing_with_name['MODE_1_COUNT'] = mismatch_for_editing_with_name.groupby('TOKEN')['MODE'].transform(lambda x: (x == 1).sum())
-
-    def determine_remarks_new(row):
-        if row['MODE_0_COUNT'] == row['MODE_1_COUNT']:
+        def determine_remarks_new(row):
+            # if row['MODE_0_COUNT'] == row['MODE_1_COUNT']:
             first_record = mismatch_for_editing_with_name[mismatch_for_editing_with_name['TOKEN'] == row['TOKEN']].iloc[0]
             if first_record['MODE'] == 1:
                 return "day one out"
-        return ""
+            # return ""
 
-    mismatch_for_editing_with_name['REMARKS'] = mismatch_for_editing_with_name.apply(determine_remarks_new, axis=1)
+        mismatch_for_editing_with_name['REMARKS'] = mismatch_for_editing_with_name.apply(determine_remarks_new, axis=1)
 
-    mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop(columns={'MODE'})
-    mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop_duplicates()
+        mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop(columns={'MODE'})
+        mismatch_for_editing_with_name = mismatch_for_editing_with_name.drop_duplicates()
 
-    mismatch['REMARKS'].replace('', pd.NA, inplace=True)
+        mismatch['REMARKS'].replace('', pd.NA, inplace=True)
 
-    # Filter the mismatch_check_results dataframe for rows that have remarks
-    remarked_results = mismatch[mismatch['REMARKS'].notnull()]
+        # Filter the mismatch_check_results dataframe for rows that have remarks
+        remarked_results = mismatch[mismatch['REMARKS'].notnull()]
 
 
-    # Now substitute the remark for the corresponding TOKEN in mismatch_report
-    for _, row in remarked_results.iterrows():
-        token = row['TOKEN']
-        remark = row['REMARKS']
-        
-        # Substitute the remark in the mismatch_report dataframe
-        mismatch_for_editing_with_name.loc[mismatch_for_editing_with_name['TOKEN'] == token, 'REMARKS'] = remark
-    if len(mismatch_for_editing_with_name) !=0:
-        mismatch_for_editing_with_name.to_csv(table_paths['mismatch_report_path'],index=False)
+        # Now substitute the remark for the corresponding TOKEN in mismatch_report
+        for _, row in remarked_results.iterrows():
+            token = row['TOKEN']
+            remark = row['REMARKS']
+            
+            # Substitute the remark in the mismatch_report dataframe
+            mismatch_for_editing_with_name.loc[mismatch_for_editing_with_name['TOKEN'] == token, 'REMARKS'] = remark
+        if len(mismatch_for_editing_with_name) !=0:
+            mismatch_for_editing_with_name.to_csv(table_paths['mismatch_report_path'],index=False)
 
 
     pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
