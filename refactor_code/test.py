@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 import shutil
 from dbf import Table,READ_WRITE
+from datetime import datetime
 
 def file_paths():
     ## common paths
@@ -240,6 +241,11 @@ def delete_old_files(file_path):
         print(f'{file_path} does not exist')
 
 def punch_mismatch():
+    gseldate_flag_file_exists = False
+    gseldate_flag_date_range = False
+    gseldate_flag_saved_date_lesser = False
+    gseldate_flag_saved_and_curr_gseldate_equality = False
+
     table_paths = file_paths()
     dated_dbf = table_paths['dated_dbf_path']
     dated_table = DBF(dated_dbf, load=True) 
@@ -259,6 +265,13 @@ def punch_mismatch():
     punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     print(f"Before dropping duplicates: {punches_df.shape[0]}")
 
+    with open(table_paths['gsel_date_path']) as file:
+        file_contents = file.readlines()
+        file_contents = [string.strip('\n') for string in file_contents]
+        gseldate = file_contents[0]
+        gsel_datetime = pd.to_datetime(gseldate)
+        print(gseldate, type(gseldate))
+
     pytotpun_dbf = table_paths['pytotpun_dbf_path']
     pytotpun_table = DBF(pytotpun_dbf, load=True)
     pytotpun_df = pd.DataFrame(iter(pytotpun_table))
@@ -267,6 +280,43 @@ def punch_mismatch():
         print('********* Making pymismatch as punches **********')
         pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
+        if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
+            gseldate_flag_file_exists = True
+            print("gsel date file exists: ",gseldate_flag_file_exists)
+            saved_gseldate_data = pd.read_csv(table_paths['gsel_date_excluded_punches_len_df_path'])
+            print('saved gseldate: ',saved_gseldate_data)
+
+            saved_gseldate_data['PDATE'] = pd.to_datetime(saved_gseldate_data['PDATE'])
+            saved_gseldate_data['PDATE'] = saved_gseldate_data['PDATE'].dt.date
+
+            print('saved gseldate', saved_gseldate_data)
+
+            print('saved gseldate: ',saved_gseldate_data['PDATE'].iloc[0])
+            print('gseldate: ',gseldate)
+
+            if saved_gseldate_data['PDATE'].iloc[0] < gsel_datetime:
+                gseldate_flag_saved_date_lesser = True
+                print('saved gseldate is lesser than gseldate', gseldate_flag_saved_date_lesser)
+
+                pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
+                pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
+
+                
+
+
+            elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
+                gseldate_flag_saved_and_curr_gseldate_equality = True
+                print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
+
+            if start_date <= saved_gseldate_data['PDATE'].iloc[0] <= end_date:
+                gseldate_flag_date_range = True
+                print("gsel date date range: ",gseldate_flag_date_range)
+                print(f"The date falls within the range.")
+            else:
+                print(f"The date does not fall within the range.")
+
+        punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
+        
         pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     elif pytotpun_num_records == 0:
         punches_df['PDATE'] = pd.to_datetime(punches_df['PDATE'])
@@ -287,12 +337,8 @@ def punch_mismatch():
     duplicates_removed_df = punches_df[~punches_df.index.isin(unique_punches_df.index)]
     duplicates_removed_df.to_csv(table_paths['duplicate_punches_df_path'],index=False)
 
-    with open(table_paths['gsel_date_path']) as file:
-        file_contents = file.readlines()
-        file_contents = [string.strip('\n') for string in file_contents]
-        gseldate = file_contents[0]
-        gsel_datetime = pd.to_datetime(gseldate)
-        print(gseldate, type(gseldate))
+
+    print('unique punches: ',type(unique_punches_df['PDATE']))
 
     out_of_range_punches_df = unique_punches_df[~((unique_punches_df['PDATE'] >= start_date) & (unique_punches_df['PDATE'] <= end_date))]
     out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
@@ -316,19 +362,55 @@ def punch_mismatch():
 
     dayone_out = pd.DataFrame(columns=punches_df.columns)
 
+    # Iterate through the grouped tokens
     for token, token_group in punches_df.groupby('TOKEN'):
-        first_pdate = token_group['PDATE'].min()
-        first_day_rows = token_group[token_group['PDATE'] == first_pdate]
-        first_day_rows = first_day_rows.sort_values(by='PDTIME')
-        mode_1_rows = first_day_rows[first_day_rows['MODE'] == 1]
+        # Ensure PDATE is in datetime format
+        token_group['PDATE'] = pd.to_datetime(token_group['PDATE'])
         
-        if len(mode_1_rows) >= 1:
-            first_mode_1_row = mode_1_rows.iloc[0]
-            dayone_out = pd.concat([dayone_out, first_day_rows[first_day_rows.index == first_mode_1_row.name]])
-            punches_df = punches_df.drop(first_mode_1_row.name)
+        ### First Logic: Check if the first day of the month has MODE == 1 ###
+        # Filter for the first day of the month
+        first_day_of_month = token_group[token_group['PDATE'].dt.day == 1]
+        
+        if not first_day_of_month.empty:
+            # Sort rows from the 1st day by PDTIME
+            first_day_rows = first_day_of_month.sort_values(by='PDTIME')
+            
+            # Filter for rows where MODE == 1
+            mode_1_rows = first_day_rows[first_day_rows['MODE'] == 1]
+            
+            if len(mode_1_rows) > 1:
+                # Select the first MODE == 1 row
+                first_mode_1_row = mode_1_rows.iloc[0]
+                
+                # Append this row to dayone_out
+                dayone_out = pd.concat([dayone_out, first_day_rows[first_day_rows.index == first_mode_1_row.name]])
+                
+                # Remove the first MODE == 1 row from punches_df, only if it exists
+                if first_mode_1_row.name in punches_df.index:
+                    punches_df = punches_df.drop(index=first_mode_1_row.name)
+                else:
+                    print(f"Index {first_mode_1_row.name} not found in punches_df during first logic.")
 
-    if len(dayone_out) !=0:
-        dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
+        ### Second Logic: Check if the first row for the token has MODE == 1 ###
+        # Sort the token group by PDATE and PDTIME to ensure we get the first chronological row
+        token_group = token_group.sort_values(by=['PDATE', 'PDTIME'])
+        
+        # Check if the first row in the token group has MODE == 1
+        if token_group.iloc[0]['MODE'] == 1:
+            # Select the first row with MODE == 1 (which is already the first row in this case)
+            first_mode_1_row = token_group.iloc[0]
+            
+            # Append this row to dayone_out if it hasn't already been added
+            if first_mode_1_row.name not in dayone_out.index:
+                dayone_out = pd.concat([dayone_out, token_group[token_group.index == first_mode_1_row.name]])
+            
+            # Remove the first MODE == 1 row from punches_df, only if it exists
+            if first_mode_1_row.name in punches_df.index:
+                punches_df = punches_df.drop(index=first_mode_1_row.name)
+            else:
+                print(f"Index {first_mode_1_row.name} not found in punches_df during second logic.")
+
+    dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
 
     # if start_date <= gsel_datetime <= end_date:
     #     gseldate_exclude_df = punches_df[punches_df['PDTIME'].dt.date == gsel_datetime.date()]
@@ -393,11 +475,16 @@ def punch_mismatch():
     # Add a new column 'Remarks'
     mismatch['REMARKS'] = ""
 
-    # Function to check the pattern and stop after the first break
-    def check_pattern_stop_on_first_break_v4(df):
+    def check_pattern_stop_on_first_break_v6(df):
         mode_counts = {0: 0, 1: 0}
         pattern_broken = False
+        unmatched_zero_row = None  # Track if we encounter an unmatched mode=0 and its row index
         
+        # If there is only one row and mode=0, it's automatically a pattern break
+        if len(df) == 1 and df.iloc[0]['MODE'] == 0:
+            df.iloc[0, df.columns.get_loc('REMARKS')] = df.iloc[0]['PDTIME']
+            return df
+
         for i in range(1, len(df)):
             current_mode = df.iloc[i]['MODE']
             previous_mode = df.iloc[i-1]['MODE']
@@ -405,17 +492,34 @@ def punch_mismatch():
             # Update the mode counts
             mode_counts[current_mode] += 1
             
-            # Check if the pattern is broken
+            # Check if there is a mode=0 without a matching mode=1
+            if current_mode == 1:
+                mode_counts[0] = 0  # Reset the count when mode=1 is encountered
+                unmatched_zero_row = None  # Reset unmatched_zero_row because mode=1 is found
+            elif current_mode == 0:
+                unmatched_zero_row = i  # Record the index of the unmatched mode=0
+            
+            # If mode=0 doesn't have a corresponding mode=1
+            if unmatched_zero_row is not None and mode_counts[1] == 0 and not pattern_broken:
+                df.iloc[unmatched_zero_row, df.columns.get_loc('REMARKS')] = df.iloc[unmatched_zero_row]['PDTIME']
+                pattern_broken = True  # Stop further checks after the first break
+                break
+            
+            # Check if the pattern is broken (two consecutive equal modes)
             if current_mode == previous_mode and not pattern_broken:
-                # Directly update the 'Remarks' column in the same row
                 df.iloc[i, df.columns.get_loc('REMARKS')] = df.iloc[i]['PDTIME']
                 pattern_broken = True  # Stop further checks after the first break
                 break
-                
+        
+        # Final check if there's any unmatched mode=0 without a corresponding mode=1 at the end
+        if not pattern_broken and unmatched_zero_row is not None:
+            df.iloc[unmatched_zero_row, df.columns.get_loc('REMARKS')] = df.iloc[unmatched_zero_row]['PDTIME']
+        
         return df
 
     # Apply the pattern check for each TOKEN
-    mismatch = mismatch.groupby('TOKEN', group_keys=False).apply(check_pattern_stop_on_first_break_v4)
+    mismatch = mismatch.groupby('TOKEN', group_keys=False).apply(check_pattern_stop_on_first_break_v6)
+
 
     if len(mismatch) ==0:
 
