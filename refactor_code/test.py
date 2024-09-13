@@ -12,90 +12,90 @@ def file_paths():
     new_txt_path = './new.txt'
 
     ## normal execution
-    root_folder = 'D:/JPDSHIFT_Makali/'
-    dated_dbf = root_folder + 'dated.dbf'
-    muster_dbf = root_folder + 'muster.dbf'
-    holmast_dbf = root_folder + 'holmast.dbf'
-    punches_dbf = root_folder + 'punches.dbf'
-    lvform_dbf = root_folder + 'lvform.dbf'
-    exe = False
-    gsel_date_path = root_folder + 'gseldate.txt'
-    g_option_path = root_folder + 'g_option.txt'
-    wdtest_path = root_folder + 'wdtest.csv'
-    wdtest_server_path = root_folder + 'wdtest_server.csv'
-    wdtest_client_path = root_folder + 'wdtest_client.csv'
-    passed_csv_path = root_folder + 'passed.csv'
-    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
-    holmast_csv_path = root_folder + 'holiday.csv'
-    lvform_csv_path = root_folder + 'leave.csv'
-    pytotpun_dbf_path = root_folder + 'pytotpun.dbf'
-    mismatch_report_path = root_folder + 'mismatch_report.csv'
-    passed_punches_df_path = root_folder + 'passed_punches.csv'
-    mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
-    total_punches_punches_df_path = root_folder + 'total_punches_punches.csv'
-    total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
-    actual_punches_df_path = root_folder + 'actual_punches.csv'
-    duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
+    # root_folder = 'D:/JPDSHIFT_Makali/'
+    # dated_dbf = root_folder + 'dated.dbf'
+    # muster_dbf = root_folder + 'muster.dbf'
+    # holmast_dbf = root_folder + 'holmast.dbf'
+    # punches_dbf = root_folder + 'punches.dbf'
+    # lvform_dbf = root_folder + 'lvform.dbf'
+    # exe = False
+    # gsel_date_path = root_folder + 'gseldate.txt'
+    # g_option_path = root_folder + 'g_option.txt'
+    # wdtest_path = root_folder + 'wdtest.csv'
+    # wdtest_server_path = root_folder + 'wdtest_server.csv'
+    # wdtest_client_path = root_folder + 'wdtest_client.csv'
+    # passed_csv_path = root_folder + 'passed.csv'
+    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    # holmast_csv_path = root_folder + 'holiday.csv'
+    # lvform_csv_path = root_folder + 'leave.csv'
+    # pytotpun_dbf_path = root_folder + 'pytotpun.dbf'
+    # mismatch_report_path = root_folder + 'mismatch_report.csv'
+    # passed_punches_df_path = root_folder + 'passed_punches.csv'
+    # mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
+    # total_punches_punches_df_path = root_folder + 'total_punches_punches.csv'
+    # total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
+    # actual_punches_df_path = root_folder + 'actual_punches.csv'
+    # duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
 
-    empty_tables_path = root_folder + 'empty_tables.txt'
-    mismatch_csv_path = root_folder + 'mismatch.csv'
+    # empty_tables_path = root_folder + 'empty_tables.txt'
+    # mismatch_csv_path = root_folder + 'mismatch.csv'
 
-    muster_csv_path = root_folder + 'muster.csv'
+    # muster_csv_path = root_folder + 'muster.csv'
 
-    punch_csv_path = root_folder + 'punch.csv'
-    final_csv_path = root_folder + 'final.csv'
+    # punch_csv_path = root_folder + 'punch.csv'
+    # final_csv_path = root_folder + 'final.csv'
 
-    payroll_input_path = root_folder + 'payroll_input.csv'
+    # payroll_input_path = root_folder + 'payroll_input.csv'
 
-    muster_role_path = root_folder + 'muster_role.csv'
+    # muster_role_path = root_folder + 'muster_role.csv'
 
-    gsel_date_excluded_punches_len_df_path = root_folder + 'gseldate_punches.csv'
+    # gsel_date_excluded_punches_len_df_path = root_folder + 'gseldate_punches.csv'
 
-    dayone_out_path = root_folder + 'dayone_out_punches.csv'
+    # dayone_out_path = root_folder + 'dayone_out_punches.csv'
 
     ## exe
-    # root_folder = './'
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = './gseldate.txt'
-    # g_option_path = './g_option.txt'
-    # wdtest_path = './wdtest.csv'
-    # wdtest_server_path = './wdtest_server.csv'
-    # wdtest_client_path = './wdtest_client.csv'
-    # passed_csv_path = './passed.csv'
-    # orphaned_punches_path = './orphaned_punches.csv'
-    # out_of_range_punches_path = './out_of_range_punches.csv'
-    # holmast_csv_path = './holiday.csv'
-    # lvform_csv_path = './leave.csv'
-    # pytotpun_dbf_path = './pytotpun.dbf'
-    # mismatch_report_path = './mismatch_report.csv'
-    # passed_punches_df_path = './passed_punches.csv'
-    # mismatch_punches_df_path = './mismatch_punches.csv'
-    # total_punches_punches_df_path = './total_punches_punches.csv'
-    # total_pytotpun_punches_df_path = './total_pytotpun_punches.csv'
-    # actual_punches_df_path = './actual_punches.csv'
-    # duplicate_punches_df_path = './duplicates_punches.csv'
+    root_folder = './'
+    dated_dbf = './dated.dbf'
+    muster_dbf = './muster.dbf'
+    holmast_dbf = './holmast.dbf'
+    punches_dbf = './punches.dbf'
+    lvform_dbf = './lvform.dbf'
+    exe = True
+    gsel_date_path = './gseldate.txt'
+    g_option_path = './g_option.txt'
+    wdtest_path = './wdtest.csv'
+    wdtest_server_path = './wdtest_server.csv'
+    wdtest_client_path = './wdtest_client.csv'
+    passed_csv_path = './passed.csv'
+    orphaned_punches_path = './orphaned_punches.csv'
+    out_of_range_punches_path = './out_of_range_punches.csv'
+    holmast_csv_path = './holiday.csv'
+    lvform_csv_path = './leave.csv'
+    pytotpun_dbf_path = './pytotpun.dbf'
+    mismatch_report_path = './mismatch_report.csv'
+    passed_punches_df_path = './passed_punches.csv'
+    mismatch_punches_df_path = './mismatch_punches.csv'
+    total_punches_punches_df_path = './total_punches_punches.csv'
+    total_pytotpun_punches_df_path = './total_pytotpun_punches.csv'
+    actual_punches_df_path = './actual_punches.csv'
+    duplicate_punches_df_path = './duplicates_punches.csv'
 
-    # empty_tables_path = './empty_tables.txt'
-    # mismatch_csv_path = './mismatch.csv'
+    empty_tables_path = './empty_tables.txt'
+    mismatch_csv_path = './mismatch.csv'
 
-    # muster_csv_path = './muster.csv'
+    muster_csv_path = './muster.csv'
 
-    # punch_csv_path = './punch.csv'
-    # final_csv_path = './final.csv'
+    punch_csv_path = './punch.csv'
+    final_csv_path = './final.csv'
 
-    # payroll_input_path = './payroll_input.csv'
+    payroll_input_path = './payroll_input.csv'
 
-    # muster_role_path = './muster_role.csv'
+    muster_role_path = './muster_role.csv'
 
-    # gsel_date_excluded_punches_len_df_path = './gseldate_punches.csv'
+    gsel_date_excluded_punches_len_df_path = './gseldate_punches.csv'
 
-    # dayone_out_path = './dayone_out_punches.csv'
+    dayone_out_path = './dayone_out_punches.csv'
 
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
@@ -280,11 +280,13 @@ def punch_mismatch():
         print('********* Making pymismatch as punches **********')
         pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
+        pytotpun_df.to_csv('old_pytotpun.csv',index=False)
         if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
             gseldate_flag_file_exists = True
             print("gsel date file exists: ",gseldate_flag_file_exists)
-            saved_gseldate_data = pd.read_csv(table_paths['gsel_date_excluded_punches_len_df_path'])
+            saved_gseldate_data = pd.read_csv(table_paths['gsel_date_excluded_punches_len_df_path'],dtype={'COMCODE': str})
             print('saved gseldate: ',saved_gseldate_data)
+            saved_gseldate_data.to_csv('old_gseldate.csv',index=False)
 
             saved_gseldate_data['PDATE'] = pd.to_datetime(saved_gseldate_data['PDATE'])
             saved_gseldate_data['PDATE'] = saved_gseldate_data['PDATE'].dt.date
@@ -301,8 +303,20 @@ def punch_mismatch():
                 pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
                 pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
 
-                
+                pytotpun_keys = set(zip(pytotpun_df['TOKEN'], pytotpun_df['PDATE']))
 
+                saved_gseldate_data['in_pytotpun'] = saved_gseldate_data.apply(
+                    lambda row: (row['TOKEN'], row['PDATE']) in pytotpun_keys, axis=1
+                )
+
+                rows_to_move = saved_gseldate_data[~saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
+
+                pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move], ignore_index=True)
+                pytotpun_df_new.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+                pytotpun_df_new.to_csv('new_pytotpun.csv',index=False)
+
+                saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
+                saved_gseldate_data.to_csv('new_gseldate.csv',index=False)
 
             elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
                 gseldate_flag_saved_and_curr_gseldate_equality = True
