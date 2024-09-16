@@ -295,7 +295,7 @@ def punch_mismatch():
                 print('saved gseldate: ',saved_gseldate_data['PDTIME'].iloc[0])
                 print('gseldate: ',gseldate)
 
-                if saved_gseldate_data['PDTIME'].iloc[0] < gsel_datetime:
+                if saved_gseldate_data['PDTIME'].iloc[0] <= gsel_datetime:
                     gseldate_flag_saved_date_lesser = True
                     print('saved gseldate is lesser than gseldate', gseldate_flag_saved_date_lesser)
 
@@ -321,25 +321,19 @@ def punch_mismatch():
 
                     punches_df = pytotpun_df_new
 
-                    # table = Table(table_paths['pytotpun_dbf_path'])
-                    # table.open(mode=READ_WRITE)
-                    # table.zap()
+                # elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
+                #     gseldate_flag_saved_and_curr_gseldate_equality = True
+                #     print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
 
-                    # for index, row in pytotpun_df_new.iterrows():
-                    #     record = {field: row[field] for field in table.field_names if field in pytotpun_df_new.columns}
-                    #     table.append(record)
-                    # table.close()
-
-            # elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
-            #     gseldate_flag_saved_and_curr_gseldate_equality = True
-            #     print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
-
-            # if start_date <= saved_gseldate_data['PDATE'].iloc[0] <= end_date:
-            #     gseldate_flag_date_range = True
-            #     print("gsel date date range: ",gseldate_flag_date_range)
-            #     print(f"The date falls within the range.")
-            # else:
-            #     print(f"The date does not fall within the range.")
+                if start_date <= saved_gseldate_data['PDATE'].iloc[0] <= end_date:
+                    gseldate_flag_date_range = True
+                    print("gsel date date range: ",gseldate_flag_date_range)
+                    print(f"The date falls within the range.")
+                else:
+                    print(f"The date does not fall within the range.")
+                    if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
+                        os.remove(table_paths['gsel_date_excluded_punches_len_df_path'])
+                        print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} has been deleted.")
 
         punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
         
