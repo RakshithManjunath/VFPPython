@@ -325,7 +325,14 @@ def punch_mismatch():
                 #     gseldate_flag_saved_and_curr_gseldate_equality = True
                 #     print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
 
-                if start_date <= saved_gseldate_data['PDATE'].iloc[0] <= end_date:
+                print("start date: ",type(start_date),start_date)
+                print("end date: ",type(end_date))
+                print('saved gseldate: ',type(saved_gseldate_data['PDATE'].iloc[0]))
+
+                saved_gseldate_data_date_format = datetime.strptime(saved_gseldate_data['PDATE'].iloc[0], "%Y-%m-%d").date()
+                print(saved_gseldate_data_date_format)
+
+                if start_date <= saved_gseldate_data_date_format <= end_date:
                     gseldate_flag_date_range = True
                     print("gsel date date range: ",gseldate_flag_date_range)
                     print(f"The date falls within the range.")
