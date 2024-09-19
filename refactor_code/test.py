@@ -245,6 +245,7 @@ def punch_mismatch():
     gseldate_flag_date_range = False
     gseldate_flag_saved_date_lesser = False
     gseldate_flag_saved_and_curr_gseldate_equality = False
+    saved_gseldate_exists = False
 
     table_paths = file_paths()
     dated_dbf = table_paths['dated_dbf_path']
@@ -285,6 +286,7 @@ def punch_mismatch():
             print("gsel date file exists: ",gseldate_flag_file_exists)
             saved_gseldate_data = pd.read_csv(table_paths['gsel_date_excluded_punches_len_df_path'],dtype={'COMCODE': str})
             print('saved gseldate: ',saved_gseldate_data)
+            print("len of saved gseldate",len(saved_gseldate_data))
             if len(saved_gseldate_data) !=0:
 
                 saved_gseldate_data['PDTIME'] = pd.to_datetime(saved_gseldate_data['PDTIME'])
@@ -314,6 +316,10 @@ def punch_mismatch():
                     pytotpun_df_new.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
                     saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
+                    if len(saved_gseldate_data) !=0:
+                        saved_gseldate_exists = True
+                        saved_gseldate_data_date_format = datetime.strptime(saved_gseldate_data['PDATE'].iloc[0], "%Y-%m-%d").date()
+                        print(saved_gseldate_data_date_format)
                     saved_gseldate_data.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'],index=False)
 
                     pytotpun_df_new['PDATE'] = pd.to_datetime(pytotpun_df_new['PDATE'])
@@ -321,26 +327,21 @@ def punch_mismatch():
 
                     punches_df = pytotpun_df_new
 
-                # elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
-                #     gseldate_flag_saved_and_curr_gseldate_equality = True
-                #     print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
+                    # elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
+                    #     gseldate_flag_saved_and_curr_gseldate_equality = True
+                    #     print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
 
-                print("start date: ",type(start_date),start_date)
-                print("end date: ",type(end_date))
-                print('saved gseldate: ',type(saved_gseldate_data['PDATE'].iloc[0]))
+                if saved_gseldate_exists == True:
 
-                saved_gseldate_data_date_format = datetime.strptime(saved_gseldate_data['PDATE'].iloc[0], "%Y-%m-%d").date()
-                print(saved_gseldate_data_date_format)
-
-                if start_date <= saved_gseldate_data_date_format <= end_date:
-                    gseldate_flag_date_range = True
-                    print("gsel date date range: ",gseldate_flag_date_range)
-                    print(f"The date falls within the range.")
-                else:
-                    print(f"The date does not fall within the range.")
-                    if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
-                        os.remove(table_paths['gsel_date_excluded_punches_len_df_path'])
-                        print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} has been deleted.")
+                    if start_date <= saved_gseldate_data_date_format <= end_date:
+                        gseldate_flag_date_range = True
+                        print("gsel date date range: ",gseldate_flag_date_range)
+                        print(f"The date falls within the range.")
+                    else:
+                        print(f"The date does not fall within the range.")
+                        if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
+                            os.remove(table_paths['gsel_date_excluded_punches_len_df_path'])
+                            print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} has been deleted.")
 
         punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
         
