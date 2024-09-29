@@ -1,5 +1,6 @@
 import pandas as pd
 from test import file_paths
+from py_paths import g_current_path
 
 def ot_to_minutes(ot_str):
     if pd.isna(ot_str) or ot_str == '' or ot_str == '00:00':
@@ -19,8 +20,8 @@ def minutes_to_hours_minutes_rounded(minutes):
     rounded_hours = round(total_hours)
     return float('{:.1f}'.format(rounded_hours))
 
-def pay_input(merged_df):
-    table_paths = file_paths()
+def pay_input(merged_df,g_current_path):
+    table_paths = file_paths(g_current_path)
     columns_to_drop = ['PDATE', 'STATUS', 'INTIME', 'OUTTIME', 'TOTALTIME', 'REMARKS', 'TOT_MM']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 

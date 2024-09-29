@@ -5,8 +5,10 @@ from payroll_input import pay_input
 import pandas as pd
 import sys
 import os
+from dbf_handler import dbf_2_df
+from py_paths import g_current_path
 
-def create_final_csv(muster_df, punch_df,mismatch_df):
+def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
     merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
 
@@ -14,7 +16,7 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
     merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
 
-    table_paths = file_paths()
+    table_paths = file_paths(g_current_path)
 
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
@@ -88,15 +90,16 @@ def create_final_csv(muster_df, punch_df,mismatch_df):
     # Save to CSV
     merged_df.to_csv(table_paths['final_csv_path'], index=False)
 
-    pay_input(merged_df)
+    pay_input(merged_df,g_current_path)
 
 # try:
-check_ankura()
 pg_data_flag, process_mode_flag, current_path = check_database()
+g_current_path = current_path
+print("g current path: ",g_current_path)
+check_ankura(g_current_path)
 print(pg_data_flag, type(pg_data_flag))
 print(process_mode_flag, type(process_mode_flag))
-print("current path: ",current_path)
-table_paths = file_paths()
+table_paths = file_paths(g_current_path)
 create_new_csvs(table_paths['muster_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','DATE_JOIN','DATE_LEAVE','PDATE','MUSTER_STATUS'],
                 table_paths['punch_csv_path'],['TOKEN','PDATE','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4','INTIME','OUTTIME','TOTALTIME','REMARKS','PUNCH_STATUS'],
                 table_paths['final_csv_path'],['TOKEN','COMCODE','NAME','EMPCODE','EMP_DEPT','DEPT_NAME','EMP_DESI','DESI_NAME','PDATE','STATUS','INTIME','OUTTIME','TOTALTIME','REMARKS','TOT_AB','TOT_WO','TOT_PR','TOT_PH','TOT_LV'])
@@ -129,18 +132,18 @@ if pg_data_flag == True:
         create_wdtest(server_df,client_df)
 if process_mode_flag == True:
     print("process data is true")        
-    db_check_flag = test_db_len()
+    db_check_flag = test_db_len(g_current_path)
     print("db check flag: ",db_check_flag)
     if db_check_flag !=0:
-        mismatch_flag,mismatch_df,processed_punches = punch_mismatch()
+        mismatch_flag,mismatch_df,processed_punches = punch_mismatch(g_current_path)
         print("punch check flag: ",mismatch_flag)
         print("mismatch df: ",mismatch_df)
         print("mismatch flag: ",mismatch_flag)
 
         if isinstance(db_check_flag, dict) and mismatch_flag == 1:
-            muster_df,muster_del_filtered = generate_muster(db_check_flag)
-            punch_df = generate_punch(processed_punches,muster_del_filtered)
-            create_final_csv(muster_df, punch_df,mismatch_df)
+            muster_df,muster_del_filtered = generate_muster(db_check_flag,g_current_path)
+            punch_df = generate_punch(processed_punches,muster_del_filtered,g_current_path)
+            create_final_csv(muster_df, punch_df,mismatch_df,g_current_path)
             
         else:
             print("Either check empty_tables.txt or mismatch.csv")

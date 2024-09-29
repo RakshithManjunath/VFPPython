@@ -4,6 +4,7 @@ from test import file_paths
 from datetime import timedelta
 import dbf
 from dbf_handler import dbf_2_df
+from py_paths import g_current_path
 
 def safe_parse_date(date_str):
     try:
@@ -11,8 +12,8 @@ def safe_parse_date(date_str):
     except (ValueError, TypeError):
         return None
 
-def generate_muster(db_check_flag):
-    table_paths = file_paths()
+def generate_muster(db_check_flag,g_current_path):
+    table_paths = file_paths(g_current_path)
     
     holmast_flag = None
     lvform_flag = None

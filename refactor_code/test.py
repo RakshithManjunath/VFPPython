@@ -6,13 +6,14 @@ import requests
 import shutil
 from dbf import Table,READ_WRITE
 from datetime import datetime
+from py_paths import g_first_path
 
-def file_paths():
+def file_paths(curr_path):
     ## common paths
     new_txt_path = './new.txt'
 
     ## normal execution
-    root_folder = 'D:/Glentest/'
+    root_folder = curr_path
     dated_dbf = root_folder + 'dated.dbf'
     muster_dbf = root_folder + 'muster.dbf'
     holmast_dbf = root_folder + 'holmast.dbf'
@@ -55,7 +56,7 @@ def file_paths():
     dayone_out_path = root_folder + 'dayone_out_punches.csv'
 
     ## exe
-    # root_folder = './'
+    # root_folder = curr_path
     # dated_dbf = './dated.dbf'
     # muster_dbf = './muster.dbf'
     # holmast_dbf = './holmast.dbf'
@@ -136,8 +137,8 @@ def file_paths():
             "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
             "dayone_out_path":dayone_out_path}
 
-def check_ankura():
-    table_paths = file_paths()
+def check_ankura(g_current_path):
+    table_paths = file_paths(g_current_path)
     print("Exe status: ", table_paths['exe'])
     if table_paths['exe'] == True:
         with open(table_paths['new_txt_path']) as f:
@@ -146,15 +147,15 @@ def check_ankura():
         os.remove(table_paths['new_txt_path'])
 
 def check_database():
-    table_paths = file_paths()
-    with open(table_paths['g_option_path']) as file:
+    with open(g_first_path + "g_option.txt") as file:
         file_contents = file.readlines()
         file_contents = [string.strip('\n') for string in file_contents]
         g_process_mode,g_pgdata = int(file_contents[1]), int(file_contents[0])
     return g_pgdata, g_process_mode, file_contents[-1]
 
-def test_db_len():
-    table_paths = file_paths()
+def test_db_len(g_current_path):
+    table_paths = file_paths(g_current_path)
+    print(table_paths['dated_dbf_path'])
     dated_dbf = table_paths['dated_dbf_path']
     dated_num_records = dbf_2_df(filename=dated_dbf,type="len")
     # dated_table = DBF(dated_dbf, load=False) 
@@ -240,14 +241,14 @@ def delete_old_files(file_path):
     else:
         print(f'{file_path} does not exist')
 
-def punch_mismatch():
+def punch_mismatch(g_current_path):
     gseldate_flag_file_exists = False
     gseldate_flag_date_range = False
     gseldate_flag_saved_date_lesser = False
     gseldate_flag_saved_and_curr_gseldate_equality = False
     saved_gseldate_exists = False
 
-    table_paths = file_paths()
+    table_paths = file_paths(g_current_path)
     dated_dbf = table_paths['dated_dbf_path']
     dated_table = DBF(dated_dbf, load=True) 
     start_date = dated_table.records[0]['MUFRDATE']

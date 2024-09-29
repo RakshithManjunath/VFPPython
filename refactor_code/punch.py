@@ -4,9 +4,10 @@ from dbfread import DBF
 from datetime import datetime
 from datetime import timedelta
 from test import file_paths
+from py_paths import g_current_path
 
-def generate_punch(punches_df,muster_df):
-    table_paths = file_paths()
+def generate_punch(punches_df,muster_df,g_current_path):
+    table_paths = file_paths(g_current_path)
 
     with open(table_paths['gsel_date_path']) as file:
         file_contents = file.readlines()
