@@ -55,6 +55,8 @@ def file_paths(curr_path):
 
     dayone_out_path = root_folder + 'dayone_out_punches.csv'
 
+    temp_gseldate_path = root_folder + 'temp_gsledate_pytotpun.csv'
+
     ## exe
     # root_folder = curr_path
     # dated_dbf = './dated.dbf'
@@ -135,7 +137,8 @@ def file_paths(curr_path):
             "duplicate_punches_df_path":duplicate_punches_df_path,
             "total_pytotpun_punches_df_path":total_pytotpun_punches_df_path,
             "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
-            "dayone_out_path":dayone_out_path}
+            "dayone_out_path":dayone_out_path,
+            "temp_gseldate_path":temp_gseldate_path}
 
 def check_ankura(g_current_path):
     table_paths = file_paths(g_current_path)
@@ -291,15 +294,14 @@ def punch_mismatch(g_current_path):
             print("len of saved gseldate",len(saved_gseldate_data))
             if len(saved_gseldate_data) !=0:
 
-                saved_gseldate_data['PDTIME'] = pd.to_datetime(saved_gseldate_data['PDTIME'])
                 # saved_gseldate_data['PDTIME'] = saved_gseldate_data['PDATE'].dt.date
 
                 print('saved gseldate', saved_gseldate_data)
 
-                print('saved gseldate: ',saved_gseldate_data['PDTIME'].iloc[0])
-                print('gseldate: ',gseldate)
+                print('saved gseldate: ',saved_gseldate_data['PDATE'].iloc[0], type(saved_gseldate_data['PDATE'].iloc[0]))
+                print('gseldate: ',gseldate, type(gseldate))
 
-                if saved_gseldate_data['PDTIME'].iloc[0] <= gsel_datetime:
+                if saved_gseldate_data['PDATE'].iloc[0] <= gseldate:
                     gseldate_flag_saved_date_lesser = True
                     print('saved gseldate is lesser than gseldate', gseldate_flag_saved_date_lesser)
 
@@ -316,6 +318,7 @@ def punch_mismatch(g_current_path):
 
                     pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move], ignore_index=True)
                     pytotpun_df_new.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+                    pytotpun_df_new.to_csv(table_paths['temp_gseldate_path'],index=False)
 
                     saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
 
@@ -644,8 +647,8 @@ def punch_mismatch(g_current_path):
     else:
         return 1,None
     
-def server_collect_db_data():
-    table_paths = file_paths()
+def server_collect_db_data(g_first_path):
+    table_paths = file_paths(g_first_path)
     with open(table_paths['g_option_path']) as file:
         data_collect_flag = file.readline().strip()
         data_process_flag = file.readline().strip()
@@ -686,8 +689,8 @@ def server_collect_db_data():
     
     return df
 
-def client_collect_db_data():
-    table_paths = file_paths()
+def client_collect_db_data(g_first_path):
+    table_paths = file_paths(g_first_path)
     punches_dbf = table_paths['punches_dbf_path']
     punches_table = DBF(punches_dbf, load=False)
     punches_num_records = len(punches_table)
@@ -714,8 +717,8 @@ def client_collect_db_data():
 
         return punches_df
 
-def create_wdtest(server_df,client_df):
-    table_paths = file_paths()
+def create_wdtest(server_df,client_df,g_first_path):
+    table_paths = file_paths(g_first_path)
     result_df = pd.merge(server_df, client_df, on=['TOKEN', 'PDATE', 'PDTIME', 'MCIP'], how='left', indicator=True)
     print("server", server_df.dtypes)
     print("client", client_df.dtypes)

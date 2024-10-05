@@ -6,7 +6,7 @@ import pandas as pd
 import sys
 import os
 from dbf_handler import dbf_2_df
-from py_paths import g_current_path
+from py_paths import g_current_path,g_first_path
 
 def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
@@ -126,10 +126,10 @@ delete_old_files(table_paths['actual_punches_df_path'])
 delete_old_files(table_paths['mismatch_report_path'])
 if pg_data_flag == True:
     print("pg data is true!")
-    server_df = server_collect_db_data()
-    client_df = client_collect_db_data()
+    server_df = server_collect_db_data(g_first_path)
+    client_df = client_collect_db_data(g_first_path)
     if client_df is not None:
-        create_wdtest(server_df,client_df)
+        create_wdtest(server_df,client_df,g_first_path)
 if process_mode_flag == True:
     print("process data is true")        
     db_check_flag = test_db_len(g_current_path)
