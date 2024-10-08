@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 import shutil
 from dbf import Table,READ_WRITE
-from datetime import datetime
+from datetime import datetime,timedelta
 from py_paths import g_first_path
 
 def file_paths(curr_path):
@@ -286,6 +286,7 @@ def punch_mismatch(g_current_path):
         print('********* Making pymismatch as punches **********')
         pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
+        pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
         if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
             gseldate_flag_file_exists = True
             print("gsel date file exists: ",gseldate_flag_file_exists)
@@ -308,29 +309,33 @@ def punch_mismatch(g_current_path):
                     pytotpun_df['PDTIME'] = pd.to_datetime(pytotpun_df['PDTIME'])
                     # pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
 
-                    pytotpun_keys = set(zip(pytotpun_df['TOKEN'], pytotpun_df['PDTIME']))
+                    pytotpun_keys = set(zip(pytotpun_df['TOKEN'], pytotpun_df['PDATE']))
 
                     saved_gseldate_data['in_pytotpun'] = saved_gseldate_data.apply(
-                        lambda row: (row['TOKEN'], row['PDTIME']) in pytotpun_keys, axis=1
+                        lambda row: (row['TOKEN'], row['PDATE']) in pytotpun_keys, axis=1
                     )
 
                     rows_to_move = saved_gseldate_data[~saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
 
                     pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move], ignore_index=True)
-                    pytotpun_df_new.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-                    pytotpun_df_new.to_csv(table_paths['temp_gseldate_path'],index=False)
+                    pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE', 'MODE'], inplace=True)
+                    # pytotpun_df_new.to_csv(table_paths['temp_gseldate_path'],index=False)
 
                     saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
+                    print("saved gseldate data",len(saved_gseldate_data))
+                    if len(saved_gseldate_data)!=0:
 
-                    saved_gseldate_exists = True
-                    saved_gseldate_data_date_format = datetime.strptime(saved_gseldate_data['PDATE'].iloc[0], "%Y-%m-%d").date()
-                    print(saved_gseldate_data_date_format)
-                    saved_gseldate_data.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'],index=False)
+                        saved_gseldate_exists = True
+                        saved_gseldate_data_date_format = datetime.strptime(saved_gseldate_data['PDATE'].iloc[0], "%Y-%m-%d").date()
+                        print(saved_gseldate_data_date_format)
+                        saved_gseldate_data.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'],index=False)
 
                     pytotpun_df_new['PDATE'] = pd.to_datetime(pytotpun_df_new['PDATE'])
                     pytotpun_df_new['PDATE'] = pytotpun_df_new['PDATE'].dt.date
 
                     punches_df = pytotpun_df_new
+
+                    print("******************* punches len *****************", len(punches_df))
 
                     # elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
                     #     gseldate_flag_saved_and_curr_gseldate_equality = True
@@ -348,9 +353,9 @@ def punch_mismatch(g_current_path):
                             os.remove(table_paths['gsel_date_excluded_punches_len_df_path'])
                             print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} has been deleted.")
 
-        punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
+        punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%Y-%m-%d %H:%M:%S').dt.round('S')
         
-        pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
+        # pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     elif pytotpun_num_records == 0:
         if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
             os.remove(table_paths['gsel_date_excluded_punches_len_df_path'])
@@ -621,8 +626,15 @@ def punch_mismatch(g_current_path):
         if len(mismatch_for_editing_with_name) !=0:
             mismatch_for_editing_with_name.to_csv(table_paths['mismatch_report_path'],index=False)
 
+    gseldate_date_format = datetime.strptime(gseldate, "%Y-%m-%d")
+    next_day = gseldate_date_format + timedelta(days=1)
+    is_last_day = gseldate_date_format.month != next_day.month
 
-    pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
+    if is_last_day == True:
+        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches], ignore_index=True)
+        pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
+    else:
+        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
