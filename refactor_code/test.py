@@ -632,9 +632,9 @@ def punch_mismatch(g_current_path):
 
     if is_last_day == True:
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches], ignore_index=True)
-        pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     else:
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
+    pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
