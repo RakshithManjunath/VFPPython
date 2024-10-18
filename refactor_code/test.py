@@ -57,6 +57,8 @@ def file_paths(curr_path):
 
     temp_gseldate_path = root_folder + 'temp_gsledate_pytotpun.csv'
 
+    next_month_day_one_path = root_folder + 'next_month_day_one_final.csv'
+
     ## exe
     # root_folder = curr_path
     # dated_dbf = './dated.dbf'
@@ -138,7 +140,9 @@ def file_paths(curr_path):
             "total_pytotpun_punches_df_path":total_pytotpun_punches_df_path,
             "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
             "dayone_out_path":dayone_out_path,
-            "temp_gseldate_path":temp_gseldate_path}
+            "temp_gseldate_path":temp_gseldate_path,
+            
+            "next_month_day_one_path":next_month_day_one_path}
 
 def check_ankura(g_current_path):
     table_paths = file_paths(g_current_path)
@@ -256,6 +260,8 @@ def punch_mismatch(g_current_path):
     dated_table = DBF(dated_dbf, load=True) 
     start_date = dated_table.records[0]['MUFRDATE']
     end_date = dated_table.records[0]['MUTODATE']
+    print("*************** start date: *************", start_date)
+    print("*************** end date: *************", end_date)
 
     muster_dbf = table_paths['muster_dbf_path']
     muster_table = DBF(muster_dbf, load=True)
@@ -382,7 +388,13 @@ def punch_mismatch(g_current_path):
     duplicates_removed_df.to_csv(table_paths['duplicate_punches_df_path'],index=False)
 
 
-    out_of_range_punches_df = unique_punches_df[~((unique_punches_df['PDATE'] >= start_date) & (unique_punches_df['PDATE'] <= end_date))]
+    out_of_range_punches_df = unique_punches_df[
+        ~(
+            (unique_punches_df['PDATE'] >= start_date) &
+            (unique_punches_df['PDATE'] <= end_date)
+        ) | 
+        (unique_punches_df['PDATE'] > gsel_datetime)
+    ]
     out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
 
     merged_df = unique_punches_df.merge(out_of_range_punches_df, on=['TOKEN','PDTIME','MODE'], how='inner')
@@ -495,6 +507,7 @@ def punch_mismatch(g_current_path):
                 print(f"Checking TOKEN: {group.iloc[0]['TOKEN']}, Last MODE is 0")
                 if group.iloc[-1]['PDTIME'].date() == gsel_datetime.date():
                     print(f"Last row date matches gsel_datetime for TOKEN: {group.iloc[0]['TOKEN']}")
+                    print(f"Last row date: {group.iloc[-1]['PDATE']}")
                     # Move the last row to gseldate_punches
                     gseldate_punches = pd.concat([gseldate_punches, group.iloc[[-1]]])
                     # Re-check the pattern for the remaining rows
@@ -508,6 +521,7 @@ def punch_mismatch(g_current_path):
                     mismatch = pd.concat([mismatch, group])
             else:
                 print(f"Last MODE is not 0 for TOKEN: {group.iloc[0]['TOKEN']}")
+                print(f"Last MODE is : {group.iloc[0]['MODE']}")
                 mismatch = pd.concat([mismatch, group])
 
     if len(gseldate_punches) !=0:
@@ -631,7 +645,45 @@ def punch_mismatch(g_current_path):
     is_last_day = gseldate_date_format.month != next_day.month
 
     if is_last_day == True:
-        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches], ignore_index=True)
+
+        punches_dbf_new_month = table_paths['punches_dbf_path']
+        punches_table_new_month = DBF(punches_dbf_new_month, load=True)
+        print("punches dbf length: ",len(punches_table_new_month))
+        punches_df_new_month = pd.DataFrame(iter(punches_table_new_month))
+
+        # Step 1: Convert 'end_date' (string) to datetime
+        end_date_dt = pd.to_datetime(end_date)
+
+        # Step 2: Add one day to 'end_date'
+        end_date_plus1 = end_date_dt + pd.Timedelta(days=1)
+
+        # Step 3: Convert 'end_date_plus1' to date (since 'PDATE' is a date)
+        end_date_plus1_date = end_date_plus1.date()
+
+        # Step 4: Ensure 'PDATE' in the DataFrame is in date format
+        # If 'PDATE' is already in date format, you can skip this step
+        punches_df_new_month['PDATE'] = pd.to_datetime(punches_df_new_month['PDATE']).dt.date
+
+        # Step 5: Filter the DataFrame where 'PDATE' equals 'end_date_plus1_date'
+        filtered_df = punches_df_new_month[
+            punches_df_new_month['PDATE'] == end_date_plus1_date
+        ]
+        filtered_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        filtered_df.to_csv('filtered_df.csv',index=False)
+
+        day_one_next_month = filtered_df[filtered_df["MODE"] == 1]
+        day_one_next_month.to_csv('day_one_next_month.csv',index=False)
+
+        df_first_occurrence = day_one_next_month.drop_duplicates(subset=["TOKEN"], keep="first")
+        df_first_occurrence.to_csv('df_first_occurance.csv',index=False)
+        
+
+        matching_tokens = gseldate_punches[gseldate_punches["MODE"] == 0]["TOKEN"]
+        next_month_day_one_final = df_first_occurrence[(df_first_occurrence["TOKEN"].isin(matching_tokens)) & (df_first_occurrence["MODE"] == 1)]
+
+        next_month_day_one_final.to_csv(table_paths['next_month_day_one_path'],index=False)
+
+        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,next_month_day_one_final], ignore_index=True)
     else:
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
