@@ -274,7 +274,8 @@ def punch_mismatch(g_current_path):
     punches_df = pd.DataFrame(iter(punches_table))
 
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+    # punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     print(f"Before dropping duplicates: {punches_df.shape[0]}")
 
     with open(table_paths['gsel_date_path']) as file:
@@ -290,7 +291,8 @@ def punch_mismatch(g_current_path):
     pytotpun_num_records = len(pytotpun_df)
     if pytotpun_num_records !=0:
         print('********* Making pymismatch as punches **********')
-        pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
         pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
         if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
@@ -324,7 +326,8 @@ def punch_mismatch(g_current_path):
                     rows_to_move = saved_gseldate_data[~saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
 
                     pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move], ignore_index=True)
-                    pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE', 'MODE'], inplace=True)
+                    pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE'], inplace=True)
+                    # pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE', 'MODE'], inplace=True)
                     # pytotpun_df_new.to_csv(table_paths['temp_gseldate_path'],index=False)
 
                     saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
@@ -497,31 +500,31 @@ def punch_mismatch(g_current_path):
     mismatch = pd.DataFrame(columns=punches_df.columns)
     gseldate_punches = pd.DataFrame(columns=punches_df.columns)
 
+    # punches_df.to_csv('just_to_check.csv',index=False)
+
     for _, group in punches_df.groupby(['TOKEN']):
         # Check if the pattern is correct
         if group.iloc[0]['MODE'] == 0 and check_pattern(group):
             passed = pd.concat([passed, group])
         else:
-            # Check if the last mode is 0 and if it corresponds to the specific date
+            # Check if the last mode is 0 and if it matches the specific date
             if group.iloc[-1]['MODE'] == 0:
-                print(f"Checking TOKEN: {group.iloc[0]['TOKEN']}, Last MODE is 0")
                 if group.iloc[-1]['PDTIME'].date() == gsel_datetime.date():
-                    print(f"Last row date matches gsel_datetime for TOKEN: {group.iloc[0]['TOKEN']}")
-                    print(f"Last row date: {group.iloc[-1]['PDATE']}")
                     # Move the last row to gseldate_punches
                     gseldate_punches = pd.concat([gseldate_punches, group.iloc[[-1]]])
-                    # Re-check the pattern for the remaining rows
-                    remaining_group = group.iloc[:-1]
-                    if check_pattern(remaining_group):
-                        passed = pd.concat([passed, remaining_group])
+                    
+                    # Recheck only if more than one row remains
+                    if len(group) > 1:
+                        remaining_group = group.iloc[:-1]
+                        if check_pattern(remaining_group):
+                            passed = pd.concat([passed, remaining_group])
+                        else:
+                            mismatch = pd.concat([mismatch, remaining_group])
                     else:
-                        mismatch = pd.concat([mismatch, remaining_group])
+                        passed = pd.concat([passed, group.iloc[:-1]])
                 else:
-                    print(f"Date does not match gsel_datetime for TOKEN: {group.iloc[0]['TOKEN']}")
                     mismatch = pd.concat([mismatch, group])
             else:
-                print(f"Last MODE is not 0 for TOKEN: {group.iloc[0]['TOKEN']}")
-                print(f"Last MODE is : {group.iloc[0]['MODE']}")
                 mismatch = pd.concat([mismatch, group])
 
     if len(gseldate_punches) !=0:
@@ -587,7 +590,8 @@ def punch_mismatch(g_current_path):
 
     passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
     passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
-    passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+    # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
 
     mismatch['PDTIME'] = pd.to_datetime(mismatch['PDTIME'])
@@ -600,7 +604,8 @@ def punch_mismatch(g_current_path):
 
     mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
     mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
-    mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+    # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
 
     if len(mismatch) !=0:
@@ -646,48 +651,87 @@ def punch_mismatch(g_current_path):
 
     if is_last_day == True:
 
-        punches_dbf_new_month = table_paths['punches_dbf_path']
+        # Load the DBF file into a DataFrame
+        punches_dbf_new_month = table_paths['punches_dbf_path']  
         punches_table_new_month = DBF(punches_dbf_new_month, load=True)
-        print("punches dbf length: ",len(punches_table_new_month))
+        print("punches dbf length: ", len(punches_table_new_month))
         punches_df_new_month = pd.DataFrame(iter(punches_table_new_month))
 
-        # Step 1: Convert 'end_date' (string) to datetime
+        # Convert 'end_date' to datetime and add one day
         end_date_dt = pd.to_datetime(end_date)
-
-        # Step 2: Add one day to 'end_date'
         end_date_plus1 = end_date_dt + pd.Timedelta(days=1)
 
-        # Step 3: Convert 'end_date_plus1' to date (since 'PDATE' is a date)
+        # Convert the dates to date format for filtering
+        end_date_date = end_date_dt.date()
         end_date_plus1_date = end_date_plus1.date()
 
-        # Step 4: Ensure 'PDATE' in the DataFrame is in date format
-        # If 'PDATE' is already in date format, you can skip this step
+        # Ensure 'PDATE' column is in date format
         punches_df_new_month['PDATE'] = pd.to_datetime(punches_df_new_month['PDATE']).dt.date
 
-        # Step 5: Filter the DataFrame where 'PDATE' equals 'end_date_plus1_date'
+        # Filter the DataFrame by 'PDATE'
         filtered_df = punches_df_new_month[
-            punches_df_new_month['PDATE'] == end_date_plus1_date
+            punches_df_new_month['PDATE'].between(end_date_date, end_date_plus1_date)
         ]
-        filtered_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-        filtered_df.to_csv('filtered_df.csv',index=False)
 
-        day_one_next_month = filtered_df[filtered_df["MODE"] == 1]
-        day_one_next_month.to_csv('day_one_next_month.csv',index=False)
+        # Sort by TOKEN, PDATE, and PDTIME to ensure the order of events is maintained
+        filtered_df.sort_values(by=['TOKEN', 'PDATE', 'PDTIME'], inplace=True)
 
-        df_first_occurrence = day_one_next_month.drop_duplicates(subset=["TOKEN"], keep="first")
-        df_first_occurrence.to_csv('df_first_occurance.csv',index=False)
+        # Initialize an empty list to store matching records
+        matching_records = []
+
+        # Iterate through each TOKEN group to find consecutive MODE=0 (end_date) and MODE=1 (end_date_plus1_date)
+        for token, group in filtered_df.groupby('TOKEN'):
+            group = group.reset_index(drop=True)  # Reset index for easier iteration
+            for i in range(len(group) - 1):
+                if (
+                    group.loc[i, 'PDATE'] == end_date_date
+                    and group.loc[i, 'MODE'] == 0
+                    and group.loc[i + 1, 'PDATE'] == end_date_plus1_date
+                    and group.loc[i + 1, 'MODE'] == 1
+                ):
+                    # Add the matching rows to the list
+                    matching_records.append(group.loc[i])
+                    matching_records.append(group.loc[i + 1])
+
+        # Convert the matching records to a DataFrame
+        consecutive_matching_df = pd.DataFrame(matching_records)
+
+        # Save the full matching records to a CSV
+        consecutive_matching_df.to_csv('consecutive_matching_records.csv', index=False)
+
+        print("Filtered consecutive matching records saved to 'consecutive_matching_records.csv'")
+
+        # === Additional Step: Filter Out Only MODE=1 Records ===
+        if not consecutive_matching_df.empty:  # Check if DataFrame has rows
+            mode_1_only_df = consecutive_matching_df[consecutive_matching_df['MODE'] == 1]
+        else:
+            # Create an empty DataFrame with the desired columns
+            mode_1_only_df = pd.DataFrame(columns=[
+                'TOKEN', 'COMCODE', 'PDATE', 'HOURS', 'MINUTES', 
+                'MODE', 'PDTIME', 'MCIP'
+            ])
+
+        print("Filtered MODE=1 records saved to 'mode_1_only_records.csv'")
+    
+
+        # day_one_next_month = filtered_df[filtered_df["MODE"] == 1]
+        # day_one_next_month.to_csv('day_one_next_month.csv',index=False)
+
+        # df_first_occurrence = day_one_next_month.drop_duplicates(subset=["TOKEN"], keep="first")
+        # df_first_occurrence.to_csv('df_first_occurance.csv',index=False)
         
 
-        matching_tokens = gseldate_punches[gseldate_punches["MODE"] == 0]["TOKEN"]
-        next_month_day_one_final = df_first_occurrence[(df_first_occurrence["TOKEN"].isin(matching_tokens)) & (df_first_occurrence["MODE"] == 1)]
+        # matching_tokens = gseldate_punches[gseldate_punches["MODE"] == 0]["TOKEN"]
+        # next_month_day_one_final = df_first_occurrence[(df_first_occurrence["TOKEN"].isin(matching_tokens)) & (df_first_occurrence["MODE"] == 1)]
 
-        next_month_day_one_final.to_csv(table_paths['next_month_day_one_path'],index=False)
+        # next_month_day_one_final.to_csv(table_paths['next_month_day_one_path'],index=False)
 
-        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,next_month_day_one_final], ignore_index=True)
+        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,mode_1_only_df], ignore_index=True)
     else:
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
+    # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+    pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
     pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
-    pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
     pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
