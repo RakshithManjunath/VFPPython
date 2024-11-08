@@ -288,6 +288,15 @@ def punch_mismatch(g_current_path):
     pytotpun_dbf = table_paths['pytotpun_dbf_path']
     pytotpun_table = DBF(pytotpun_dbf, load=True)
     pytotpun_df = pd.DataFrame(iter(pytotpun_table))
+    # print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns, pytotpun_df['del'].isna().any())
+    print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns)
+    if 'DEL' in pytotpun_df.columns:
+        print("Column exists")
+        pytotpun_df['DEL'].fillna(False, inplace=True)
+        pytotpun_df['DEL'] = False
+    else:
+        print("Column does not exist")
+    pytotpun_df.to_csv('just_to_check_pytotpun.csv',index=False)
     pytotpun_num_records = len(pytotpun_df)
     if pytotpun_num_records !=0:
         print('********* Making pymismatch as punches **********')
@@ -371,6 +380,14 @@ def punch_mismatch(g_current_path):
             print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} has been deleted.")
         else:
             print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} does not exist.")
+
+        # punches_df['DEL'].fillna(False, inplace=True)
+        # punches_df['DEL'] = False
+
+        if 'DEL' not in pytotpun_df.columns:
+            print("Column exists")
+            # pytotpun_df['DEL'].fillna(False, inplace=True)
+            pytotpun_df['DEL'] = False
 
         punches_df['PDATE'] = pd.to_datetime(punches_df['PDATE'])
         punches_df['PDATE'] = punches_df['PDATE'].dt.date
@@ -731,6 +748,10 @@ def punch_mismatch(g_current_path):
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+    pytotpun_df['DEL'].fillna(False, inplace=True)
+    pytotpun_df['DEL'] = False
+
+    punches_df.to_csv('nan_check.csv')
     pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
