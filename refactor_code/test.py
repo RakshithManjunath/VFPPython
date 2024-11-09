@@ -290,17 +290,20 @@ def punch_mismatch(g_current_path):
     pytotpun_df = pd.DataFrame(iter(pytotpun_table))
     # print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns, pytotpun_df['del'].isna().any())
     print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns)
-    if 'DEL' in pytotpun_df.columns:
-        print("Column exists")
-        pytotpun_df['DEL'].fillna(False, inplace=True)
-        pytotpun_df['DEL'] = False
-    else:
-        print("Column does not exist")
-    pytotpun_df.to_csv('just_to_check_pytotpun.csv',index=False)
+    pytotpun_df.to_csv('pytotpun_before_modifying.csv',index=False)
     pytotpun_num_records = len(pytotpun_df)
     if pytotpun_num_records !=0:
         print('********* Making pymismatch as punches **********')
         pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        # Print initial dtype
+        print("Initial DEL column type:", pytotpun_df['DEL'].dtype)
+
+        # Convert DEL to string type and handle None values
+        pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(str).replace("None", "").replace("", "False").fillna("False")
+
+        # Print final dtype to confirm
+        print("Updated DEL column type:", pytotpun_df['DEL'].dtype)
+        pytotpun_df.to_csv('just_to_check_pytotpun.csv',index=False)
         # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
         pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
@@ -352,6 +355,7 @@ def punch_mismatch(g_current_path):
                     pytotpun_df_new['PDATE'] = pytotpun_df_new['PDATE'].dt.date
 
                     punches_df = pytotpun_df_new
+                    punches_df.to_csv('del_check_punches.csv',index=False)
 
                     print("******************* punches len *****************", len(punches_df))
 
@@ -384,10 +388,22 @@ def punch_mismatch(g_current_path):
         # punches_df['DEL'].fillna(False, inplace=True)
         # punches_df['DEL'] = False
 
-        if 'DEL' not in pytotpun_df.columns:
+        if 'DEL' in pytotpun_df.columns:
             print("Column exists")
-            # pytotpun_df['DEL'].fillna(False, inplace=True)
-            pytotpun_df['DEL'] = False
+            pytotpun_df['DEL'].fillna(False, inplace=True)
+            pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(bool)
+        else:
+            print("Column does not exist")
+
+        # if 'DEL' not in pytotpun_df.columns:
+        #     # Create the column 'DEL' and initialize with False
+        #     pytotpun_df['DEL'] = False
+        # else:
+        #     # Fill NaN values with False in existing 'DEL' column
+        #     pytotpun_df['DEL'].fillna(False, inplace=True)
+
+        # # Ensure 'DEL' column is of boolean type
+        # pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(bool)
 
         punches_df['PDATE'] = pd.to_datetime(punches_df['PDATE'])
         punches_df['PDATE'] = punches_df['PDATE'].dt.date
@@ -425,8 +441,8 @@ def punch_mismatch(g_current_path):
     orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
     orphaned_df = orphaned_df.drop(columns=['_merge'])
     print("Orphaned columns: ",orphaned_df.columns)
-    orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
-    orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
+    orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
+    orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
     orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
 
     merged_df = punches_df.merge(orphaned_punches_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
@@ -605,8 +621,8 @@ def punch_mismatch(g_current_path):
     result_passed_df = pd.merge(passed, muster_df, on='TOKEN', how='inner')
     print("result passed df cols: ",result_passed_df.columns)
 
-    passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
-    passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
+    passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
+    passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
     passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
     # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
@@ -619,8 +635,8 @@ def punch_mismatch(g_current_path):
     result_mismatch_df = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
     print("Mismatch punches columns: ",result_mismatch_df.columns)
 
-    mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
-    mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
+    mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
+    mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
     mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
     # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
@@ -673,6 +689,8 @@ def punch_mismatch(g_current_path):
         punches_table_new_month = DBF(punches_dbf_new_month, load=True)
         print("punches dbf length: ", len(punches_table_new_month))
         punches_df_new_month = pd.DataFrame(iter(punches_table_new_month))
+        punches_df_new_month['DEL'] = False
+        print("punches df new month columns: ",punches_df_new_month.columns)
 
         # Convert 'end_date' to datetime and add one day
         end_date_dt = pd.to_datetime(end_date)
@@ -721,11 +739,12 @@ def punch_mismatch(g_current_path):
         # === Additional Step: Filter Out Only MODE=1 Records ===
         if not consecutive_matching_df.empty:  # Check if DataFrame has rows
             mode_1_only_df = consecutive_matching_df[consecutive_matching_df['MODE'] == 1]
+            mode_1_only_df['DEL'] = "False"
         else:
             # Create an empty DataFrame with the desired columns
             mode_1_only_df = pd.DataFrame(columns=[
                 'TOKEN', 'COMCODE', 'PDATE', 'HOURS', 'MINUTES', 
-                'MODE', 'PDTIME', 'MCIP'
+                'MODE', 'PDTIME', 'MCIP', 'DEL'
             ])
 
         print("Filtered MODE=1 records saved to 'mode_1_only_records.csv'")
@@ -748,10 +767,16 @@ def punch_mismatch(g_current_path):
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-    pytotpun_df['DEL'].fillna(False, inplace=True)
-    pytotpun_df['DEL'] = False
+    # pytotpun_df['DEL'] = pytotpun_df['DEL'].replace("", "False")
+    pytotpun_df['DEL'] = pytotpun_df['DEL'].map({"False": False, "True": True})
+    pytotpun_df.to_csv('last_check_of_pytotpun.csv',index=False)
+    # Check if 'DEL' is in the DataFrame columns
+    # if 'DEL' in pytotpun_df.columns:
+    # #     # Replace empty strings with NaN so they can be filled with False
+    # #     pytotpun_df['DEL'].replace('', pd.NA, inplace=True)
+    #     # Now convert the column to boolean, where NaN will become False
+    #     pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(bool)
 
-    punches_df.to_csv('nan_check.csv')
     pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
@@ -765,6 +790,8 @@ def punch_mismatch(g_current_path):
         record = {field: row[field] for field in table.field_names if field in pytotpun_df.columns}
         table.append(record)
     table.close()
+
+    pytotpun_df.to_csv('last_check_after_modify_of_pytotpun.csv',index=False)
 
     passed_df_len = result_passed_df.shape[0]
     print("passed csv len: ",passed_df_len)
