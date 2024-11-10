@@ -441,10 +441,16 @@ def punch_mismatch(g_current_path):
     orphaned_df = merged_orphaned_df[merged_orphaned_df['_merge'] == 'left_only']
     orphaned_df = orphaned_df.drop(columns=['_merge'])
     print("Orphaned columns: ",orphaned_df.columns)
-    orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
-    orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
-    orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
-
+    if pytotpun_num_records == 0:
+        orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
+        orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
+        orphaned_punches_df['DEL'] = "False"
+        orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+    else:
+        orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
+        orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
+        orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        
     merged_df = punches_df.merge(orphaned_punches_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
     print(f"After removing orphaned punches: {punches_df.shape[0]}")
@@ -562,6 +568,7 @@ def punch_mismatch(g_current_path):
 
     if len(gseldate_punches) !=0:
         # Save the gseldate_punches to CSV
+        gseldate_punches['DEL'] = "False"
         gseldate_punches.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'], index=False)
 
     # Add a new column 'Remarks'
@@ -621,12 +628,20 @@ def punch_mismatch(g_current_path):
     result_passed_df = pd.merge(passed, muster_df, on='TOKEN', how='inner')
     print("result passed df cols: ",result_passed_df.columns)
 
-    passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
-    passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
-    passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-    # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-    passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
-
+    if pytotpun_num_records == 0:
+        passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL']]
+        passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
+        passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        passed_punches_df['DEL'] = "False"
+        # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
+    else:
+        passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
+        passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
+        passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
+        
     mismatch['PDTIME'] = pd.to_datetime(mismatch['PDTIME'])
 
     if ((mismatch['MODE'] == 0) & (mismatch['PDTIME'].dt.date == gsel_datetime.date())).any():
@@ -635,11 +650,20 @@ def punch_mismatch(g_current_path):
     result_mismatch_df = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
     print("Mismatch punches columns: ",result_mismatch_df.columns)
 
-    mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
-    mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
-    mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-    # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
-    mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
+
+    if pytotpun_num_records == 0:
+        mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL']]
+        mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
+        mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        mismatch_punches_df['DEL'] = "False"
+        # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
+    else:
+        mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
+        mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
+        mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
+        mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
 
     if len(mismatch) !=0:
         mismatch_status = True
