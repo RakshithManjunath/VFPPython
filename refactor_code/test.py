@@ -59,6 +59,8 @@ def file_paths(curr_path):
 
     next_month_day_one_path = root_folder + 'next_month_day_one_final.csv'
 
+    pundel_true_path = root_folder + 'pundel_true_punches.csv'
+
     ## exe
     # root_folder = curr_path
     # dated_dbf = './dated.dbf'
@@ -142,7 +144,8 @@ def file_paths(curr_path):
             "dayone_out_path":dayone_out_path,
             "temp_gseldate_path":temp_gseldate_path,
             
-            "next_month_day_one_path":next_month_day_one_path}
+            "next_month_day_one_path":next_month_day_one_path,
+            "pundel_true_path":pundel_true_path}
 
 def check_ankura(g_current_path):
     table_paths = file_paths(g_current_path)
@@ -292,6 +295,8 @@ def punch_mismatch(g_current_path):
     print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns)
     pytotpun_df.to_csv('pytotpun_before_modifying.csv',index=False)
     pytotpun_num_records = len(pytotpun_df)
+    pundel_true_punches_columns = ["TOKEN", "COMCODE", "PDATE", "HOURS", "MINUTES", "MODE", "PDTIME", "MCIP", "DEL"]
+    pundel_true_punches_df = pd.DataFrame(columns=pundel_true_punches_columns)
     if pytotpun_num_records !=0:
         print('********* Making pymismatch as punches **********')
         pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
@@ -299,7 +304,13 @@ def punch_mismatch(g_current_path):
         print("Initial DEL column type:", pytotpun_df['DEL'].dtype)
 
         # Convert DEL to string type and handle None values
+        
         pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(str).replace("None", "").replace("", "False").fillna("False")
+
+        pundel_true_punches_df = pytotpun_df[pytotpun_df['DEL'] == "True"]
+        pundel_true_punches_df.to_csv(table_paths['pundel_true_path'],index=False)
+
+        pytotpun_df = pytotpun_df[pytotpun_df['DEL'] != "True"]
 
         # Print final dtype to confirm
         print("Updated DEL column type:", pytotpun_df['DEL'].dtype)
@@ -422,7 +433,6 @@ def punch_mismatch(g_current_path):
     # Identifying and creating a DataFrame for the removed rows
     duplicates_removed_df = punches_df[~punches_df.index.isin(unique_punches_df.index)]
     duplicates_removed_df.to_csv(table_paths['duplicate_punches_df_path'],index=False)
-
 
     out_of_range_punches_df = unique_punches_df[
         ~(
@@ -786,7 +796,7 @@ def punch_mismatch(g_current_path):
 
         # next_month_day_one_final.to_csv(table_paths['next_month_day_one_path'],index=False)
 
-        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,mode_1_only_df], ignore_index=True)
+        pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,mode_1_only_df,pundel_true_punches_df], ignore_index=True)
     else:
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
