@@ -61,49 +61,6 @@ def file_paths(curr_path):
 
     pundel_true_path = root_folder + 'pundel_true_punches.csv'
 
-    ## exe
-    # root_folder = curr_path
-    # dated_dbf = './dated.dbf'
-    # muster_dbf = './muster.dbf'
-    # holmast_dbf = './holmast.dbf'
-    # punches_dbf = './punches.dbf'
-    # lvform_dbf = './lvform.dbf'
-    # exe = True
-    # gsel_date_path = './gseldate.txt'
-    # g_option_path = './g_option.txt'
-    # wdtest_path = './wdtest.csv'
-    # wdtest_server_path = './wdtest_server.csv'
-    # wdtest_client_path = './wdtest_client.csv'
-    # passed_csv_path = './passed.csv'
-    # orphaned_punches_path = './orphaned_punches.csv'
-    # out_of_range_punches_path = './out_of_range_punches.csv'
-    # holmast_csv_path = './holiday.csv'
-    # lvform_csv_path = './leave.csv'
-    # pytotpun_dbf_path = './pytotpun.dbf'
-    # mismatch_report_path = './mismatch_report.csv'
-    # passed_punches_df_path = './passed_punches.csv'
-    # mismatch_punches_df_path = './mismatch_punches.csv'
-    # total_punches_punches_df_path = './total_punches_punches.csv'
-    # total_pytotpun_punches_df_path = './total_pytotpun_punches.csv'
-    # actual_punches_df_path = './actual_punches.csv'
-    # duplicate_punches_df_path = './duplicates_punches.csv'
-
-    # empty_tables_path = './empty_tables.txt'
-    # mismatch_csv_path = './mismatch.csv'
-
-    # muster_csv_path = './muster.csv'
-
-    # punch_csv_path = './punch.csv'
-    # final_csv_path = './final.csv'
-
-    # payroll_input_path = './payroll_input.csv'
-
-    # muster_role_path = './muster_role.csv'
-
-    # gsel_date_excluded_punches_len_df_path = './gseldate_punches.csv'
-
-    # dayone_out_path = './dayone_out_punches.csv'
-
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
             "holmast_dbf_path":holmast_dbf,
@@ -168,28 +125,18 @@ def test_db_len(g_current_path):
     print(table_paths['dated_dbf_path'])
     dated_dbf = table_paths['dated_dbf_path']
     dated_num_records = dbf_2_df(filename=dated_dbf,type="len")
-    # dated_table = DBF(dated_dbf, load=False) 
-    # dated_num_records = len(dated_table)
 
     muster_dbf = table_paths['muster_dbf_path']
     muster_num_records = dbf_2_df(filename=muster_dbf,type="len")
-    # muster_table = DBF(muster_dbf, load=False) 
-    # muster_num_records = len(muster_table)
 
     holmast_csv = table_paths['holmast_csv_path']
     holmast_num_records = dbf_2_df(filename=holmast_csv,type="csv")
-    # holmast_table = DBF(holmast_dbf, load=False) 
-    # holmast_num_records = len(holmast_table)
 
     punches_dbf = table_paths['punches_dbf_path']
     punches_num_records = dbf_2_df(filename=punches_dbf,type="len")
-    # punches_table = DBF(punches_dbf, load=False) 
-    # punches_num_records = len(punches_table)
 
     lvform_csv = table_paths['lvform_csv_path']
     lvform_num_records = dbf_2_df(filename=lvform_csv,type="csv")
-    # lvform_table = DBF(lvform_dbf, load=False) 
-    # lvform_num_records = len(lvform_table)
 
     with open(table_paths['empty_tables_path'], 'w') as file:
         if dated_num_records == 0:
@@ -278,7 +225,6 @@ def punch_mismatch(g_current_path):
 
     punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
     punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-    # punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     print(f"Before dropping duplicates: {punches_df.shape[0]}")
 
     with open(table_paths['gsel_date_path']) as file:
@@ -291,9 +237,7 @@ def punch_mismatch(g_current_path):
     pytotpun_dbf = table_paths['pytotpun_dbf_path']
     pytotpun_table = DBF(pytotpun_dbf, load=True)
     pytotpun_df = pd.DataFrame(iter(pytotpun_table))
-    # print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns, pytotpun_df['del'].isna().any())
     print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns)
-    pytotpun_df.to_csv('pytotpun_before_modifying.csv',index=False)
     pytotpun_num_records = len(pytotpun_df)
     pundel_true_punches_columns = ["TOKEN", "COMCODE", "PDATE", "HOURS", "MINUTES", "MODE", "PDTIME", "MCIP", "DEL"]
     pundel_true_punches_df = pd.DataFrame(columns=pundel_true_punches_columns)
@@ -314,7 +258,6 @@ def punch_mismatch(g_current_path):
 
         # Print final dtype to confirm
         print("Updated DEL column type:", pytotpun_df['DEL'].dtype)
-        pytotpun_df.to_csv('just_to_check_pytotpun.csv',index=False)
         # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
         pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
@@ -338,7 +281,6 @@ def punch_mismatch(g_current_path):
                     print('saved gseldate is lesser than gseldate', gseldate_flag_saved_date_lesser)
 
                     pytotpun_df['PDTIME'] = pd.to_datetime(pytotpun_df['PDTIME'])
-                    # pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
 
                     pytotpun_keys = set(zip(pytotpun_df['TOKEN'], pytotpun_df['PDATE']))
 
@@ -350,8 +292,6 @@ def punch_mismatch(g_current_path):
 
                     pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move], ignore_index=True)
                     pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE'], inplace=True)
-                    # pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE', 'MODE'], inplace=True)
-                    # pytotpun_df_new.to_csv(table_paths['temp_gseldate_path'],index=False)
 
                     saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
                     print("saved gseldate data",len(saved_gseldate_data))
@@ -366,13 +306,8 @@ def punch_mismatch(g_current_path):
                     pytotpun_df_new['PDATE'] = pytotpun_df_new['PDATE'].dt.date
 
                     punches_df = pytotpun_df_new
-                    punches_df.to_csv('del_check_punches.csv',index=False)
 
                     print("******************* punches len *****************", len(punches_df))
-
-                    # elif saved_gseldate_data['PDATE'].iloc[0] == gsel_datetime:
-                    #     gseldate_flag_saved_and_curr_gseldate_equality = True
-                    #     print('gseldate_flag_saved_and_curr_gseldate_equality:', gseldate_flag_saved_and_curr_gseldate_equality)
 
                 if saved_gseldate_exists == True:
 
@@ -388,7 +323,6 @@ def punch_mismatch(g_current_path):
 
         punches_df['PDTIME'] = pd.to_datetime(punches_df['PDTIME'], format='%Y-%m-%d %H:%M:%S').dt.round('S')
         
-        # pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
     elif pytotpun_num_records == 0:
         if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
             os.remove(table_paths['gsel_date_excluded_punches_len_df_path'])
@@ -396,25 +330,12 @@ def punch_mismatch(g_current_path):
         else:
             print(f"{table_paths['gsel_date_excluded_punches_len_df_path']} does not exist.")
 
-        # punches_df['DEL'].fillna(False, inplace=True)
-        # punches_df['DEL'] = False
-
         if 'DEL' in pytotpun_df.columns:
             print("Column exists")
             pytotpun_df['DEL'].fillna(False, inplace=True)
             pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(bool)
         else:
             print("Column does not exist")
-
-        # if 'DEL' not in pytotpun_df.columns:
-        #     # Create the column 'DEL' and initialize with False
-        #     pytotpun_df['DEL'] = False
-        # else:
-        #     # Fill NaN values with False in existing 'DEL' column
-        #     pytotpun_df['DEL'].fillna(False, inplace=True)
-
-        # # Ensure 'DEL' column is of boolean type
-        # pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(bool)
 
         punches_df['PDATE'] = pd.to_datetime(punches_df['PDATE'])
         punches_df['PDATE'] = punches_df['PDATE'].dt.date
@@ -518,23 +439,6 @@ def punch_mismatch(g_current_path):
 
     dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
 
-    # if start_date <= gsel_datetime <= end_date:
-    #     gseldate_exclude_df = punches_df[punches_df['PDTIME'].dt.date == gsel_datetime.date()]
-    #     # gseldate_exclude_df = gseldate_exclude_df[gseldate_exclude_df['MODE'] == 0]
-
-    #     result_gseldate_exclude_df = pd.merge(gseldate_exclude_df, muster_df, on='TOKEN', how='inner')
-    #     result_gseldate_exclude_df = result_gseldate_exclude_df[['TOKEN','EMPCODE','NAME','COMCODE_y','PDATE','MODE','PDTIME']]
-    #     result_gseldate_exclude_df['PDTIME'] = pd.to_datetime(result_gseldate_exclude_df['PDTIME'], format='%d-%b-%y %H:%M:%S').dt.round('S')
-    #     result_gseldate_exclude_df = result_gseldate_exclude_df.rename(columns={'COMCODE_y': 'COMCODE'})
-    #     result_gseldate_exclude_df.to_csv(table_paths['gsel_date_excluded_punches_len_df_path'], index=False)
-    #     print(f"Gsel date excluded: {result_gseldate_exclude_df.shape[0]} {result_gseldate_exclude_df}")
-
-    #     merged_df = punches_df.merge(result_gseldate_exclude_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
-    #     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
-    #     print(f"After removing gsel date excluded punches: {punches_df.shape[0]}")
-
-    # Function to check the 0101... pattern and count equality
-
     mismatch_status = True
 
     def check_pattern(group):
@@ -548,8 +452,6 @@ def punch_mismatch(g_current_path):
     passed = pd.DataFrame(columns=punches_df.columns)
     mismatch = pd.DataFrame(columns=punches_df.columns)
     gseldate_punches = pd.DataFrame(columns=punches_df.columns)
-
-    # punches_df.to_csv('just_to_check.csv',index=False)
 
     for _, group in punches_df.groupby(['TOKEN']):
         # Check if the pattern is correct
@@ -643,13 +545,11 @@ def punch_mismatch(g_current_path):
         passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         passed_punches_df['DEL'] = "False"
-        # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
     else:
         passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
         passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
         passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-        # passed_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
         
     mismatch['PDTIME'] = pd.to_datetime(mismatch['PDTIME'])
@@ -666,13 +566,11 @@ def punch_mismatch(g_current_path):
         mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         mismatch_punches_df['DEL'] = "False"
-        # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
     else:
         mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
         mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-        # mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
 
     if len(mismatch) !=0:
@@ -765,9 +663,6 @@ def punch_mismatch(g_current_path):
         # Convert the matching records to a DataFrame
         consecutive_matching_df = pd.DataFrame(matching_records)
 
-        # Save the full matching records to a CSV
-        consecutive_matching_df.to_csv('consecutive_matching_records.csv', index=False)
-
         print("Filtered consecutive matching records saved to 'consecutive_matching_records.csv'")
 
         # === Additional Step: Filter Out Only MODE=1 Records ===
@@ -783,19 +678,6 @@ def punch_mismatch(g_current_path):
 
         print("Filtered MODE=1 records saved to 'mode_1_only_records.csv'")
     
-
-        # day_one_next_month = filtered_df[filtered_df["MODE"] == 1]
-        # day_one_next_month.to_csv('day_one_next_month.csv',index=False)
-
-        # df_first_occurrence = day_one_next_month.drop_duplicates(subset=["TOKEN"], keep="first")
-        # df_first_occurrence.to_csv('df_first_occurance.csv',index=False)
-        
-
-        # matching_tokens = gseldate_punches[gseldate_punches["MODE"] == 0]["TOKEN"]
-        # next_month_day_one_final = df_first_occurrence[(df_first_occurrence["TOKEN"].isin(matching_tokens)) & (df_first_occurrence["MODE"] == 1)]
-
-        # next_month_day_one_final.to_csv(table_paths['next_month_day_one_path'],index=False)
-
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,mode_1_only_df,pundel_true_punches_df], ignore_index=True)
     else:
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
@@ -803,13 +685,6 @@ def punch_mismatch(g_current_path):
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
     # pytotpun_df['DEL'] = pytotpun_df['DEL'].replace("", "False")
     pytotpun_df['DEL'] = pytotpun_df['DEL'].map({"False": False, "True": True})
-    pytotpun_df.to_csv('last_check_of_pytotpun.csv',index=False)
-    # Check if 'DEL' is in the DataFrame columns
-    # if 'DEL' in pytotpun_df.columns:
-    # #     # Replace empty strings with NaN so they can be filled with False
-    # #     pytotpun_df['DEL'].replace('', pd.NA, inplace=True)
-    #     # Now convert the column to boolean, where NaN will become False
-    #     pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(bool)
 
     pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
 
@@ -824,8 +699,6 @@ def punch_mismatch(g_current_path):
         record = {field: row[field] for field in table.field_names if field in pytotpun_df.columns}
         table.append(record)
     table.close()
-
-    pytotpun_df.to_csv('last_check_after_modify_of_pytotpun.csv',index=False)
 
     passed_df_len = result_passed_df.shape[0]
     print("passed csv len: ",passed_df_len)
