@@ -567,9 +567,14 @@ def punch_mismatch(g_current_path):
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         mismatch_punches_df['DEL'] = "False"
         mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
-    else:
+    elif pytotpun_num_records!=0 and len(mismatch) !=0:
         mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
         mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
+        mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+        mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
+    elif pytotpun_num_records!=0 and len(mismatch) == 0:
+        mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL']]
+        mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
 
