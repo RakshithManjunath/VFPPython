@@ -76,8 +76,20 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path):
     # Sort the DataFrame by TOKEN and PDATE
     merged_df = merged_df.sort_values(by=['TOKEN', 'PDATE']).reset_index(drop=True)
 
+    # for i in range(1, len(merged_df) - 1):
+    #     if merged_df.at[i, 'STATUS'] == 'WO' and merged_df.at[i - 1, 'STATUS'] == 'AB' and merged_df.at[i + 1, 'STATUS'] == 'AB':
+    #         merged_df.at[i, 'STATUS'] = 'AB'
+
     for i in range(1, len(merged_df) - 1):
-        if merged_df.at[i, 'STATUS'] == 'WO' and merged_df.at[i - 1, 'STATUS'] == 'AB' and merged_df.at[i + 1, 'STATUS'] == 'AB':
+        if (
+            merged_df.at[i, 'STATUS'] == 'WO' and
+            merged_df.at[i - 1, 'STATUS'] == 'AB' and
+            merged_df.at[i + 1, 'STATUS'] == 'AB'
+        ):
+            total_time = merged_df.at[i, 'TOTALTIME']
+            # Check if TOTALTIME is not None, NaN, or an empty string
+            if pd.notna(total_time) and str(total_time).strip() != "":
+                continue  # Skip changing the STATUS if TOTALTIME is not empty
             merged_df.at[i, 'STATUS'] = 'AB'
 
     # Convert 'TOKEN' column back to integer dtype
@@ -136,12 +148,16 @@ if process_mode_flag == True:
     print("db check flag: ",db_check_flag)
     if db_check_flag !=0:
         mismatch_flag,mismatch_df,processed_punches = punch_mismatch(g_current_path)
+        mismatch_df.to_csv('mismatch_df_after_punchmismatch.csv',index=False)
+        processed_punches.to_csv('processed_punches_after_punch_mistmatch.csv',index=False)
         print("punch check flag: ",mismatch_flag)
         print("mismatch df: ",mismatch_df)
         print("mismatch flag: ",mismatch_flag)
 
         if isinstance(db_check_flag, dict) and mismatch_flag == 1:
             muster_df,muster_del_filtered = generate_muster(db_check_flag,g_current_path)
+            muster_df.to_csv('muster_df_after_generate_muster.csv',index=False)
+            muster_del_filtered.to_csv('muster_del_filtered_generate_muster.csv',index=False)
             punch_df = generate_punch(processed_punches,muster_del_filtered,g_current_path)
             create_final_csv(muster_df, punch_df,mismatch_df,g_current_path)
             
