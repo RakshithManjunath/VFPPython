@@ -6,6 +6,97 @@ from datetime import timedelta
 from test import file_paths
 from py_paths import g_current_path
 
+def mode_1_last_day(gseldate,start_date,end_date,start_date_str,end_date_str,table_paths):
+
+    gseldate_date_format = datetime.strptime(gseldate, "%Y-%m-%d")
+    next_day = gseldate_date_format + timedelta(days=1)
+    is_last_day = gseldate_date_format.month != next_day.month
+
+    # if is_last_day == True:
+    #     end_date_dt = pd.to_datetime(end_date)
+    #     end_date_plus1 = end_date_dt + pd.Timedelta(days=1)
+    #     end_date_plus1_str = end_date_plus1.strftime('%Y-%m-%d')
+    #     date_range = pd.date_range(start=start_date_str, end=end_date_plus1_str, freq='D')
+    
+    # else:
+    #     date_range = pd.date_range(start=start_date_str, end=end_date_str, freq='D')
+
+    if is_last_day == True:
+        # Load the DBF file into a DataFrame
+        punches_dbf_new_month = table_paths['punches_dbf_path']  
+        punches_table_new_month = DBF(punches_dbf_new_month, load=True)
+        print("punches dbf length: ", len(punches_table_new_month))
+        punches_df_new_month = pd.DataFrame(iter(punches_table_new_month))
+        punches_df_new_month['DEL'] = False
+        print("punches df new month columns: ",punches_df_new_month.columns)
+
+        # Convert 'end_date' to datetime and add one day
+        end_date_dt = pd.to_datetime(end_date)
+        end_date_plus1 = end_date_dt + pd.Timedelta(days=1)
+
+        # Convert the dates to date format for filtering
+        end_date_date = end_date_dt.date()
+        end_date_plus1_date = end_date_plus1.date()
+
+        end_date_plus1_str = end_date_plus1.strftime('%Y-%m-%d')
+        # date_range = pd.date_range(start=start_date_str, end=end_date_plus1_str, freq='D')
+
+        # Ensure 'PDATE' column is in date format
+        punches_df_new_month['PDATE'] = pd.to_datetime(punches_df_new_month['PDATE']).dt.date
+
+        # Filter the DataFrame by 'PDATE'
+        filtered_df = punches_df_new_month[
+            punches_df_new_month['PDATE'].between(end_date_date, end_date_plus1_date)
+        ]
+
+        # Sort by TOKEN, PDATE, and PDTIME to ensure the order of events is maintained
+        filtered_df.sort_values(by=['TOKEN', 'PDATE', 'PDTIME'], inplace=True)
+
+        # Initialize an empty list to store matching records
+        matching_records = []
+
+        # Iterate through each TOKEN group to find consecutive MODE=0 (end_date) and MODE=1 (end_date_plus1_date)
+        for token, group in filtered_df.groupby('TOKEN'):
+            group = group.reset_index(drop=True)  # Reset index for easier iteration
+            for i in range(len(group) - 1):
+                if (
+                    group.loc[i, 'PDATE'] == end_date_date
+                    and group.loc[i, 'MODE'] == 0
+                    and group.loc[i + 1, 'PDATE'] == end_date_plus1_date
+                    and group.loc[i + 1, 'MODE'] == 1
+                ):
+                    # Add the matching rows to the list
+                    matching_records.append(group.loc[i])
+                    matching_records.append(group.loc[i + 1])
+
+        # Convert the matching records to a DataFrame
+        consecutive_matching_df = pd.DataFrame(matching_records)
+
+        print("Filtered consecutive matching records saved to 'consecutive_matching_records.csv'")
+
+        # === Additional Step: Filter Out Only MODE=1 Records ===
+        if not consecutive_matching_df.empty:  # Check if DataFrame has rows
+            mode_1_only_df = consecutive_matching_df[consecutive_matching_df['MODE'] == 1]
+            mode_1_only_df['DEL'] = "False"
+        else:
+            # Create an empty DataFrame with the desired columns
+            mode_1_only_df = pd.DataFrame(columns=[
+                'TOKEN', 'COMCODE', 'PDATE', 'HOURS', 'MINUTES', 
+                'MODE', 'PDTIME', 'MCIP', 'DEL'
+            ])
+
+        print("Filtered MODE=1 records saved to 'mode_1_only_records.csv'")
+    
+        mode_1_only_df.to_csv('mode_1_only_df_check_punches.csv',index=False)
+    else:
+        mode_1_only_df = pd.DataFrame(columns=[
+                'TOKEN', 'COMCODE', 'PDATE', 'HOURS', 'MINUTES', 
+                'MODE', 'PDTIME', 'MCIP', 'DEL'
+        ])
+    date_range = pd.date_range(start=start_date_str, end=end_date_str, freq='D')
+
+    return mode_1_only_df,date_range 
+
 def generate_punch(punches_df,muster_df,g_current_path):
     table_paths = file_paths(g_current_path)
 
@@ -22,6 +113,12 @@ def generate_punch(punches_df,muster_df,g_current_path):
 
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
+
+    mode_1_only_df,date_range = mode_1_last_day(gseldate,start_date,end_date,start_date_str,end_date_str,table_paths)
+
+    punches_df = pd.concat([punches_df,mode_1_only_df], ignore_index=True)
+    punches_df.sort_values(by=['TOKEN', 'PDATE', 'PDTIME'], inplace=True)
+    punches_df.to_csv('concated_punches_and_mode_1.csv',index=False)
 
     punch_df = pd.DataFrame(columns=['TOKEN', 'PDATE', 'INTIME1', 'OUTTIME1', 'INTIME2', 'OUTTIME2', 'INTIME3', 'OUTTIME3', 'INTIME4', 'OUTTIME4', 'INTIME', 'OUTTIME', 'TOTALTIME','REMARKS'])
     in_punch_time = None
@@ -114,8 +211,7 @@ def generate_punch(punches_df,muster_df,g_current_path):
                         punch_df.loc[duplicates.index[-1], 'OT'] = overtime_formatted
                         punch_df.loc[duplicates.index[-1], 'PUNCH_STATUS'] = attn_status  # Set PUNCH_STATUS for duplicate rows
 
-    date_range = pd.date_range(start=start_date_str, end=end_date_str, freq='D')
-
+    
     for token in muster_df['TOKEN'].unique():
         token_punch_df = punch_df[punch_df['TOKEN'] == token]
 

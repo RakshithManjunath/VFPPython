@@ -685,6 +685,10 @@ def punch_mismatch(g_current_path):
     
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df,gseldate_punches,mode_1_only_df,pundel_true_punches_df], ignore_index=True)
     else:
+        mode_1_only_df = pd.DataFrame(columns=[
+                'TOKEN', 'COMCODE', 'PDATE', 'HOURS', 'MINUTES', 
+                'MODE', 'PDTIME', 'MCIP', 'DEL'
+        ]) 
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
@@ -711,7 +715,7 @@ def punch_mismatch(g_current_path):
     print("mismatch df len: ",mismatch_df_len)
 
     if mismatch_status == True:
-        return 1,result_mismatch_df,punches_df
+        return 1,result_mismatch_df,punches_df,mode_1_only_df
     else:
         return 1,None
     

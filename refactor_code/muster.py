@@ -4,6 +4,7 @@ from test import file_paths
 from datetime import timedelta
 import dbf
 from dbf_handler import dbf_2_df
+from datetime import datetime
 from py_paths import g_current_path
 
 def safe_parse_date(date_str):
@@ -14,6 +15,17 @@ def safe_parse_date(date_str):
 
 def generate_muster(db_check_flag,g_current_path):
     table_paths = file_paths(g_current_path)
+
+    with open(table_paths['gsel_date_path']) as file:
+        file_contents = file.readlines()
+        file_contents = [string.strip('\n') for string in file_contents]
+        gseldate = file_contents[0]
+        gseldate = pd.to_datetime(gseldate)
+        gseldate_str = gseldate.strftime('%Y-%m-%d')
+
+    gseldate_date_format = datetime.strptime(gseldate_str, "%Y-%m-%d")
+    next_day = gseldate_date_format + timedelta(days=1)
+    is_last_day = gseldate_date_format.month != next_day.month
     
     holmast_flag = None
     lvform_flag = None
@@ -73,8 +85,16 @@ def generate_muster(db_check_flag,g_current_path):
 
     for index, row in muster_df.iterrows():
         token = row['TOKEN']
-
         date_range = pd.date_range(start_date_str, end_date_str, closed=None)
+
+        # if is_last_day == True:
+        #     end_date_dt = pd.to_datetime(end_date)
+        #     end_date_plus1 = end_date_dt + pd.Timedelta(days=1)
+        #     end_date_plus1_str = end_date_plus1.strftime('%Y-%m-%d')
+        #     date_range = pd.date_range(start_date_str, end_date_plus1_str, closed=None)
+        
+        # else:
+        #     date_range = pd.date_range(start_date_str, end_date_str, closed=None)
 
         temp_df = pd.DataFrame({
             'TOKEN': [token] * len(date_range),
