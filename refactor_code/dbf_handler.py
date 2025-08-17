@@ -12,6 +12,7 @@ def dbf_2_df(filename,type):
         df=pd.read_csv(filename)
         return len(df)
     else:
+        print("filename: ",filename)
         with dbf.Table(filename) as table:
             field_names = table.field_names
             data = [record_to_dict(record, field_names) for record in table]

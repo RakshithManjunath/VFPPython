@@ -111,7 +111,7 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_
 
 # try:
 pg_data_flag, process_mode_flag, current_path = check_database()
-g_current_path = current_path
+# g_current_path = current_path
 print("g current path: ",g_current_path)
 check_ankura(g_current_path)
 print(pg_data_flag, type(pg_data_flag))

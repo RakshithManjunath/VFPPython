@@ -44,6 +44,7 @@ def generate_muster(db_check_flag,g_current_path):
 
     muster_table = DBF(table_paths['muster_dbf_path'], load=True)
     muster_df = pd.DataFrame(iter(muster_table))
+    muster_df = muster_df[muster_df['SEC_STAFF']==True]
     muster_df['DEL'] = muster_df['DEL'].fillna(False)
 
     if lvform_flag !=0:

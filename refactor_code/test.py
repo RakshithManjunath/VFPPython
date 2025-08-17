@@ -216,6 +216,7 @@ def punch_mismatch(g_current_path):
     muster_dbf = table_paths['muster_dbf_path']
     muster_table = DBF(muster_dbf, load=True)
     muster_df = pd.DataFrame(iter(muster_table))
+    muster_df = muster_df[muster_df['SEC_STAFF']==True]
     print("mismatch muster_df ", muster_df['TOKEN'])
 
     punches_dbf = table_paths['punches_dbf_path']
