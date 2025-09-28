@@ -1,6 +1,6 @@
 from punch import generate_punch
 from muster import generate_muster
-from test import test_db_len, make_blank_files, delete_old_files, create_new_csvs, punch_mismatch, file_paths, check_ankura, check_database, server_collect_db_data, client_collect_db_data, create_wdtest
+from test import test_db_len, make_blank_files, delete_old_files, create_new_csvs, punch_mismatch, file_paths, check_ankura, check_database, server_collect_db_data, client_collect_db_data, create_wdtest, check_g_main_path
 from payroll_input import pay_input
 import pandas as pd
 import sys
@@ -110,9 +110,11 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_
     pay_input(merged_df,g_current_path)
 
 # try:
-pg_data_flag, process_mode_flag, current_path = check_database()
+curr_root_folder = check_g_main_path()
+g_current_path = curr_root_folder
 # g_current_path = current_path
 print("g current path: ",g_current_path)
+pg_data_flag, process_mode_flag, current_path = check_database()
 check_ankura(g_current_path)
 print(pg_data_flag, type(pg_data_flag))
 print(process_mode_flag, type(process_mode_flag))

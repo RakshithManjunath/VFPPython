@@ -104,6 +104,26 @@ def file_paths(curr_path):
             "next_month_day_one_path":next_month_day_one_path,
             "pundel_true_path":pundel_true_path}
 
+def check_g_main_path():
+    with open(g_first_path + "g_mainpath.txt") as file:
+        lines = file.readlines()
+
+        # Safely get first two lines
+        first_two = [line.strip() for line in lines[:2]]
+
+        if len(first_two) < 2:
+            print("File has less than two lines.")
+        else:
+            line1, line2 = first_two
+            if line1 == line2:
+                print("Line 1 and Line 2 are the SAME")
+                converted_path = line1.replace("\\", "/")
+                return converted_path
+            else:
+                print("Line 1 and Line 2 are DIFFERENT")
+                converted_path = line2.replace("\\", "/")
+                return converted_path
+
 def check_ankura(g_current_path):
     table_paths = file_paths(g_current_path)
     print("Exe status: ", table_paths['exe'])
@@ -239,6 +259,7 @@ def punch_mismatch(g_current_path):
     pytotpun_table = DBF(pytotpun_dbf, load=True)
     pytotpun_df = pd.DataFrame(iter(pytotpun_table))
     print("$$$$$$$$$$$$$$$$$$ pytotpun columns",pytotpun_df.columns)
+
     pytotpun_num_records = len(pytotpun_df)
     pundel_true_punches_columns = ["TOKEN", "COMCODE", "PDATE", "HOURS", "MINUTES", "MODE", "PDTIME", "MCIP", "DEL"]
     pundel_true_punches_df = pd.DataFrame(columns=pundel_true_punches_columns)
@@ -247,6 +268,11 @@ def punch_mismatch(g_current_path):
         pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         # Print initial dtype
         print("Initial DEL column type:", pytotpun_df['DEL'].dtype)
+
+        pytotpun_to_check_df = pytotpun_df[['TOKEN', 'COMCODE', 'PDATE', 'HOURS', 'MINUTES', 'MODE', 'PDTIME', 'MCIP']]
+        punches_diff_pytotpun = punches_df.merge(pytotpun_to_check_df, how='outer', indicator=True).query('_merge == "left_only"').drop(columns=['_merge'])
+        punches_diff_pytotpun['DEL'] = "False"
+        punches_diff_pytotpun.to_csv('punches_diff_pytotpun.csv',index=False)
 
         # Convert DEL to string type and handle None values
         
@@ -290,8 +316,9 @@ def punch_mismatch(g_current_path):
                     )
 
                     rows_to_move = saved_gseldate_data[~saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
+                    rows_to_move.to_csv('rows_to_move.csv',index=False)
 
-                    pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move], ignore_index=True)
+                    pytotpun_df_new = pd.concat([pytotpun_df, rows_to_move, punches_diff_pytotpun], ignore_index=True)
                     pytotpun_df_new.sort_values(by=['TOKEN', 'PDATE'], inplace=True)
 
                     saved_gseldate_data = saved_gseldate_data[saved_gseldate_data['in_pytotpun']].drop(columns=['in_pytotpun'])
@@ -693,13 +720,16 @@ def punch_mismatch(g_current_path):
         pytotpun_df = pd.concat([passed_punches_df,mismatch_punches_df], ignore_index=True)
     # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
     pytotpun_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
+
     # pytotpun_df['DEL'] = pytotpun_df['DEL'].replace("", "False")
+    pytotpun_df['DEL'] = pytotpun_df['DEL'].fillna("False").astype(str)
     pytotpun_df['DEL'] = pytotpun_df['DEL'].map({"False": False, "True": True})
 
     pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
     pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
+    pytotpun_df.to_csv('pytotpun_df_before_saving.csv',index=False)
 
     table = Table(table_paths['pytotpun_dbf_path'])
     table.open(mode=READ_WRITE)
