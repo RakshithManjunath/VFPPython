@@ -97,6 +97,14 @@ def mode_1_last_day(gseldate,start_date,end_date,start_date_str,end_date_str,tab
 
     return mode_1_only_df,date_range 
 
+def hhmm_from_hours(hours: float) -> str:
+    if hours is None or np.isnan(hours):
+        return "0:00"
+    total_seconds = int(max(hours, 0) * 3600)
+    h, r = divmod(total_seconds, 3600)
+    m, _ = divmod(r, 60)
+    return f"{h}:{m:02d}"
+
 def generate_punch(punches_df,muster_df,g_current_path):
     table_paths = file_paths(g_current_path)
 
@@ -243,4 +251,51 @@ def generate_punch(punches_df,muster_df,g_current_path):
 
     punch_df = punch_df.sort_values(by=['TOKEN', 'PDATE'])
     punch_df.to_csv(table_paths['punch_csv_path'],index=False)
-    return punch_df
+
+    # Select only the required columns from muster_df
+    shift_cols = ["TOKEN", "PDATE", "SHIFT_STATUS", "SHIFT_ST", "SHIFT_ED", "WORKHRS"]
+    muster_shift_info = muster_df[shift_cols].copy()
+
+    # Merge on TOKEN and PDATE
+    # Ensure both PDATE columns are datetime
+    punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'], errors='coerce')
+    muster_shift_info['PDATE'] = pd.to_datetime(muster_shift_info['PDATE'], errors='coerce')
+
+    merged_df = pd.merge(punch_df, muster_shift_info, on=["TOKEN", "PDATE"], how="left")
+    merged_df.to_csv("punch_updated.csv", index=False)
+
+    out = merged_df.copy()
+
+    # Parse times
+    for col in ["INTIME", "OUTTIME"]:
+        out[col] = pd.to_datetime(out[col], errors="coerce")
+
+    out["WORKHRS"] = pd.to_numeric(out["WORKHRS"], errors="coerce")
+
+    # Case 1: both INTIME and OUTTIME blank → mark PUNCH_STATUS as AB
+    mask_absent = out["INTIME"].isna() & out["OUTTIME"].isna()
+    out.loc[mask_absent, "PUNCH_STATUS"] = "AB"
+    out.loc[mask_absent, ["TOTAL_HRS", "OT"]] = [0, "0:00"]
+
+    # Case 2: rows with valid punches
+    valid = ~mask_absent
+    total_secs = (out.loc[valid, "OUTTIME"] - out.loc[valid, "INTIME"]).dt.total_seconds()
+    total_secs = total_secs.clip(lower=0).fillna(0)
+    out.loc[valid, "TOTAL_HRS"] = (total_secs / 3600.0) - float(0)
+    out.loc[valid, "TOTAL_HRS"] = out.loc[valid, "TOTAL_HRS"].clip(lower=0)
+
+    meets = (out.loc[valid, "TOTAL_HRS"] >= out.loc[valid, "WORKHRS"])
+    out.loc[valid, "PUNCH_STATUS"] = np.where(meets, "PR", "HD")
+
+    out.loc[valid, "OT_HRS"] = (out.loc[valid, "TOTAL_HRS"] - out.loc[valid, "WORKHRS"]).clip(lower=0)
+    out.loc[valid, "OT"] = out.loc[valid, "OT_HRS"].apply(hhmm_from_hours)
+
+    out = out.drop(['TOTAL_HRS', 'OT_HRS'], axis=1)
+
+    out.to_csv('punch_newest_updated.csv',index=False)
+
+    out = out.sort_values(by=['TOKEN', 'PDATE'])
+    out.to_csv(table_paths['punch_csv_path'],index=False)
+
+    return out
+

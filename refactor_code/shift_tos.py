@@ -100,7 +100,11 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_
     columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--','MM']
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
 
-    # merged_df = pd.concat([merged_df,mode_1_only_df], ignore_index=True)
+    merged_df = merged_df.drop(['SHIFT_STATUS_y','SHIFT_ST_y','SHIFT_ED_y','WORKHRS_y'], axis=1)
+    merged_df.rename(columns={'SHIFT_STATUS_x': 'SHIFT_STATUS',
+                              'SHIFT_ST_x': 'SHIFT_ST',
+                              'SHIFT_ED_x': 'SHIFT_ED',
+                              'WORKHRS_x': 'WORKHRS'}, inplace=True)
 
     # Save to CSV
     merged_df.to_csv(table_paths['final_csv_path'], index=False)
