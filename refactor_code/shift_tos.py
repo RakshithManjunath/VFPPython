@@ -42,15 +42,43 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_
 
     merged_df.loc[merged_df['STATUS'].isin(['WO', 'PH']), 'OT'] = merged_df['TOTALTIME']
 
-    if mismatch_df is not None:
-        # print('Missing dates')
-        mask = merged_df.apply(lambda row: (row['TOKEN'], row['PDATE']) in \
-                      zip(mismatch_df['TOKEN'], mismatch_df['PDATE']), axis=1)
+    mismatch_report_df = pd.read_csv(table_paths['mismatch_report_path'])
 
-        # Update STATUS column to 'MM' for matching rows
-        merged_df.loc[mask, 'STATUS'] = 'MM'
+    # if mismatch_df is not None:
+    #     # print('Missing dates')
+    #     mask = merged_df.apply(lambda row: (row['TOKEN'], row['PDATE']) in \
+    #                   zip(mismatch_df['TOKEN'], mismatch_df['PDATE']), axis=1)
 
-    merged_df.drop(columns=['MODE'], inplace=True)
+    #     # Update STATUS column to 'MM' for matching rows
+    #     merged_df.loc[mask, 'STATUS'] = 'MM'
+
+    merged_df['TOKEN'] = merged_df['TOKEN'].astype(str)
+    mismatch_report_df['TOKEN'] = mismatch_report_df['TOKEN'].astype(str)
+
+    # 2) Parse dates properly
+    merged_df['PDATE'] = pd.to_datetime(merged_df['PDATE'], errors='coerce')
+    mismatch_report_df['REMARKS'] = pd.to_datetime(mismatch_report_df['REMARKS'], errors='coerce')
+
+    # 3) Use only the DATE part for the cutoff
+    mismatch_report_df['cutoff_date'] = mismatch_report_df['REMARKS'].dt.date
+
+    # 4) Map TOKEN → cutoff_date into merged_df
+    cutoff_map = mismatch_report_df.set_index('TOKEN')['cutoff_date']
+    merged_df['cutoff_date'] = merged_df['TOKEN'].map(cutoff_map)
+
+    # 5) Build the mask:
+    #   - TOKEN exists in mismatch_report_df (cutoff_date not null)
+    #   - PDATE date >= cutoff_date for that TOKEN
+    mask = merged_df['cutoff_date'].notna() & \
+        (merged_df['PDATE'].dt.date >= merged_df['cutoff_date'])
+
+    # 6) Update STATUS to 'MM' where condition is true
+    merged_df.loc[mask, 'STATUS'] = 'MM'
+
+    # 7) Cleanup helper column
+    merged_df.drop(columns=['cutoff_date'], inplace=True)
+
+    #merged_df.to_csv('mm_update.csv',index=False)
 
     status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
 
@@ -94,7 +122,7 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_
             merged_df.at[i, 'STATUS'] = 'AB'
 
     # Convert 'TOKEN' column back to integer dtype
-    merged_df['TOKEN'] = merged_df['TOKEN'].astype('Int64')  # or 'int' if using pandas version 1.0.0 or later
+    merged_df['TOKEN'] = merged_df['TOKEN'].astype('int')  # or 'int' if using pandas version 1.0.0 or later
 
     # Drop unnecessary columns
     columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--','MM']

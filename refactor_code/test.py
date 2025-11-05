@@ -612,7 +612,7 @@ def punch_mismatch(g_current_path):
     if len(mismatch) !=0:
         mismatch_status = True
         mismatch_for_editing_merged_with_muster = pd.merge(mismatch, muster_df, on='TOKEN', how='inner')
-        mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','MODE']]
+        mismatch_for_editing_with_name = mismatch_for_editing_merged_with_muster[['TOKEN','NAME','EMPCODE','MODE','COMCODE_y']]
         mismatch_for_editing_with_name = mismatch_for_editing_with_name.rename(columns={'COMCODE_y':'COMCODE'})
 
         mismatch_for_editing_with_name['MODE_0_COUNT'] = mismatch_for_editing_with_name.groupby('TOKEN')['MODE'].transform(lambda x: (x == 0).sum())
@@ -644,6 +644,7 @@ def punch_mismatch(g_current_path):
             # Substitute the remark in the mismatch_report dataframe
             mismatch_for_editing_with_name.loc[mismatch_for_editing_with_name['TOKEN'] == token, 'REMARKS'] = remark
         if len(mismatch_for_editing_with_name) !=0:
+            mismatch_for_editing_with_name=mismatch_for_editing_with_name[['TOKEN','NAME','EMPCODE','MODE_0_COUNT','MODE_1_COUNT','REMARKS','COMCODE']]
             mismatch_for_editing_with_name.to_csv(table_paths['mismatch_report_path'],index=False)
 
     gseldate_date_format = datetime.strptime(gseldate, "%Y-%m-%d")
