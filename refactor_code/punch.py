@@ -126,7 +126,7 @@ def generate_punch(punches_df,muster_df,g_current_path):
 
     punches_df = pd.concat([punches_df,mode_1_only_df], ignore_index=True)
     punches_df.sort_values(by=['TOKEN', 'PDATE', 'PDTIME'], inplace=True)
-    punches_df.to_csv('concated_punches_and_mode_1.csv',index=False)
+    # punches_df.to_csv('concated_punches_and_mode_1.csv',index=False)
 
     punch_df = pd.DataFrame(columns=['TOKEN', 'PDATE', 'INTIME1', 'OUTTIME1', 'INTIME2', 'OUTTIME2', 'INTIME3', 'OUTTIME3', 'INTIME4', 'OUTTIME4', 'INTIME', 'OUTTIME', 'TOTALTIME','REMARKS'])
     in_punch_time = None
@@ -262,7 +262,7 @@ def generate_punch(punches_df,muster_df,g_current_path):
     muster_shift_info['PDATE'] = pd.to_datetime(muster_shift_info['PDATE'], errors='coerce')
 
     merged_df = pd.merge(punch_df, muster_shift_info, on=["TOKEN", "PDATE"], how="left")
-    merged_df.to_csv("punch_updated.csv", index=False)
+    # merged_df.to_csv("punch_updated.csv", index=False)
 
     out = merged_df.copy()
 
@@ -292,7 +292,7 @@ def generate_punch(punches_df,muster_df,g_current_path):
 
     out = out.drop(['TOTAL_HRS', 'OT_HRS'], axis=1)
 
-    out.to_csv('punch_newest_updated.csv',index=False)
+    # out.to_csv('punch_newest_updated.csv',index=False)
 
     out = out.sort_values(by=['TOKEN', 'PDATE'])
     out.to_csv(table_paths['punch_csv_path'],index=False)

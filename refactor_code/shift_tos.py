@@ -11,7 +11,7 @@ from py_paths import g_current_path,g_first_path
 def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df):
     punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
     merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
-    merged_df.to_csv('merged_punches_and_muster.csv',index=False)
+    # merged_df.to_csv('merged_punches_and_muster.csv',index=False)
 
     mask = merged_df['MUSTER_STATUS'] == ""
     merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
@@ -137,7 +137,7 @@ def create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_
     # Save to CSV
     merged_df.to_csv(table_paths['final_csv_path'], index=False)
 
-    mode_1_only_df.to_csv('mode_1_before_final.csv',index=False)
+    # mode_1_only_df.to_csv('mode_1_before_final.csv',index=False)
 
     pay_input(merged_df,g_current_path)
 
@@ -163,16 +163,15 @@ delete_old_files(table_paths['mismatch_csv_path'])
 delete_old_files(table_paths['payroll_input_path'])
 
 delete_old_files(table_paths['passed_csv_path'])
-delete_old_files(table_paths['orphaned_punches_path'])
+# delete_old_files(table_paths['orphaned_punches_path'])
 
-delete_old_files(table_paths['mismatch_punches_df_path'])
-delete_old_files(table_paths['out_of_range_punches_path'])
+# delete_old_files(table_paths['out_of_range_punches_path'])
 
-delete_old_files(table_paths['passed_punches_df_path'])
-delete_old_files(table_paths['mismatch_punches_df_path'])
+# delete_old_files(table_paths['passed_punches_df_path'])
+# delete_old_files(table_paths['mismatch_punches_df_path'])
 delete_old_files(table_paths['total_punches_punches_df_path'])
-delete_old_files(table_paths['total_pytotpun_punches_df_path'])
-delete_old_files(table_paths['actual_punches_df_path'])
+# delete_old_files(table_paths['total_pytotpun_punches_df_path'])
+# delete_old_files(table_paths['actual_punches_df_path'])
 
 delete_old_files(table_paths['mismatch_report_path'])
 if pg_data_flag == True:
@@ -188,15 +187,15 @@ if process_mode_flag == True:
     if db_check_flag !=0:
         mismatch_flag,mismatch_df,processed_punches,mode_1_only_df = punch_mismatch(g_current_path)
         mismatch_df.to_csv('mismatch_df_after_punchmismatch.csv',index=False)
-        processed_punches.to_csv('processed_punches_after_punch_mistmatch.csv',index=False)
+        # processed_punches.to_csv('processed_punches_after_punch_mistmatch.csv',index=False)
         print("punch check flag: ",mismatch_flag)
         print("mismatch df: ",mismatch_df)
         print("mismatch flag: ",mismatch_flag)
 
         if isinstance(db_check_flag, dict) and mismatch_flag == 1:
             muster_df,muster_del_filtered = generate_muster(db_check_flag,g_current_path)
-            muster_df.to_csv('muster_df_after_generate_muster.csv',index=False)
-            muster_del_filtered.to_csv('muster_del_filtered_generate_muster.csv',index=False)
+            # muster_df.to_csv('muster_df_after_generate_muster.csv',index=False)
+            # muster_del_filtered.to_csv('muster_del_filtered_generate_muster.csv',index=False)
             punch_df = generate_punch(processed_punches,muster_del_filtered,g_current_path)
             create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df)
             

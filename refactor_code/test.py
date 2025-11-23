@@ -26,18 +26,18 @@ def file_paths(curr_path):
     wdtest_server_path = root_folder + 'wdtest_server.csv'
     wdtest_client_path = root_folder + 'wdtest_client.csv'
     passed_csv_path = root_folder + 'passed.csv'
-    orphaned_punches_path = root_folder + 'orphaned_punches.csv'
-    out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
+    # orphaned_punches_path = root_folder + 'orphaned_punches.csv'
+    # out_of_range_punches_path = root_folder + 'out_of_range_punches.csv'
     holmast_csv_path = root_folder + 'holiday.csv'
     lvform_csv_path = root_folder + 'leave.csv'
     pytotpun_dbf_path = root_folder + 'pytotpun.dbf'
     mismatch_report_path = root_folder + 'mismatch_report.csv'
-    passed_punches_df_path = root_folder + 'passed_punches.csv'
+    # passed_punches_df_path = root_folder + 'passed_punches.csv'
     mismatch_punches_df_path = root_folder + 'mismatch_punches.csv'
     total_punches_punches_df_path = root_folder + 'total_punches_punches.csv'
-    total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
-    actual_punches_df_path = root_folder + 'actual_punches.csv'
-    duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
+    # total_pytotpun_punches_df_path = root_folder + 'total_pytotpun_punches.csv'
+    # actual_punches_df_path = root_folder + 'actual_punches.csv'
+    # duplicate_punches_df_path = root_folder + 'duplicates_punches.csv'
 
     empty_tables_path = root_folder + 'empty_tables.txt'
     mismatch_csv_path = root_folder + 'mismatch.csv'
@@ -59,7 +59,7 @@ def file_paths(curr_path):
 
     next_month_day_one_path = root_folder + 'next_month_day_one_final.csv'
 
-    pundel_true_path = root_folder + 'pundel_true_punches.csv'
+    # pundel_true_path = root_folder + 'pundel_true_punches.csv'
 
     shiftmast_csv_path = root_folder + 'SHINFO.csv'
 
@@ -85,26 +85,26 @@ def file_paths(curr_path):
             "muster_role_path":muster_role_path,
 
             "passed_csv_path":passed_csv_path,
-            "orphaned_punches_path":orphaned_punches_path,
-            "out_of_range_punches_path":out_of_range_punches_path,
+            # "orphaned_punches_path":orphaned_punches_path,
+            # "out_of_range_punches_path":out_of_range_punches_path,
             
             "holmast_csv_path":holmast_csv_path,
             "lvform_csv_path":lvform_csv_path,
             "pytotpun_dbf_path":pytotpun_dbf_path,
             "mismatch_report_path":mismatch_report_path,
             
-            "passed_punches_df_path":passed_punches_df_path,
+            # "passed_punches_df_path":passed_punches_df_path,
             "mismatch_punches_df_path":mismatch_punches_df_path,
             "total_punches_punches_df_path":total_punches_punches_df_path,
-            "actual_punches_df_path":actual_punches_df_path,
-            "duplicate_punches_df_path":duplicate_punches_df_path,
-            "total_pytotpun_punches_df_path":total_pytotpun_punches_df_path,
+            # "actual_punches_df_path":actual_punches_df_path,
+            # "duplicate_punches_df_path":duplicate_punches_df_path,
+            # "total_pytotpun_punches_df_path":total_pytotpun_punches_df_path,
             "gsel_date_excluded_punches_len_df_path":gsel_date_excluded_punches_len_df_path,
             "dayone_out_path":dayone_out_path,
             "temp_gseldate_path":temp_gseldate_path,
             
             "next_month_day_one_path":next_month_day_one_path,
-            "pundel_true_path":pundel_true_path,
+            # "pundel_true_path":pundel_true_path,
             "shiftmast_csv_path":shiftmast_csv_path}
 
 def check_g_main_path():
@@ -282,7 +282,7 @@ def punch_mismatch(g_current_path):
         pytotpun_df['DEL'] = pytotpun_df['DEL'].astype(str).replace("None", "").replace("", "False").fillna("False")
 
         pundel_true_punches_df = pytotpun_df[pytotpun_df['DEL'] == "True"]
-        pundel_true_punches_df.to_csv(table_paths['pundel_true_path'],index=False)
+        # pundel_true_punches_df.to_csv(table_paths['pundel_true_path'],index=False)
 
         pytotpun_df = pytotpun_df[pytotpun_df['DEL'] != "True"]
 
@@ -290,7 +290,7 @@ def punch_mismatch(g_current_path):
         print("Updated DEL column type:", pytotpun_df['DEL'].dtype)
         # pytotpun_df.sort_values(by=['TOKEN', 'PDTIME', 'MODE'], inplace=True)
         punches_df = pytotpun_df
-        pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
+        # pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
         if os.path.exists(table_paths['gsel_date_excluded_punches_len_df_path']):
             gseldate_flag_file_exists = True
             print("gsel date file exists: ",gseldate_flag_file_exists)
@@ -384,7 +384,7 @@ def punch_mismatch(g_current_path):
 
     # Identifying and creating a DataFrame for the removed rows
     duplicates_removed_df = punches_df[~punches_df.index.isin(unique_punches_df.index)]
-    duplicates_removed_df.to_csv(table_paths['duplicate_punches_df_path'],index=False)
+    # duplicates_removed_df.to_csv(table_paths['duplicate_punches_df_path'],index=False)
 
     out_of_range_punches_df = unique_punches_df[
         ~(
@@ -393,7 +393,7 @@ def punch_mismatch(g_current_path):
         ) | 
         (unique_punches_df['PDATE'] > gsel_datetime)
     ]
-    out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
+    # out_of_range_punches_df.to_csv(table_paths['out_of_range_punches_path'],index=False)
 
     merged_df = unique_punches_df.merge(out_of_range_punches_df, on=['TOKEN','PDTIME','MODE'], how='inner')
     punches_df = unique_punches_df[~unique_punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
@@ -407,16 +407,16 @@ def punch_mismatch(g_current_path):
         orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP']]
         orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         orphaned_punches_df['DEL'] = "False"
-        orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        # orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
     else:
         orphaned_punches_df = orphaned_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
         orphaned_punches_df = orphaned_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
-        orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
+        # orphaned_punches_df.to_csv(table_paths['orphaned_punches_path'],index=False)
         
     merged_df = punches_df.merge(orphaned_punches_df, on=['TOKEN', 'PDTIME','MODE'], how='inner')
     punches_df = punches_df[~punches_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index.isin(merged_df.set_index(['TOKEN', 'PDTIME', 'MODE']).index)]
     print(f"After removing orphaned punches: {punches_df.shape[0]}")
-    punches_df.to_csv(table_paths['actual_punches_df_path'],index=False)
+    # punches_df.to_csv(table_paths['actual_punches_df_path'],index=False)
 
     dayone_out = pd.DataFrame(columns=punches_df.columns)
 
@@ -468,7 +468,7 @@ def punch_mismatch(g_current_path):
             else:
                 print(f"Index {first_mode_1_row.name} not found in punches_df during second logic.")
 
-    dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
+    # dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
 
     mismatch_status = True
 
@@ -576,12 +576,12 @@ def punch_mismatch(g_current_path):
         passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         passed_punches_df['DEL'] = "False"
-        passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
+        # passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
     else:
         passed_punches_df = result_passed_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
         passed_punches_df = passed_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
         passed_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-        passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
+        # passed_punches_df.to_csv(table_paths['passed_punches_df_path'],index=False)
         
     mismatch['PDTIME'] = pd.to_datetime(mismatch['PDTIME'])
 
@@ -597,17 +597,17 @@ def punch_mismatch(g_current_path):
         mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
         mismatch_punches_df['DEL'] = "False"
-        mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
+        # mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
     elif pytotpun_num_records!=0 and len(mismatch) !=0:
         mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL_x']]
         mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE','DEL_x':'DEL'})
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-        mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
+        # mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
     elif pytotpun_num_records!=0 and len(mismatch) == 0:
         mismatch_punches_df = result_mismatch_df[['TOKEN','COMCODE_y','PDATE','HOURS','MINUTES','MODE','PDTIME','MCIP','DEL']]
         mismatch_punches_df = mismatch_punches_df.rename(columns={'COMCODE_y':'COMCODE'})
         mismatch_punches_df.sort_values(by=['TOKEN', 'PDTIME'], inplace=True)
-        mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
+        # mismatch_punches_df.to_csv(table_paths['mismatch_punches_df_path'],index=False)
 
     if len(mismatch) !=0:
         mismatch_status = True
@@ -729,11 +729,11 @@ def punch_mismatch(g_current_path):
     pytotpun_df['DEL'] = pytotpun_df['DEL'].fillna("False").astype(str)
     pytotpun_df['DEL'] = pytotpun_df['DEL'].map({"False": False, "True": True})
 
-    pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
+    # pytotpun_df.to_csv(table_paths['total_pytotpun_punches_df_path'],index=False)
 
     pytotpun_df['PDATE'] = pd.to_datetime(pytotpun_df['PDATE'])
     pytotpun_df['PDATE'] = pytotpun_df['PDATE'].dt.date
-    pytotpun_df.to_csv('pytotpun_df_before_saving.csv',index=False)
+    # pytotpun_df.to_csv('pytotpun_df_before_saving.csv',index=False)
 
     table = Table(table_paths['pytotpun_dbf_path'])
     table.open(mode=READ_WRITE)
