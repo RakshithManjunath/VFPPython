@@ -122,6 +122,16 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
     merged_df.loc[mm_mask, 'TOTALTIME'] = ""
     merged_df.loc[mm_mask, 'OT'] = ""
 
+    desired_order = [
+        "TOKEN","COMCODE","NAME","EMPCODE","EMP_DEPT","DEPT_NAME","EMP_DESI","DESI_NAME",
+        "PDATE","STATUS","INTIME","OUTTIME","TOTALTIME","REMARKS","OT",
+        "TOT_AB","TOT_WO","TOT_PR","TOT_PH","TOT_LV","TOT_MM"
+    ]
+
+    existing_desired = [c for c in desired_order if c in merged_df.columns]
+    remaining = [c for c in merged_df.columns if c not in existing_desired]
+    merged_df = merged_df[existing_desired + remaining]
+
     merged_df.to_csv(table_paths['final_csv_path'], index=False)
 
     pay_input(merged_df, g_current_path)

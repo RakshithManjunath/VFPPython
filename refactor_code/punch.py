@@ -639,20 +639,31 @@ def generate_punch(punches_df, muster_df, g_current_path):
     out.loc[valid,'TOTALTIME'] = out.loc[valid,'TOTAL_HRS']
 
     # ---------------- HD + GRATIME PROMOTION ----------------
-    # If status is HD, add gratime to TOTALTIME; if it becomes >= WORKHRS, mark PR.
+    # If status is HD, add gratime to minutes ONLY for eligibility check.
+    # If (actual_minutes + gratime_minutes) >= WORKHRS then:
+    #   - Update status to PR
+    #   - DO NOT change TOTALTIME / TOTAL_HRS (keep actual)
+    #   - Add '&' to REMARKS
     grace_m = out.loc[valid,'gratime_minutes'].fillna(0).astype(int)
     mins_with_grace = (mins_actual + grace_m).astype(int)
 
     hd_mask = out.loc[valid,'PUNCH_STATUS'].astype(str).str.strip().str.upper().eq("HD")
     promote = hd_mask & (mins_with_grace >= fullm)
 
-    # Update only promoted rows:
-    # - status becomes PR
-    # - TOTAL_HRS/TOTALTIME becomes (actual + grace)
     promoted_idx = out.loc[valid].index[promote]
+
+    # Update status only
     out.loc[promoted_idx, 'PUNCH_STATUS'] = "PR"
-    out.loc[promoted_idx, 'TOTAL_HRS'] = [hhmm(m) for m in mins_with_grace[promote]]
-    out.loc[promoted_idx, 'TOTALTIME'] = out.loc[promoted_idx, 'TOTAL_HRS']
+
+    # Add '&' to REMARKS (append, don't overwrite)
+    # Handle NaN safely
+    if 'REMARKS' not in out.columns:
+        out['REMARKS'] = ""
+
+    rem = out.loc[promoted_idx, 'REMARKS'].astype(str)
+    rem = rem.replace("nan", "", regex=False).fillna("")
+    # append '&' only if not already present at end
+    out.loc[promoted_idx, 'REMARKS'] = rem.apply(lambda x: (x + "&") if not x.endswith("&") else x)
 
     # ---------------- MM OVERRIDE (FINAL STEP) ----------------
     mask_mm = (
@@ -670,5 +681,6 @@ def generate_punch(punches_df, muster_df, g_current_path):
     out.to_csv(table_paths['punch_csv_path'], index=False)
 
     return out
+
 
 
