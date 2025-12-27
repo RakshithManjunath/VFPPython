@@ -22,13 +22,12 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
         punch_df["COMCODE"] = ""
 
     # ---------------- Ensure TOTPASSHRS exists ONLY FROM PUNCH ----------------
-    # Requirement: TOTPASSHRS must come from punch_df itself.
-    # So we keep it from punch_df, and if missing there, create blank there.
     if "TOTPASSHRS" not in punch_df.columns:
         punch_df = punch_df.copy()
         punch_df["TOTPASSHRS"] = ""
+    punch_df["TOTPASSHRS"] = punch_df["TOTPASSHRS"].fillna("").astype(str).str.strip()
 
-    # Standardize types
+    # Standardize COMCODE
     if "COMCODE" in muster_df.columns:
         muster_df = muster_df.copy()
         muster_df["COMCODE"] = muster_df["COMCODE"].astype(str).str.strip()
@@ -36,18 +35,15 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
         punch_df = punch_df.copy()
         punch_df["COMCODE"] = punch_df["COMCODE"].astype(str).str.strip()
 
-    # Keep TOTPASSHRS as string (safe for CSV)
-    punch_df["TOTPASSHRS"] = punch_df["TOTPASSHRS"].fillna("").astype(str).str.strip()
-
+    # Ensure dates comparable
     punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"])
     muster_df["PDATE"] = pd.to_datetime(muster_df["PDATE"])
 
-    # ---------------- Merge ----------------
-    # We do NOT want TOTPASSHRS from muster at all.
-    # If muster_df contains TOTPASSHRS for any reason, drop it before merge.
+    # If muster_df has TOTPASSHRS for any reason, drop it (we want it only from punch)
     if "TOTPASSHRS" in muster_df.columns:
         muster_df = muster_df.drop(columns=["TOTPASSHRS"], errors="ignore")
 
+    # ---------------- Merge (use suffixes _M / _P) ----------------
     merged_df = pd.merge(
         muster_df,
         punch_df,
@@ -56,12 +52,12 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
         suffixes=("_M", "_P")
     )
 
-    # ---------------- Normalize COMCODE ----------------
+    # ---------------- Normalize COMCODE to plain COMCODE ----------------
     if "COMCODE" not in merged_df.columns:
         if "COMCODE_M" in merged_df.columns and "COMCODE_P" in merged_df.columns:
             merged_df["COMCODE"] = merged_df["COMCODE_M"].fillna("").astype(str).str.strip()
-            mask_blank = merged_df["COMCODE"].eq("")
-            merged_df.loc[mask_blank, "COMCODE"] = merged_df.loc[mask_blank, "COMCODE_P"].fillna("").astype(str).str.strip()
+            blank = merged_df["COMCODE"].eq("")
+            merged_df.loc[blank, "COMCODE"] = merged_df.loc[blank, "COMCODE_P"].fillna("").astype(str).str.strip()
             merged_df.drop(columns=["COMCODE_M", "COMCODE_P"], inplace=True)
         elif "COMCODE_M" in merged_df.columns:
             merged_df["COMCODE"] = merged_df["COMCODE_M"]
@@ -72,18 +68,36 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
         else:
             merged_df["COMCODE"] = ""
 
+    # ---------------- Normalize SHIFT_STATUS -> single column ----------------
+    # You are seeing SHIFT_STATUS_M and SHIFT_STATUS_P because both muster_df and punch_df have SHIFT_STATUS.
+    # Rule: prefer muster (SHIFT_STATUS_M), else take punch (SHIFT_STATUS_P).
+    if "SHIFT_STATUS" not in merged_df.columns:
+        if "SHIFT_STATUS_M" in merged_df.columns and "SHIFT_STATUS_P" in merged_df.columns:
+            merged_df["SHIFT_STATUS"] = merged_df["SHIFT_STATUS_M"].fillna("").astype(str).str.strip()
+            blank = merged_df["SHIFT_STATUS"].eq("")
+            merged_df.loc[blank, "SHIFT_STATUS"] = merged_df.loc[blank, "SHIFT_STATUS_P"].fillna("").astype(str).str.strip()
+            merged_df.drop(columns=["SHIFT_STATUS_M", "SHIFT_STATUS_P"], inplace=True)
+        elif "SHIFT_STATUS_M" in merged_df.columns:
+            merged_df["SHIFT_STATUS"] = merged_df["SHIFT_STATUS_M"]
+            merged_df.drop(columns=["SHIFT_STATUS_M"], inplace=True)
+        elif "SHIFT_STATUS_P" in merged_df.columns:
+            merged_df["SHIFT_STATUS"] = merged_df["SHIFT_STATUS_P"]
+            merged_df.drop(columns=["SHIFT_STATUS_P"], inplace=True)
+        else:
+            merged_df["SHIFT_STATUS"] = ""
+
+    # If either suffixed still exists for any reason, drop them
+    merged_df = merged_df.drop(columns=[c for c in ["SHIFT_STATUS_M", "SHIFT_STATUS_P"] if c in merged_df.columns],
+                               errors="ignore")
+
     # ---------------- Normalize TOTPASSHRS (PUNCH ONLY) ----------------
-    # After merge, it may appear as:
-    # - TOTPASSHRS (if no conflict)
-    # - TOTPASSHRS_P (if some other df had it)
     if "TOTPASSHRS" not in merged_df.columns:
         if "TOTPASSHRS_P" in merged_df.columns:
             merged_df["TOTPASSHRS"] = merged_df["TOTPASSHRS_P"].fillna("").astype(str).str.strip()
             merged_df.drop(columns=["TOTPASSHRS_P"], inplace=True)
         else:
             merged_df["TOTPASSHRS"] = ""
-    else:
-        merged_df["TOTPASSHRS"] = merged_df["TOTPASSHRS"].fillna("").astype(str).str.strip()
+    merged_df["TOTPASSHRS"] = merged_df["TOTPASSHRS"].fillna("").astype(str).str.strip()
 
     # ---------------- Your existing logic ----------------
     mask = merged_df["MUSTER_STATUS"] == ""
@@ -106,7 +120,7 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
     else:
         print("'STATUS' column does not exist in the DataFrame.")
 
-    # IMPORTANT: do NOT drop COMCODE or TOTPASSHRS
+    # IMPORTANT: do NOT drop COMCODE, SHIFT_STATUS, TOTPASSHRS
     drop_cols = [
         "DATE_JOIN", "DATE_LEAVE", "PUNCH_STATUS",
         "INTIME1", "OUTTIME1", "INTIME2", "OUTTIME2",
@@ -128,8 +142,8 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
     cutoff_map = mismatch_report_df.set_index("TOKEN")["cutoff_date"]
     merged_df["cutoff_date"] = merged_df["TOKEN"].map(cutoff_map)
 
-    mask = merged_df["cutoff_date"].notna() & (merged_df["PDATE"].dt.date >= merged_df["cutoff_date"])
-    merged_df.loc[mask, "STATUS"] = "MM"
+    mm_mask2 = merged_df["cutoff_date"].notna() & (merged_df["PDATE"].dt.date >= merged_df["cutoff_date"])
+    merged_df.loc[mm_mask2, "STATUS"] = "MM"
     merged_df.drop(columns=["cutoff_date"], inplace=True)
 
     status_counts_by_empcode = merged_df.groupby(["TOKEN", "STATUS"])["STATUS"].count().unstack().reset_index()
@@ -164,14 +178,6 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
     columns_to_drop = ["HD", "AB", "PH", "PR", "WO", "CL", "EL", "SL", "--", "MM"]
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors="ignore")
 
-    merged_df = merged_df.drop(columns=["SHIFT_STATUS_y", "SHIFT_ST_y", "SHIFT_ED_y", "WORKHRS_y"], errors="ignore")
-    merged_df.rename(columns={
-        "SHIFT_STATUS_x": "SHIFT_STATUS",
-        "SHIFT_ST_x": "SHIFT_ST",
-        "SHIFT_ED_x": "SHIFT_ED",
-        "WORKHRS_x": "WORKHRS"
-    }, inplace=True)
-
     # ---------------- MM BLANKING (FINAL STEP) ----------------
     mm_mask = merged_df.get("STATUS", pd.Series(index=merged_df.index, dtype="object")) \
                        .astype(str).str.strip().str.upper().eq("MM")
@@ -191,29 +197,33 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
 
     if "SHIFT_STATUS" in merged_df.columns:
         cols = list(merged_df.columns)
-        cols.remove(BLANK_COL_NAME)
+        if BLANK_COL_NAME in cols:
+            cols.remove(BLANK_COL_NAME)
         insert_at = cols.index("SHIFT_STATUS") + 1
         cols.insert(insert_at, BLANK_COL_NAME)
         merged_df = merged_df[cols]
 
-    desired_order = [
+    # ---------------- FINAL COLUMN ORDER EXACTLY AS YOU WANT ----------------
+    final_order = [
         "TOKEN", "COMCODE", "NAME", "EMPCODE", "EMP_DEPT", "DEPT_NAME", "EMP_DESI", "DESI_NAME",
         "PDATE", "STATUS", "INTIME", "OUTTIME", "TOTALTIME", "REMARKS", "OT",
         "TOT_AB", "TOT_WO", "TOT_PR", "TOT_PH", "TOT_LV", "TOT_MM",
-        "SHIFT_STATUS", "BLANK_DATETIME", "SHIFT_ST", "SHIFT_ED", "WORKHRS",
+        "SHIFT_STATUS", "BLANK_DATETIME",
+        "SHIFT_ST", "SHIFT_ED", "WORKHRS",
         "inc_grt_minutes", "gratime_minutes", "workhrs_minutes", "halfday_minutes",
-        "workhrs", "shift_st_time", "shift_ed_time", "TOTAL_HRS", "OD"
+        "workhrs", "shift_st_time", "shift_ed_time", "TOTAL_HRS",
+        "CO", "ES", "TOTPASSHRS"
     ]
 
-    existing_desired = [c for c in desired_order if c in merged_df.columns]
-    remaining = [c for c in merged_df.columns if c not in existing_desired]
-    merged_df = merged_df[existing_desired + remaining]
+    # Ensure missing columns exist (so reindex never fails)
+    for c in final_order:
+        if c not in merged_df.columns:
+            merged_df[c] = ""
 
-    # ---------------- FORCE TOTPASSHRS TO BE LAST COLUMN (FROM PUNCH ONLY) ----------------
-    if "TOTPASSHRS" not in merged_df.columns:
-        merged_df["TOTPASSHRS"] = ""
-    cols = [c for c in merged_df.columns if c != "TOTPASSHRS"] + ["TOTPASSHRS"]
-    merged_df = merged_df[cols]
+    # Put in desired order, then keep any unexpected extra columns after
+    existing_final = [c for c in final_order if c in merged_df.columns]
+    extras = [c for c in merged_df.columns if c not in existing_final]
+    merged_df = merged_df[existing_final + extras]
 
     merged_df.to_csv(table_paths["final_csv_path"], index=False)
 
@@ -222,7 +232,6 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
         merged_df["COMCODE"] = ""
 
     pay_input(merged_df, g_current_path)
-
 
 
 # try:
