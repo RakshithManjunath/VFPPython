@@ -391,8 +391,8 @@ def apply_outpass_override(out: pd.DataFrame, outpass_csv_path: str) -> pd.DataF
         dtype=str,
         skipinitialspace=True,
         engine="python",
-        error_bad_lines=False,   # old pandas
-        warn_bad_lines=False     # old pandas
+        error_bad_lines=False,  # old pandas
+        warn_bad_lines=False    # old pandas
     )
     pass_df.columns = [c.strip().lower() for c in pass_df.columns]
 
@@ -423,20 +423,15 @@ def apply_outpass_override(out: pd.DataFrame, outpass_csv_path: str) -> pd.DataF
     out_com = out["COMCODE"].astype(str).str.strip()
     out_pdate = pd.to_datetime(out["PDATE"], errors="coerce").dt.date
 
-    # IMPORTANT: keep keys as pure python tuples (do NOT convert to numpy arrays)
     keys = list(zip(out_token.tolist(), out_com.tolist(), out_pdate.tolist()))
-
-    # matched_mask aligned to out.index
     matched_mask = pd.Series([k in key_to_passhrs for k in keys], index=out.index)
 
-    # Fill TOTPASSHRS aligned, without numpy (avoids "unhashable numpy.ndarray")
     out.loc[matched_mask, "TOTPASSHRS"] = [
         key_to_passhrs[keys[i]]
         for i in range(len(keys))
         if matched_mask.iat[i]
     ]
 
-    # Apply overrides
     if "REMARKS" not in out.columns:
         out["REMARKS"] = ""
     out["REMARKS"] = out["REMARKS"].fillna("").astype(str)
@@ -447,7 +442,6 @@ def apply_outpass_override(out: pd.DataFrame, outpass_csv_path: str) -> pd.DataF
         "PUNCH_STATUS",
     ] = "PR"
 
-    # Put TOTPASSHRS at the end
     cols = [c for c in out.columns if c != "TOTPASSHRS"] + ["TOTPASSHRS"]
     return out[cols]
 
@@ -715,6 +709,30 @@ def generate_punch(punches_df, muster_df, g_current_path):
                     ignore_index=True,
                 )
 
+    # ---------------- FIX: Fill missing COMCODE for AB rows (and any other blanks) ----------------
+    # Build a TOKEN -> COMCODE map from muster_df first (best source), else from existing punch_df rows.
+    comcode_map = {}
+
+    if "COMCODE" in muster_df.columns:
+        tmp = muster_df[["TOKEN", "COMCODE"]].copy()
+        tmp["TOKEN"] = tmp["TOKEN"].astype(str).str.strip()
+        tmp["COMCODE"] = tmp["COMCODE"].astype(str).str.strip()
+        tmp = tmp[tmp["COMCODE"].ne("") & tmp["COMCODE"].ne("nan")]
+        comcode_map = tmp.drop_duplicates("TOKEN", keep="last").set_index("TOKEN")["COMCODE"].to_dict()
+
+    # fallback: if muster_df doesn't have COMCODE or map is empty, use existing non-empty COMCODE from punch_df
+    if not comcode_map:
+        tmp = punch_df[["TOKEN", "COMCODE"]].copy()
+        tmp["TOKEN"] = tmp["TOKEN"].astype(str).str.strip()
+        tmp["COMCODE"] = tmp["COMCODE"].fillna("").astype(str).str.strip()
+        tmp = tmp[tmp["COMCODE"].ne("") & tmp["COMCODE"].ne("nan")]
+        comcode_map = tmp.drop_duplicates("TOKEN", keep="last").set_index("TOKEN")["COMCODE"].to_dict()
+
+    # apply map to fill blanks
+    punch_df["COMCODE"] = punch_df["COMCODE"].fillna("").astype(str).str.strip()
+    blank_cc = punch_df["COMCODE"].eq("") | punch_df["COMCODE"].str.lower().eq("nan")
+    punch_df.loc[blank_cc, "COMCODE"] = punch_df.loc[blank_cc, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
+
     punch_df.to_csv(table_paths["punch_csv_path"], index=False)
 
     # Merge muster shift info
@@ -731,6 +749,12 @@ def generate_punch(punches_df, muster_df, g_current_path):
     if "COMCODE" not in out.columns:
         out["COMCODE"] = np.nan
 
+    # ---------------- FIX: Ensure out.COMCODE not blank for AB rows ----------------
+    out["COMCODE"] = out["COMCODE"].fillna("").astype(str).str.strip()
+    blank_cc2 = out["COMCODE"].eq("") | out["COMCODE"].str.lower().eq("nan")
+    if blank_cc2.any():
+        out.loc[blank_cc2, "COMCODE"] = out.loc[blank_cc2, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
+
     out["INTIME"] = pd.to_datetime(out["INTIME"], errors="coerce")
     out["OUTTIME"] = pd.to_datetime(out["OUTTIME"], errors="coerce")
 
@@ -741,29 +765,52 @@ def generate_punch(punches_df, muster_df, g_current_path):
     fullm = out.loc[valid, "workhrs_minutes"].fillna(gfull_day).astype(int)
     halfm = out.loc[valid, "halfday_minutes"].fillna(ghalf_day).astype(int)
 
+    # Base status from ACTUAL mins
     base_status = np.where(mins_actual >= fullm, "PR", np.where(mins_actual <= halfm, "AB", "HD"))
     out.loc[valid, "PUNCH_STATUS"] = base_status
     out.loc[valid, "TOTAL_HRS"] = [hhmm(m) for m in mins_actual]
     out.loc[valid, "TOTALTIME"] = out.loc[valid, "TOTAL_HRS"]
 
+    # OT based on ACTUAL mins (unchanged)
     otm = np.maximum(mins_actual - fullm, 0)
     incm = out.loc[valid, "inc_grt_minutes"].fillna(0).astype(int)
     otm = np.where(otm < incm, 0, otm)
     out.loc[valid, "OT"] = [hhmm(m) for m in otm]
 
-    # GRATIME promotion
-    base_status_s = pd.Series(base_status, index=out.loc[valid].index)
+    # ---------------- GRATIME PROMOTION (AB->HD and HD->PR) + CLEAN OLD "&" ----------------
     grace_m = out.loc[valid, "gratime_minutes"].fillna(0).astype(int)
     mins_with_grace = (mins_actual + grace_m).astype(int)
 
     if "REMARKS" not in out.columns:
         out["REMARKS"] = ""
-
     out["REMARKS"] = out["REMARKS"].fillna("").astype(str)
+
+    # Clear any existing "&" first (old marker)
     out.loc[out["REMARKS"].str.strip().eq("&"), "REMARKS"] = ""
 
-    promote_mask = (base_status_s.eq("HD")) & (mins_actual < fullm) & (mins_with_grace >= fullm)
-    promoted_idx = out.loc[valid].index[promote_mask]
+    # Current status aligned to valid rows
+    cur_status_s = out.loc[valid, "PUNCH_STATUS"].astype(str).str.strip().str.upper()
+
+    # 1) Promote AB -> HD when:
+    ab_to_hd_mask = (
+        cur_status_s.eq("AB")
+        & (mins_actual < halfm)
+        & (mins_with_grace >= halfm)
+    )
+    ab_to_hd_idx = out.loc[valid].index[ab_to_hd_mask]
+    out.loc[ab_to_hd_idx, "PUNCH_STATUS"] = "HD"
+    out.loc[ab_to_hd_idx, "REMARKS"] = "&"   # as requested
+
+    # Refresh status after AB->HD
+    cur_status_s = out.loc[valid, "PUNCH_STATUS"].astype(str).str.strip().str.upper()
+
+    # 2) Promote HD -> PR when:
+    hd_to_pr_mask = (
+        cur_status_s.eq("HD")
+        & (mins_actual < fullm)
+        & (mins_with_grace >= fullm)
+    )
+    promoted_idx = out.loc[valid].index[hd_to_pr_mask]
     out.loc[promoted_idx, "PUNCH_STATUS"] = "PR"
     out.loc[promoted_idx, "REMARKS"] = "&"
 
@@ -790,6 +837,4 @@ def generate_punch(punches_df, muster_df, g_current_path):
     out = out.sort_values(by=["TOKEN", "PDATE"])
     out.to_csv(table_paths["punch_csv_path"], index=False)
     return out
-
-
 
