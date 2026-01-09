@@ -758,9 +758,30 @@ def generate_punch(punches_df, muster_df, g_current_path):
     out["INTIME"] = pd.to_datetime(out["INTIME"], errors="coerce")
     out["OUTTIME"] = pd.to_datetime(out["OUTTIME"], errors="coerce")
 
-    valid = ~(out["INTIME"].isna() & out["OUTTIME"].isna())
-    secs = (out.loc[valid, "OUTTIME"] - out.loc[valid, "INTIME"]).dt.total_seconds().clip(lower=0)
-    mins_actual = (secs // 60).astype(int)
+    # valid = ~(out["INTIME"].isna() & out["OUTTIME"].isna())
+    # secs = (out.loc[valid, "OUTTIME"] - out.loc[valid, "INTIME"]).dt.total_seconds().clip(lower=0)
+    # mins_actual = (secs // 60).astype(int)
+
+    # ----- FIX: compute ACTUAL mins as sum of all IN/OUT pairs (handles breaks correctly) -----
+    total_secs = pd.Series(0.0, index=out.index)
+
+    pair_cols = [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
+                ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]
+
+    any_pair = pd.Series(False, index=out.index)
+
+    for cin, cout in pair_cols:
+        if cin in out.columns and cout in out.columns:
+            tin = pd.to_datetime(out[cin], errors="coerce")
+            tout = pd.to_datetime(out[cout], errors="coerce")
+            m = tin.notna() & tout.notna()
+            any_pair |= m
+            total_secs.loc[m] += (tout.loc[m] - tin.loc[m]).dt.total_seconds().clip(lower=0)
+
+    valid = any_pair
+    mins_actual = (total_secs.loc[valid] // 60).astype(int)
+    # -----------------------------------------------------------------------------------------
+
 
     fullm = out.loc[valid, "workhrs_minutes"].fillna(gfull_day).astype(int)
     halfm = out.loc[valid, "halfday_minutes"].fillna(ghalf_day).astype(int)
