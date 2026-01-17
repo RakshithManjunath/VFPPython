@@ -111,21 +111,33 @@ def check_g_main_path():
     with open(g_first_path + "g_mainpath.txt") as file:
         lines = file.readlines()
 
-        # Safely get first two lines
-        first_two = [line.strip() for line in lines[:2]]
+        # Safely get first three lines
+        first_three = [line.strip() for line in lines[:3]]
 
-        if len(first_two) < 2:
+        if len(first_three) < 2:
             print("File has less than two lines.")
+            return None, None
+
+        line1, line2 = first_three[0], first_three[1]
+        line3 = first_three[2] if len(first_three) >= 3 else None
+
+        # ---- PATH LOGIC ----
+        if line1 == line2:
+            print("Line 1 and Line 2 are the SAME")
+            converted_path = line1.replace("\\", "/")
         else:
-            line1, line2 = first_two
-            if line1 == line2:
-                print("Line 1 and Line 2 are the SAME")
-                converted_path = line1.replace("\\", "/")
-                return converted_path
-            else:
-                print("Line 1 and Line 2 are DIFFERENT")
-                converted_path = line2.replace("\\", "/")
-                return converted_path
+            print("Line 1 and Line 2 are DIFFERENT")
+            converted_path = line2.replace("\\", "/")
+
+        # ---- MODE LOGIC (NEW) ----
+        mode = None
+        if line3 == "1":
+            mode = "shift"
+        elif line3 == "0":
+            mode = "flexi"
+
+        return converted_path, mode
+
 
 def check_ankura(g_current_path):
     table_paths = file_paths(g_current_path)

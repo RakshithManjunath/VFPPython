@@ -1,5 +1,5 @@
-from punch import generate_punch
-from muster import generate_muster
+from punch import generate_punch_shift,generate_punch_flexi
+from muster import generate_muster_shift,generate_muster_flexi
 from test import (
     test_db_len, make_blank_files, delete_old_files, create_new_csvs,
     punch_mismatch, file_paths, check_ankura, check_database,
@@ -13,7 +13,7 @@ from dbf_handler import dbf_2_df
 from py_paths import g_current_path, g_first_path
 
 
-def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_only_df):
+def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mode_1_only_df):
     # ---------------- Ensure COMCODE exists before merge ----------------
     if "COMCODE" not in muster_df.columns and "COMCODE" not in punch_df.columns:
         muster_df = muster_df.copy()
@@ -149,7 +149,7 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
             merged_df["cutoff_date"] = merged_df["TOKEN"].map(cutoff_map)
 
             # ONLY that date should be MM (not onward)
-            mm_mask2 = merged_df["cutoff_date"].notna() & (merged_df["PDATE"].dt.date == merged_df["cutoff_date"])
+            mm_mask2 = merged_df["cutoff_date"].notna() & (merged_df["PDATE"].dt.date >= merged_df["cutoff_date"])
             merged_df.loc[mm_mask2, "STATUS"] = "MM"
 
             merged_df.drop(columns=["cutoff_date"], inplace=True, errors="ignore")
@@ -241,8 +241,110 @@ def create_final_csv(muster_df, punch_df, mismatch_df, g_current_path, mode_1_on
     pay_input(merged_df, g_current_path)
 
 
+def create_final_csv_flexi(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df):
+    punch_df['PDATE'] = pd.to_datetime(punch_df['PDATE'])
+    merged_df = pd.merge(muster_df, punch_df, on=['TOKEN', 'PDATE'], how='outer')
+    merged_df.to_csv('merged_punches_and_muster.csv',index=False)
+
+    mask = merged_df['MUSTER_STATUS'] == ""
+    merged_df.loc[mask, 'MUSTER_STATUS'] = merged_df.loc[mask, 'PUNCH_STATUS']
+    merged_df = merged_df.rename(columns={"MUSTER_STATUS": "STATUS"})
+
+    table_paths = file_paths(g_current_path)
+
+    with open(table_paths['gsel_date_path']) as file:
+        file_contents = file.readlines()
+        file_contents = [string.strip('\n') for string in file_contents]
+        gseldate = file_contents[0]
+        gseldate = pd.to_datetime(gseldate)
+
+    if 'STATUS' in merged_df.columns:
+
+        combined_condition = (
+            ((merged_df['PDATE'] < merged_df['DATE_JOIN']) | 
+            (merged_df['PDATE'] > merged_df['DATE_LEAVE'])) |
+            (merged_df['PDATE'] > gseldate)
+        )
+
+        # Update the 'STATUS' column based on the combined condition
+        merged_df.loc[combined_condition, 'STATUS'] = "--"
+    else:
+        print("'STATUS' column does not exist in the DataFrame.")
+
+    merged_df = merged_df.drop(['DATE_JOIN', 'DATE_LEAVE', 'PUNCH_STATUS','INTIME1','OUTTIME1','INTIME2','OUTTIME2','INTIME3','OUTTIME3','INTIME4','OUTTIME4'], axis=1)
+
+    merged_df.loc[merged_df['STATUS'].isin(['WO', 'PH']), 'OT'] = merged_df['TOTALTIME']
+
+    if mismatch_df is not None:
+        # print('Missing dates')
+        mask = merged_df.apply(lambda row: (row['TOKEN'], row['PDATE']) in \
+                      zip(mismatch_df['TOKEN'], mismatch_df['PDATE']), axis=1)
+
+        # Update STATUS column to 'MM' for matching rows
+        merged_df.loc[mask, 'STATUS'] = 'MM'
+
+    merged_df.drop(columns=['MODE'], inplace=True)
+
+    status_counts_by_empcode = merged_df.groupby(['TOKEN', 'STATUS'])['STATUS'].count().unstack().reset_index()
+
+    # Adjust the counts for 'HD'
+    status_counts_by_empcode['HD'] = status_counts_by_empcode.get('HD', 0) / 2 if 'HD' in status_counts_by_empcode else 0
+
+    # Fill NaN values with 0
+    status_counts_by_empcode = status_counts_by_empcode.fillna(0)
+
+    # Merge back to the original DataFrame
+    merged_df = pd.merge(merged_df, status_counts_by_empcode, on='TOKEN')
+
+    # Calculate totals with fractional counts
+    merged_df['TOT_AB'] = merged_df.get('AB', 0)
+    merged_df['TOT_WO'] = merged_df.get('WO', 0)
+    merged_df['TOT_PR'] = (merged_df.get('PR', 0) + merged_df.get('HD', 0)).fillna(0)
+    merged_df['TOT_PH'] = merged_df.get('PH', 0)
+    merged_df['TOT_LV'] = merged_df.get('CL', 0) + merged_df.get('EL', 0) + merged_df.get('SL', 0)
+    merged_df['TOT_MM'] = merged_df.get('MM', 0)
+
+    # Drop duplicate rows
+    merged_df = merged_df.drop_duplicates(subset=['TOKEN', 'PDATE'])
+
+    # Sort the DataFrame by TOKEN and PDATE
+    merged_df = merged_df.sort_values(by=['TOKEN', 'PDATE']).reset_index(drop=True)
+
+    # for i in range(1, len(merged_df) - 1):
+    #     if merged_df.at[i, 'STATUS'] == 'WO' and merged_df.at[i - 1, 'STATUS'] == 'AB' and merged_df.at[i + 1, 'STATUS'] == 'AB':
+    #         merged_df.at[i, 'STATUS'] = 'AB'
+
+    for i in range(1, len(merged_df) - 1):
+        if (
+            merged_df.at[i, 'STATUS'] == 'WO' and
+            merged_df.at[i - 1, 'STATUS'] == 'AB' and
+            merged_df.at[i + 1, 'STATUS'] == 'AB'
+        ):
+            total_time = merged_df.at[i, 'TOTALTIME']
+            # Check if TOTALTIME is not None, NaN, or an empty string
+            if pd.notna(total_time) and str(total_time).strip() != "":
+                continue  # Skip changing the STATUS if TOTALTIME is not empty
+            merged_df.at[i, 'STATUS'] = 'AB'
+
+    # Convert 'TOKEN' column back to integer dtype
+    merged_df['TOKEN'] = merged_df['TOKEN'].astype('Int64')  # or 'int' if using pandas version 1.0.0 or later
+
+    # Drop unnecessary columns
+    columns_to_drop = ['HD','AB','PH','PR','WO','CL','EL','SL','--','MM']
+    merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors='ignore')
+
+    # merged_df = pd.concat([merged_df,mode_1_only_df], ignore_index=True)
+
+    # Save to CSV
+    merged_df.to_csv(table_paths['final_csv_path'], index=False)
+
+    mode_1_only_df.to_csv('mode_1_before_final.csv',index=False)
+
+    pay_input(merged_df,g_current_path)
+
+
 # try:
-curr_root_folder = check_g_main_path()
+curr_root_folder, process_type = check_g_main_path()
 g_current_path = curr_root_folder
 # g_current_path = current_path
 print("g current path: ",g_current_path)
@@ -293,11 +395,21 @@ if process_mode_flag == True:
         print("mismatch flag: ",mismatch_flag)
 
         if isinstance(db_check_flag, dict) and mismatch_flag == 1:
-            muster_df,muster_del_filtered = generate_muster(db_check_flag,g_current_path)
-            # muster_df.to_csv('muster_df_after_generate_muster.csv',index=False)
-            # muster_del_filtered.to_csv('muster_del_filtered_generate_muster.csv',index=False)
-            punch_df = generate_punch(processed_punches,muster_del_filtered,g_current_path)
-            create_final_csv(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df)
+            if process_type == "shift":
+                print("************************ process mode is shift ***************************")
+                muster_df,muster_del_filtered = generate_muster_shift(db_check_flag,g_current_path)
+                # muster_df.to_csv('muster_df_after_generate_muster.csv',index=False)
+                # muster_del_filtered.to_csv('muster_del_filtered_generate_muster.csv',index=False)
+                punch_df = generate_punch_shift(processed_punches,muster_del_filtered,g_current_path)
+                create_final_csv_shift(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df)
+
+            elif process_type == "flexi":
+                print("************************ process mode is flexi ***************************")
+                muster_df,muster_del_filtered = generate_muster_flexi(db_check_flag,g_current_path)
+                # muster_df.to_csv('muster_df_after_generate_muster.csv',index=False)
+                # muster_del_filtered.to_csv('muster_del_filtered_generate_muster.csv',index=False)
+                punch_df = generate_punch_flexi(processed_punches,muster_del_filtered,g_current_path)
+                create_final_csv_flexi(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df)
             
         else:
             print("Either check empty_tables.txt or mismatch.csv")
