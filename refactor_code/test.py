@@ -480,7 +480,7 @@ def punch_mismatch(g_current_path):
             else:
                 print(f"Index {first_mode_1_row.name} not found in punches_df during second logic.")
 
-    # dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
+    dayone_out.to_csv(table_paths['dayone_out_path'], index=False)
 
     mismatch_status = True
 
