@@ -1,0 +1,448 @@
+raw punches is like this:
+
+token,comcode,pdate,hours,minutes,mode,pdtime,mcip
+20006,"002",29/01/2026,14,32,1,29/01/2026 14:32:00,"WED3240401373"
+20006,"002",28/01/2026,20,43,0,28/01/2026 20:43:00,"CGCA231161346"
+20006,"002",28/01/2026,7,13,1,28/01/2026 07:13:00,"WED3240401373"
+20006,"002",27/01/2026,20,26,0,27/01/2026 20:26:00,"CGCA231161346"
+20006,"002",27/01/2026,7,15,1,27/01/2026 07:15:00,"WED3240401373"
+20006,"002",26/01/2026,14,4,0,26/01/2026 14:04:00,"CGCA231161346"
+20006,"002",25/01/2026,21,4,1,25/01/2026 21:04:00,"WED3240401373"
+20006,"002",25/01/2026,13,29,0,25/01/2026 13:29:00,"CGCA231161346"
+20006,"002",24/01/2026,21,7,1,24/01/2026 21:07:00,"WED3240401373"
+20006,"002",24/01/2026,13,43,0,24/01/2026 13:43:00,"CGCA231161346"
+20006,"002",23/01/2026,21,0,1,23/01/2026 21:00:00,"WED3240401373"
+20006,"002",23/01/2026,13,54,0,23/01/2026 13:54:00,"CGCA231161346"
+20006,"002",23/01/2026,7,16,1,23/01/2026 07:16:00,"WED3240401373"
+20006,"002",22/01/2026,13,47,0,22/01/2026 13:47:00,"CGCA231161346"
+20006,"002",21/01/2026,14,26,1,21/01/2026 14:26:00,"WED3240401373"
+20006,"002",20/01/2026,13,53,0,20/01/2026 13:53:00,"CGCA231161346"
+20006,"002",20/01/2026,7,10,1,20/01/2026 07:10:00,"WED3240401373"
+20006,"002",19/01/2026,20,53,0,19/01/2026 20:53:00,"CGCA231161346"
+20006,"002",19/01/2026,14,31,1,19/01/2026 14:31:00,"WED3240401373"
+20006,"002",18/01/2026,14,5,0,18/01/2026 14:05:00,"CGCA231161346"
+20006,"002",18/01/2026,7,13,1,18/01/2026 07:13:00,"WED3240401373"
+20006,"002",17/01/2026,14,0,0,17/01/2026 14:00:00,"CGCA231161346"
+20006,"002",16/01/2026,14,31,1,16/01/2026 14:31:00,"WED3240401373"
+20006,"002",15/01/2026,20,58,0,15/01/2026 20:58:00,"CGCA231161346"
+20006,"002",15/01/2026,14,8,1,15/01/2026 14:08:00,"WED3240401373"
+20006,"002",15/01/2026,7,10,0,15/01/2026 07:10:00,"CGCA231161346"
+20006,"002",15/01/2026,7,8,1,15/01/2026 07:08:00,"WED3240401373"
+20006,"002",14/01/2026,13,44,0,14/01/2026 13:44:00,"CGCA231161346"
+20006,"002",14/01/2026,7,28,1,14/01/2026 07:28:00,"WED3240401373"
+20006,"002",13/01/2026,13,41,0,13/01/2026 13:41:00,"CGCA231161346"
+20006,"002",13/01/2026,7,25,1,13/01/2026 07:25:00,"WED3240401373"
+20006,"002",12/01/2026,13,52,0,12/01/2026 13:52:00,"CGCA231161346"
+20006,"002",12/01/2026,7,26,1,12/01/2026 07:26:00,"WED3240401373"
+20006,"002",11/01/2026,13,59,0,11/01/2026 13:59:00,"CGCA231161346"
+20006,"002",09/01/2026,21,16,1,09/01/2026 21:16:00,"WED3240401373"
+20006,"002",09/01/2026,13,41,0,09/01/2026 13:41:00,"CGCA231161346"
+20006,"002",09/01/2026,7,14,1,09/01/2026 07:14:00,"WED3240401373"
+20006,"002",08/01/2026,13,43,0,08/01/2026 13:43:00,"CGCA231161346"
+20006,"002",07/01/2026,21,7,1,07/01/2026 21:07:00,"WED3240401373"
+20006,"002",07/01/2026,13,41,0,07/01/2026 13:41:00,"CGCA231161346"
+20006,"002",06/01/2026,14,31,1,06/01/2026 14:31:00,"WED3240401373"
+20006,"002",06/01/2026,7,8,0,06/01/2026 07:08:00,"CGCA231161346"
+20006,"002",05/01/2026,21,2,1,05/01/2026 21:02:00,"WED3240401373"
+20006,"002",05/01/2026,13,50,0,05/01/2026 13:50:00,"CGCA231161346"
+20006,"002",05/01/2026,7,11,1,05/01/2026 07:11:00,"WED3240401373"
+20006,"002",04/01/2026,13,55,0,04/01/2026 13:55:00,"CGCA231161346"
+20006,"002",03/01/2026,21,5,1,03/01/2026 21:05:00,"WED3240401373"
+20006,"002",03/01/2026,13,54,0,03/01/2026 13:54:00,"CGCA231161346"
+20006,"002",02/01/2026,20,52,1,02/01/2026 20:52:00,"WED3240401373"
+20006,"002",02/01/2026,13,50,0,02/01/2026 13:50:00,"CGCA231161346"
+20006,"002",01/01/2026,14,8,1,01/01/2026 14:08:00,"WED3240401373"
+20006,"002",01/01/2026,6,52,0,01/01/2026 06:52:00,"CGCA231161346"
+
+
+so, it should handle 3 cases:
+
+1) same day in and out punch
+20006,"002",01/01/2026,14,8,1,01/01/2026 14:08:00,"WED3240401373"
+20006,"002",01/01/2026,6,52,0,01/01/2026 06:52:00,"CGCA231161346"
+
+so, the corresponding row in punches.csv (expected)
+TOKEN,COMCODE,PDATE,INTIME1,OUTTIME1,INTIME2,OUTTIME2,INTIME3,OUTTIME3,INTIME4,OUTTIME4,INTIME,OUTTIME,TOTALTIME,PUNCH_STATUS,REMARKS,OT,SHIFT_STATUS,inc_grt_minutes,gratime_minutes,workhrs_minutes,halfday_minutes,workhrs,shift_st_time,shift_ed_time,TOTAL_HRS,TOTPASSHRS
+20006,002,2026-01-01 00:00:00,2026-01-01 06:52,2026-01-01 14:08,,,,,,,2026-01-01 06:52:00,2026-01-01 14:08:00,7:16,PR,,0:16,1A,0.0,10.0,420.0,210.0,7.0,07:00,14:00,7:16,
+
+
+2) inpunch one day and outpunch the next day
+20006,"002",05/01/2026,7,11,1,05/01/2026 07:11:00,"WED3240401373"
+20006,"002",04/01/2026,13,55,0,04/01/2026 13:55:00,"CGCA231161346"
+
+so, the corresponding row in punches.csv (expected)
+20006,002,2026-01-04 00:00:00,2026-01-04 13:55,2026-01-05 07:11,,,,,,,2026-01-04 13:55:00,2026-01-05 07:11:00,17:16,PR,,10:16,1A,0.0,10.0,420.0,210.0,7.0,07:00,14:00,17:16,
+
+
+3) multiple punches in a day, so in this case, you need to consider one inpunch and outpunch for that day, so you need to check if there is other
+inpunch for that day, but the out punch for that is in the next day, so you just need to pair those two for the next day
+20006,"002",16/01/2026,14,31,1,16/01/2026 14:31:00,"WED3240401373"
+20006,"002",15/01/2026,20,58,0,15/01/2026 20:58:00,"CGCA231161346"
+20006,"002",15/01/2026,14,8,1,15/01/2026 14:08:00,"WED3240401373"
+20006,"002",15/01/2026,7,10,0,15/01/2026 07:10:00,"CGCA231161346"
+
+so, the corresponding row in punches.csv (expected)
+TOKEN,COMCODE,PDATE,INTIME1,OUTTIME1,INTIME2,OUTTIME2,INTIME3,OUTTIME3,INTIME4,OUTTIME4,INTIME,OUTTIME,TOTALTIME,PUNCH_STATUS,REMARKS,OT,SHIFT_STATUS,inc_grt_minutes,gratime_minutes,workhrs_minutes,halfday_minutes,workhrs,shift_st_time,shift_ed_time,TOTAL_HRS,TOTPASSHRS
+20006,002,2026-01-15 00:00:00,2026-01-15 07:10,2026-01-15 14:08,,,,,,,2026-01-15 07:10:00,2026-01-15 14:08:00,06:58,PR,,,1A,0.0,10.0,420.0,210.0,7.0,07:00,14:00,06:58,
+20006,002,2026-01-16 00:00:00,2026-01-15 20:58,2026-01-16 14:31,,,,,,,2026-01-15 20:58:00,2026-01-16 14:31:00,17:33,PR,,,1A,0.0,10.0,420.0,210.0,7.0,07:00,14:00,17:33,
+
+
+def generate_punch_shift(punches_df, muster_df, g_current_path):
+    table_paths = file_paths(g_current_path)
+
+    with open(table_paths["gsel_date_path"]) as file:
+        f = [x.strip() for x in file.readlines()]
+    gseldate = f[0]
+    ghalf_day = int(f[1])
+    gfull_day = int(f[2])
+
+    shinfo = pd.read_csv(table_paths["shiftmast_csv_path"])
+    shinfo["shcode"] = shinfo["shcode"].astype(str).str.strip().str.upper()
+    shinfo["shift_st_time"] = shinfo["shift_st"].apply(hhmm_from_float)
+    shinfo["shift_ed_time"] = shinfo["shift_ed"].apply(hhmm_from_float)
+    shinfo["workhrs_minutes"] = (shinfo["workhrs"] * 60).astype(int)
+    shinfo["halfday_minutes"] = ((shinfo["workhrs"] / 2) * 60).astype(int)
+
+    # inc_grt -> minutes
+    shinfo["inc_grt"] = pd.to_numeric(shinfo["inc_grt"], errors="coerce").fillna(0)
+    hrs = shinfo["inc_grt"].astype(int)
+    mins = ((shinfo["inc_grt"] - hrs) * 100).round().astype(int)
+    shinfo["inc_grt_minutes"] = hrs * 60 + mins
+
+    # gratime -> minutes
+    if "gratime" in shinfo.columns:
+        shinfo["gratime_minutes"] = shinfo["gratime"].apply(float_hhmm_to_minutes)
+    else:
+        shinfo["gratime_minutes"] = 0
+
+    shinfo_unique = shinfo.drop_duplicates(subset=["shcode"])
+    shift_minutes = shinfo_unique.set_index("shcode")[["workhrs_minutes", "halfday_minutes"]].to_dict("index")
+
+    shift_merge_info = shinfo_unique[
+        ["shcode", "inc_grt_minutes", "gratime_minutes", "workhrs_minutes", "halfday_minutes", "workhrs",
+         "shift_st_time", "shift_ed_time"]
+    ].copy()
+
+    muster_df = muster_df.copy()
+    muster_df["PDATE"] = pd.to_datetime(muster_df["PDATE"]).dt.date
+    muster_df["SHIFT_STATUS"] = muster_df["SHIFT_STATUS"].astype(str).str.strip().str.upper()
+    if "STATUS" in muster_df.columns:
+        muster_df["STATUS"] = muster_df["STATUS"].astype(str).str.upper()
+
+    day_shift_map = muster_df.set_index(["TOKEN", "PDATE"])["SHIFT_STATUS"].to_dict()
+
+    def thresholds(token, pdate):
+        sc = day_shift_map.get((token, pdate))
+        if sc in shift_minutes:
+            return shift_minutes[sc]["workhrs_minutes"], shift_minutes[sc]["halfday_minutes"]
+        return gfull_day, ghalf_day
+
+    dated = DBF(table_paths["dated_dbf_path"], load=True)
+    start_date = dated.records[0]["MUFRDATE"]
+    end_date = dated.records[0]["MUTODATE"]
+
+    mode1, date_range = mode_1_last_day_shift(
+        gseldate,
+        start_date,
+        end_date,
+        start_date.strftime("%Y-%m-%d"),
+        end_date.strftime("%Y-%m-%d"),
+        table_paths,
+    )
+
+    punches_df = punches_df.copy()
+    punches_df["PDATE"] = pd.to_datetime(punches_df["PDATE"]).dt.date
+
+    if not mode1.empty:
+        mode1 = mode1.copy()
+        mode1["PDATE"] = pd.to_datetime(mode1["PDATE"]).dt.date
+        punches_df = pd.concat([punches_df, mode1], ignore_index=True)
+
+    punches_df = punches_df.sort_values(by=["TOKEN", "PDATE", "PDTIME"])
+
+    punch_df = pd.DataFrame(
+        columns=[
+            "TOKEN", "COMCODE", "PDATE",
+            "INTIME1", "OUTTIME1", "INTIME2", "OUTTIME2", "INTIME3", "OUTTIME3", "INTIME4", "OUTTIME4",
+            "INTIME", "OUTTIME", "TOTALTIME", "PUNCH_STATUS", "REMARKS", "OT",
+        ]
+    )
+
+    in_time = None
+    out_time = None
+
+    for _, row in punches_df.iterrows():
+        if row["MODE"] == 0:
+            in_time = pd.to_datetime(row["PDTIME"]).replace(second=0)
+        elif row["MODE"] == 1:
+            out_time = pd.to_datetime(row["PDTIME"]).replace(second=0)
+
+            if in_time is not None:
+                diff = out_time - in_time
+                if diff.total_seconds() > 0:
+                    minutes = int(diff.total_seconds() // 60)
+
+                    full_m, half_m = thresholds(row["TOKEN"], in_time.date())
+                    if minutes >= full_m:
+                        st = "PR"
+                    elif minutes <= half_m:
+                        st = "AB"
+                    else:
+                        st = "HD"
+
+                    otm = max(0, minutes - full_m)
+                    ot_str = hhmm(otm)
+
+                    pdate_str = in_time.strftime("%Y-%m-%d")
+
+                    exists = punch_df[
+                        (punch_df["TOKEN"] == row["TOKEN"]) &
+                        (punch_df["PDATE"] == pdate_str)
+                    ]
+
+                    if exists.empty:
+                        punch_df = pd.concat(
+                            [
+                                punch_df,
+                                pd.DataFrame(
+                                    {
+                                        "TOKEN": [row["TOKEN"]],
+                                        "COMCODE": [row.get("COMCODE", np.nan)],
+                                        "PDATE": [pdate_str],
+                                        "INTIME1": [in_time.strftime("%Y-%m-%d %H:%M")],
+                                        "OUTTIME1": [out_time.strftime("%Y-%m-%d %H:%M")],
+                                        "INTIME2": [np.nan],
+                                        "OUTTIME2": [np.nan],
+                                        "INTIME3": [np.nan],
+                                        "OUTTIME3": [np.nan],
+                                        "INTIME4": [np.nan],
+                                        "OUTTIME4": [np.nan],
+                                        "INTIME": [in_time.strftime("%Y-%m-%d %H:%M")],
+                                        "OUTTIME": [out_time.strftime("%Y-%m-%d %H:%M")],
+                                        "TOTALTIME": [hhmm(minutes)],
+                                        "PUNCH_STATUS": [st],
+                                        "REMARKS": ["" if diff.days == 0 else "#"],
+                                        "OT": [ot_str],
+                                    }
+                                ),
+                            ],
+                            ignore_index=True,
+                        )
+                    else:
+                        idx = exists.index[-1]
+                        for col_in, col_out in [("INTIME2", "OUTTIME2"), ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
+                            if pd.isna(punch_df.loc[idx, col_in]):
+                                punch_df.loc[idx, col_in] = in_time.strftime("%Y-%m-%d %H:%M")
+                                punch_df.loc[idx, col_out] = out_time.strftime("%Y-%m-%d %H:%M")
+                                break
+
+                        punch_df.loc[idx, "OUTTIME"] = out_time.strftime("%Y-%m-%d %H:%M")
+
+                        total = pd.to_timedelta(0)
+                        for cin, cout in [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
+                                          ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
+                            if not pd.isna(punch_df.loc[idx, cin]) and not pd.isna(punch_df.loc[idx, cout]):
+                                total += pd.to_datetime(punch_df.loc[idx, cout]) - pd.to_datetime(punch_df.loc[idx, cin])
+
+                        tm = int(total.total_seconds() // 60)
+                        full_m2, half_m2 = thresholds(row["TOKEN"], in_time.date())
+                        if tm >= full_m2:
+                            st2 = "PR"
+                        elif tm <= half_m2:
+                            st2 = "AB"
+                        else:
+                            st2 = "HD"
+
+                        ot2 = max(0, tm - full_m2)
+
+                        punch_df.loc[idx, "TOTALTIME"] = hhmm(tm)
+                        punch_df.loc[idx, "PUNCH_STATUS"] = st2
+                        punch_df.loc[idx, "OT"] = hhmm(ot2)
+                        punch_df.loc[idx, "REMARKS"] = "#" if total.days > 0 else "*"
+
+    # Ensure AB for missing days for each token
+    for token in muster_df["TOKEN"].unique():
+        token_df = punch_df[punch_df["TOKEN"] == token]
+        for d in date_range:
+            ds = d.strftime("%Y-%m-%d")
+            if not ((token_df["PDATE"] == ds) & (token_df["TOKEN"] == token)).any():
+                punch_df = pd.concat(
+                    [
+                        punch_df,
+                        pd.DataFrame(
+                            {
+                                "TOKEN": [token],
+                                "COMCODE": [np.nan],
+                                "PDATE": [ds],
+                                "INTIME1": [np.nan],
+                                "OUTTIME1": [np.nan],
+                                "INTIME2": [np.nan],
+                                "OUTTIME2": [np.nan],
+                                "INTIME3": [np.nan],
+                                "OUTTIME3": [np.nan],
+                                "INTIME4": [np.nan],
+                                "OUTTIME4": [np.nan],
+                                "INTIME": [np.nan],
+                                "OUTTIME": [np.nan],
+                                "TOTALTIME": [np.nan],
+                                "PUNCH_STATUS": ["AB"],
+                                "REMARKS": [np.nan],
+                                "OT": [""],
+                            }
+                        ),
+                    ],
+                    ignore_index=True,
+                )
+
+    # ---------------- FIX: Fill missing COMCODE for AB rows (and any other blanks) ----------------
+    # Build a TOKEN -> COMCODE map from muster_df first (best source), else from existing punch_df rows.
+    comcode_map = {}
+
+    if "COMCODE" in muster_df.columns:
+        tmp = muster_df[["TOKEN", "COMCODE"]].copy()
+        tmp["TOKEN"] = tmp["TOKEN"].astype(str).str.strip()
+        tmp["COMCODE"] = tmp["COMCODE"].astype(str).str.strip()
+        tmp = tmp[tmp["COMCODE"].ne("") & tmp["COMCODE"].ne("nan")]
+        comcode_map = tmp.drop_duplicates("TOKEN", keep="last").set_index("TOKEN")["COMCODE"].to_dict()
+
+    # fallback: if muster_df doesn't have COMCODE or map is empty, use existing non-empty COMCODE from punch_df
+    if not comcode_map:
+        tmp = punch_df[["TOKEN", "COMCODE"]].copy()
+        tmp["TOKEN"] = tmp["TOKEN"].astype(str).str.strip()
+        tmp["COMCODE"] = tmp["COMCODE"].fillna("").astype(str).str.strip()
+        tmp = tmp[tmp["COMCODE"].ne("") & tmp["COMCODE"].ne("nan")]
+        comcode_map = tmp.drop_duplicates("TOKEN", keep="last").set_index("TOKEN")["COMCODE"].to_dict()
+
+    # apply map to fill blanks
+    punch_df["COMCODE"] = punch_df["COMCODE"].fillna("").astype(str).str.strip()
+    blank_cc = punch_df["COMCODE"].eq("") | punch_df["COMCODE"].str.lower().eq("nan")
+    punch_df.loc[blank_cc, "COMCODE"] = punch_df.loc[blank_cc, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
+
+    punch_df.to_csv(table_paths["punch_csv_path"], index=False)
+
+    # Merge muster shift info
+    shift_cols = ["TOKEN", "PDATE", "SHIFT_STATUS", "STATUS"] if "STATUS" in muster_df.columns else ["TOKEN", "PDATE", "SHIFT_STATUS"]
+    muster_merge = muster_df[shift_cols].copy()
+    muster_merge["PDATE"] = pd.to_datetime(muster_merge["PDATE"])
+
+    punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"])
+    out = punch_df.merge(muster_merge, on=["TOKEN", "PDATE"], how="left")
+
+    out = out.merge(shift_merge_info, left_on="SHIFT_STATUS", right_on="shcode", how="left")
+    out = safe_drop(out, ["shcode"])
+
+    if "COMCODE" not in out.columns:
+        out["COMCODE"] = np.nan
+
+    # ---------------- FIX: Ensure out.COMCODE not blank for AB rows ----------------
+    out["COMCODE"] = out["COMCODE"].fillna("").astype(str).str.strip()
+    blank_cc2 = out["COMCODE"].eq("") | out["COMCODE"].str.lower().eq("nan")
+    if blank_cc2.any():
+        out.loc[blank_cc2, "COMCODE"] = out.loc[blank_cc2, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
+
+    out["INTIME"] = pd.to_datetime(out["INTIME"], errors="coerce")
+    out["OUTTIME"] = pd.to_datetime(out["OUTTIME"], errors="coerce")
+
+    # valid = ~(out["INTIME"].isna() & out["OUTTIME"].isna())
+    # secs = (out.loc[valid, "OUTTIME"] - out.loc[valid, "INTIME"]).dt.total_seconds().clip(lower=0)
+    # mins_actual = (secs // 60).astype(int)
+
+    # ----- FIX: compute ACTUAL mins as sum of all IN/OUT pairs (handles breaks correctly) -----
+    total_secs = pd.Series(0.0, index=out.index)
+
+    pair_cols = [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
+                ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]
+
+    any_pair = pd.Series(False, index=out.index)
+
+    for cin, cout in pair_cols:
+        if cin in out.columns and cout in out.columns:
+            tin = pd.to_datetime(out[cin], errors="coerce")
+            tout = pd.to_datetime(out[cout], errors="coerce")
+            m = tin.notna() & tout.notna()
+            any_pair |= m
+            total_secs.loc[m] += (tout.loc[m] - tin.loc[m]).dt.total_seconds().clip(lower=0)
+
+    valid = any_pair
+    mins_actual = (total_secs.loc[valid] // 60).astype(int)
+    # -----------------------------------------------------------------------------------------
+
+
+    fullm = out.loc[valid, "workhrs_minutes"].fillna(gfull_day).astype(int)
+    halfm = out.loc[valid, "halfday_minutes"].fillna(ghalf_day).astype(int)
+
+    # Base status from ACTUAL mins
+    base_status = np.where(mins_actual >= fullm, "PR", np.where(mins_actual <= halfm, "AB", "HD"))
+    out.loc[valid, "PUNCH_STATUS"] = base_status
+    out.loc[valid, "TOTAL_HRS"] = [hhmm(m) for m in mins_actual]
+    out.loc[valid, "TOTALTIME"] = out.loc[valid, "TOTAL_HRS"]
+
+    # OT based on ACTUAL mins (unchanged)
+    otm = np.maximum(mins_actual - fullm, 0)
+    incm = out.loc[valid, "inc_grt_minutes"].fillna(0).astype(int)
+    otm = np.where(otm < incm, 0, otm)
+    out.loc[valid, "OT"] = [hhmm(m) for m in otm]
+
+    # ---------------- GRATIME PROMOTION (AB->HD and HD->PR) + CLEAN OLD "&" ----------------
+    grace_m = out.loc[valid, "gratime_minutes"].fillna(0).astype(int)
+    mins_with_grace = (mins_actual + grace_m).astype(int)
+
+    if "REMARKS" not in out.columns:
+        out["REMARKS"] = ""
+    out["REMARKS"] = out["REMARKS"].fillna("").astype(str)
+
+    # Clear any existing "&" first (old marker)
+    out.loc[out["REMARKS"].str.strip().eq("&"), "REMARKS"] = ""
+
+    # Current status aligned to valid rows
+    cur_status_s = out.loc[valid, "PUNCH_STATUS"].astype(str).str.strip().str.upper()
+
+    # 1) Promote AB -> HD when:
+    ab_to_hd_mask = (
+        cur_status_s.eq("AB")
+        & (mins_actual < halfm)
+        & (mins_with_grace >= halfm)
+    )
+    ab_to_hd_idx = out.loc[valid].index[ab_to_hd_mask]
+    out.loc[ab_to_hd_idx, "PUNCH_STATUS"] = "HD"
+    out.loc[ab_to_hd_idx, "REMARKS"] = "&"   # as requested
+
+    # Refresh status after AB->HD
+    cur_status_s = out.loc[valid, "PUNCH_STATUS"].astype(str).str.strip().str.upper()
+
+    # 2) Promote HD -> PR when:
+    hd_to_pr_mask = (
+        cur_status_s.eq("HD")
+        & (mins_actual < fullm)
+        & (mins_with_grace >= fullm)
+    )
+    promoted_idx = out.loc[valid].index[hd_to_pr_mask]
+    out.loc[promoted_idx, "PUNCH_STATUS"] = "PR"
+    out.loc[promoted_idx, "REMARKS"] = "&"
+
+    # OUTPASS override
+    outpass_csv_path = os.path.join(g_current_path, "OUTPASS.csv")
+    out = apply_outpass_override(out, outpass_csv_path)
+
+    # MM override (final)
+    mask_mm = (
+        out.get("STATUS", pd.Series(index=out.index, dtype="object"))
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .eq("MM")
+    )
+    out.loc[mask_mm, "TOTALTIME"] = ""
+    out.loc[mask_mm, "OT"] = ""
+    out.loc[mask_mm, "REMARKS"] = ""
+    if "TOTAL_HRS" in out.columns:
+        out.loc[mask_mm, "TOTAL_HRS"] = ""
+    if "TOTPASSHRS" in out.columns:
+        out.loc[mask_mm, "TOTPASSHRS"] = ""
+
+    out = out.sort_values(by=["TOKEN", "PDATE"])
+    out.to_csv(table_paths["punch_csv_path"], index=False)
+    return out
+
+
+this the current code, make changes pls

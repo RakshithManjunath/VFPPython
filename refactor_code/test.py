@@ -63,6 +63,8 @@ def file_paths(curr_path):
 
     shiftmast_csv_path = root_folder + 'SHINFO.csv'
 
+    ppunches_csv_path = root_folder + 'ppunches.csv'
+
     return {"dated_dbf_path":dated_dbf,
             "muster_dbf_path":muster_dbf,
             "holmast_dbf_path":holmast_dbf,
@@ -105,7 +107,8 @@ def file_paths(curr_path):
             
             "next_month_day_one_path":next_month_day_one_path,
             # "pundel_true_path":pundel_true_path,
-            "shiftmast_csv_path":shiftmast_csv_path}
+            "shiftmast_csv_path":shiftmast_csv_path,
+            "ppunches_csv_path":ppunches_csv_path}
 
 def check_g_main_path():
     with open(g_first_path + "g_mainpath.txt") as file:

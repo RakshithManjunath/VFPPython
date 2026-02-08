@@ -36,12 +36,27 @@ def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mod
         punch_df["COMCODE"] = punch_df["COMCODE"].astype(str).str.strip()
 
     # Ensure dates comparable
-    punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"])
-    muster_df["PDATE"] = pd.to_datetime(muster_df["PDATE"])
+    punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"], errors="coerce")
+    muster_df["PDATE"] = pd.to_datetime(muster_df["PDATE"], errors="coerce")
 
     # If muster_df has TOTPASSHRS for any reason, drop it (we want it only from punch)
     if "TOTPASSHRS" in muster_df.columns:
         muster_df = muster_df.drop(columns=["TOTPASSHRS"], errors="ignore")
+
+    # ---------------------------------------------------------------------
+    # FIX: Standardize merge keys (TOKEN + PDATE) to prevent int/object error
+    # ---------------------------------------------------------------------
+    muster_df = muster_df.copy()
+    punch_df = punch_df.copy()
+
+    # TOKEN must match dtype on both sides
+    muster_df["TOKEN"] = muster_df["TOKEN"].astype(str).str.strip()
+    punch_df["TOKEN"] = punch_df["TOKEN"].astype(str).str.strip()
+
+    # PDATE must match dtype AND normalize to midnight (avoid time mismatch)
+    muster_df["PDATE"] = pd.to_datetime(muster_df["PDATE"], errors="coerce").dt.normalize()
+    punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"], errors="coerce").dt.normalize()
+    # ---------------------------------------------------------------------
 
     # ---------------- Merge (use suffixes _M / _P) ----------------
     merged_df = pd.merge(
@@ -128,14 +143,11 @@ def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mod
     merged_df.loc[merged_df["STATUS"].isin(["WO", "PH"]), "OT"] = merged_df["TOTALTIME"]
 
     # ---------------- MISMATCH REPORT (OPTIONAL) ----------------
-    # If mismatch_report file doesn't exist, skip this whole MM marking logic.
     mismatch_path = table_paths.get("mismatch_report_path", "")
     if mismatch_path and os.path.exists(mismatch_path):
         mismatch_report_df = pd.read_csv(mismatch_path)
 
-        # Defensive: only proceed if expected columns exist
         mismatch_report_df.columns = [c.strip().upper() for c in mismatch_report_df.columns]
-        # Your original code expects TOKEN and REMARKS
         if "TOKEN" in mismatch_report_df.columns and "REMARKS" in mismatch_report_df.columns:
             merged_df["TOKEN"] = merged_df["TOKEN"].astype(str)
             mismatch_report_df["TOKEN"] = mismatch_report_df["TOKEN"].astype(str)
@@ -144,16 +156,13 @@ def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mod
             mismatch_report_df["REMARKS"] = pd.to_datetime(mismatch_report_df["REMARKS"], errors="coerce")
 
             mismatch_report_df["cutoff_date"] = mismatch_report_df["REMARKS"].dt.date
-
             cutoff_map = mismatch_report_df.set_index("TOKEN")["cutoff_date"]
             merged_df["cutoff_date"] = merged_df["TOKEN"].map(cutoff_map)
 
-            # ONLY that date should be MM (not onward)
             mm_mask2 = merged_df["cutoff_date"].notna() & (merged_df["PDATE"].dt.date >= merged_df["cutoff_date"])
             merged_df.loc[mm_mask2, "STATUS"] = "MM"
 
             merged_df.drop(columns=["cutoff_date"], inplace=True, errors="ignore")
-        # else: silently skip if columns missing
 
     # ---------------- Counts ----------------
     status_counts_by_empcode = merged_df.groupby(["TOKEN", "STATUS"])["STATUS"].count().unstack().reset_index()
@@ -183,7 +192,8 @@ def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mod
                 continue
             merged_df.at[i, "STATUS"] = "AB"
 
-    merged_df["TOKEN"] = merged_df["TOKEN"].astype("int")
+    # SAFER than .astype("int") (won't crash if TOKEN has non-numeric)
+    merged_df["TOKEN"] = pd.to_numeric(merged_df["TOKEN"], errors="ignore")
 
     columns_to_drop = ["HD", "AB", "PH", "PR", "WO", "CL", "EL", "SL", "--", "MM"]
     merged_df = merged_df.drop(columns=[col for col in columns_to_drop if col in merged_df], errors="ignore")
@@ -239,6 +249,7 @@ def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mod
         merged_df["COMCODE"] = ""
 
     pay_input(merged_df, g_current_path)
+
 
 
 # def create_final_csv_flexi(muster_df, punch_df,mismatch_df,g_current_path,mode_1_only_df):
