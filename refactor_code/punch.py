@@ -225,25 +225,16 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
     shift_minutes = shinfo_unique.set_index("shcode")[["workhrs_minutes", "halfday_minutes"]].to_dict("index")
 
     shift_merge_info = shinfo_unique[
-        [
-            "shcode",
-            "inc_grt_minutes",
-            "gratime_minutes",
-            "workhrs_minutes",
-            "halfday_minutes",
-            "workhrs",
-            "shift_st_time",
-            "shift_ed_time",
-        ]
+        ["shcode", "inc_grt_minutes", "gratime_minutes", "workhrs_minutes", "halfday_minutes", "workhrs",
+         "shift_st_time", "shift_ed_time"]
     ].copy()
 
-    # -------------------- Muster --------------------
+    # -------------------- Muster prep --------------------
     muster_df = muster_df.copy()
-    muster_df["TOKEN"] = muster_df["TOKEN"].astype(str).str.strip()
     muster_df["PDATE"] = pd.to_datetime(muster_df["PDATE"]).dt.date
     muster_df["SHIFT_STATUS"] = muster_df["SHIFT_STATUS"].astype(str).str.strip().str.upper()
     if "STATUS" in muster_df.columns:
-        muster_df["STATUS"] = muster_df["STATUS"].astype(str).str.upper()
+        muster_df["STATUS"] = muster_df["STATUS"].astype(str).str.strip().str.upper()
 
     day_shift_map = muster_df.set_index(["TOKEN", "PDATE"])["SHIFT_STATUS"].to_dict()
 
@@ -267,46 +258,18 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
         table_paths,
     )
 
-    # -------------------- Robust PDTIME parser --------------------
-    def parse_pdtime(series):
-        s = series.astype(str).str.strip()
-        dt = pd.to_datetime(s, format="%d/%m/%Y %H:%M:%S", errors="coerce")
-        dt2 = pd.to_datetime(s, format="%d/%m/%Y %H:%M", errors="coerce")
-        dt = dt.fillna(dt2)
-        dt = dt.fillna(pd.to_datetime(s, dayfirst=True, errors="coerce"))
-        return dt
-
     # -------------------- Punches input --------------------
     punches_df = punches_df.copy()
-    punches_df["TOKEN"] = punches_df["TOKEN"].astype(str).str.strip()
-    if "COMCODE" in punches_df.columns:
-        punches_df["COMCODE"] = punches_df["COMCODE"].fillna("").astype(str).str.strip()
-    else:
-        punches_df["COMCODE"] = ""
-
-    punches_df["PDTIME"] = parse_pdtime(punches_df["PDTIME"])
-    punches_df["PDATE"] = pd.to_datetime(punches_df["PDATE"], dayfirst=True, errors="coerce").dt.date
-    punches_df["MODE"] = pd.to_numeric(punches_df["MODE"], errors="coerce").fillna(0).astype(int)
+    punches_df["PDATE"] = pd.to_datetime(punches_df["PDATE"]).dt.date
 
     if not mode1.empty:
         mode1 = mode1.copy()
-        mode1["TOKEN"] = mode1["TOKEN"].astype(str).str.strip()
-        if "COMCODE" in mode1.columns:
-            mode1["COMCODE"] = mode1["COMCODE"].fillna("").astype(str).str.strip()
-        else:
-            mode1["COMCODE"] = ""
-        mode1["PDTIME"] = parse_pdtime(mode1["PDTIME"])
-        mode1["PDATE"] = pd.to_datetime(mode1["PDATE"], dayfirst=True, errors="coerce").dt.date
-        mode1["MODE"] = pd.to_numeric(mode1["MODE"], errors="coerce").fillna(0).astype(int)
+        mode1["PDATE"] = pd.to_datetime(mode1["PDATE"]).dt.date
         punches_df = pd.concat([punches_df, mode1], ignore_index=True)
 
-    punches_df = (
-        punches_df.dropna(subset=["PDTIME"])
-        .sort_values(by=["TOKEN", "PDTIME"])
-        .reset_index(drop=True)
-    )
+    punches_df = punches_df.sort_values(by=["TOKEN", "PDATE", "PDTIME"])
 
-    # -------------------- Output punch_df skeleton --------------------
+    # -------------------- Output base (ppunches style) --------------------
     punch_df = pd.DataFrame(
         columns=[
             "TOKEN", "COMCODE", "PDATE",
@@ -315,226 +278,245 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
         ]
     )
 
-    # =================================================================
-    # Helpers
-    # =================================================================
-    def pick_row_pdate(token, in_dt, out_dt):
-        in_date_str = in_dt.date().strftime("%Y-%m-%d")
-        already = ((punch_df["TOKEN"] == token) & (punch_df["PDATE"] == in_date_str)).any()
-        if already:
-            return out_dt.date().strftime("%Y-%m-%d")
-        return in_date_str
+    # -------------------- helpers --------------------
+    orphan_rows = []
 
-    def add_or_append_pair(token, comcode, pdate_str, in_time, out_time):
-        nonlocal punch_df
-
-        diff = out_time - in_time
-        if diff.total_seconds() <= 0:
+    def add_orphan(token, comcode, dt_obj, mode):
+        """
+        mode == 0 => IN only
+        mode == 1 => OUT only
+        These must become AB (NOT MM).
+        """
+        if pd.isna(dt_obj):
             return
-
-        minutes = int(diff.total_seconds() // 60)
-
-        full_m, half_m = thresholds(token, pd.to_datetime(pdate_str).date())
-        if minutes >= full_m:
-            st = "PR"
-        elif minutes <= half_m:
-            st = "AB"
-        else:
-            st = "HD"
-
-        otm = max(0, minutes - full_m)
-        ot_str = hhmm(otm)
-        remarks = "#" if in_time.date() != out_time.date() else ""
-
-        exists = punch_df[(punch_df["TOKEN"] == token) & (punch_df["PDATE"] == pdate_str)]
-        if exists.empty:
-            punch_df = pd.concat(
-                [
-                    punch_df,
-                    pd.DataFrame(
-                        {
-                            "TOKEN": [token],
-                            "COMCODE": [str(comcode) if comcode is not None else ""],
-                            "PDATE": [pdate_str],
-                            "INTIME1": [in_time.strftime("%Y-%m-%d %H:%M")],
-                            "OUTTIME1": [out_time.strftime("%Y-%m-%d %H:%M")],
-                            "INTIME2": [np.nan], "OUTTIME2": [np.nan],
-                            "INTIME3": [np.nan], "OUTTIME3": [np.nan],
-                            "INTIME4": [np.nan], "OUTTIME4": [np.nan],
-                            "INTIME": [in_time.strftime("%Y-%m-%d %H:%M")],
-                            "OUTTIME": [out_time.strftime("%Y-%m-%d %H:%M")],
-                            "TOTALTIME": [hhmm(minutes)],
-                            "PUNCH_STATUS": [st],
-                            "REMARKS": [remarks],
-                            "OT": [ot_str],
-                        }
-                    ),
-                ],
-                ignore_index=True,
+        dt_obj = pd.to_datetime(dt_obj).replace(second=0)
+        ds = dt_obj.strftime("%Y-%m-%d")
+        if mode == 0:
+            orphan_rows.append(
+                {
+                    "TOKEN": token,
+                    "COMCODE": comcode,
+                    "PDATE": ds,
+                    "INTIME1": dt_obj.strftime("%Y-%m-%d %H:%M"),
+                    "OUTTIME1": np.nan,
+                    "INTIME2": np.nan,
+                    "OUTTIME2": np.nan,
+                    "INTIME3": np.nan,
+                    "OUTTIME3": np.nan,
+                    "INTIME4": np.nan,
+                    "OUTTIME4": np.nan,
+                    "INTIME": dt_obj.strftime("%Y-%m-%d %H:%M"),
+                    "OUTTIME": np.nan,
+                    "TOTALTIME": np.nan,
+                    "PUNCH_STATUS": "AB",
+                    "REMARKS": "",
+                    "OT": "",
+                }
             )
         else:
-            idx = exists.index[-1]
-            for col_in, col_out in [("INTIME2", "OUTTIME2"), ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
-                if pd.isna(punch_df.loc[idx, col_in]):
-                    punch_df.loc[idx, col_in] = in_time.strftime("%Y-%m-%d %H:%M")
-                    punch_df.loc[idx, col_out] = out_time.strftime("%Y-%m-%d %H:%M")
-                    break
-
-            punch_df.loc[idx, "OUTTIME"] = out_time.strftime("%Y-%m-%d %H:%M")
-
-            total = pd.to_timedelta(0)
-            for cin, cout in [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
-                              ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
-                if not pd.isna(punch_df.loc[idx, cin]) and not pd.isna(punch_df.loc[idx, cout]):
-                    total += pd.to_datetime(punch_df.loc[idx, cout]) - pd.to_datetime(punch_df.loc[idx, cin])
-
-            tm = int(total.total_seconds() // 60)
-            full_m2, half_m2 = thresholds(token, pd.to_datetime(pdate_str).date())
-            if tm >= full_m2:
-                st2 = "PR"
-            elif tm <= half_m2:
-                st2 = "AB"
-            else:
-                st2 = "HD"
-
-            ot2 = max(0, tm - full_m2)
-            punch_df.loc[idx, "TOTALTIME"] = hhmm(tm)
-            punch_df.loc[idx, "PUNCH_STATUS"] = st2
-            punch_df.loc[idx, "OT"] = hhmm(ot2)
-
-            old_r = "" if pd.isna(punch_df.loc[idx, "REMARKS"]) else str(punch_df.loc[idx, "REMARKS"])
-            if old_r.strip() == "":
-                punch_df.loc[idx, "REMARKS"] = remarks
-
-    # orphan OUT (MODE=1 with no pending IN) -> create row and mark MM
-    def mark_orphan_out_as_mm(token, comcode, out_dt):
-        nonlocal punch_df
-        pdate_str = out_dt.date().strftime("%Y-%m-%d")
-        out_str = out_dt.strftime("%Y-%m-%d %H:%M")
-
-        exists = punch_df[(punch_df["TOKEN"] == token) & (punch_df["PDATE"] == pdate_str)]
-        if exists.empty:
-            punch_df = pd.concat(
-                [
-                    punch_df,
-                    pd.DataFrame(
-                        {
-                            "TOKEN": [token],
-                            "COMCODE": [str(comcode) if comcode is not None else ""],
-                            "PDATE": [pdate_str],
-                            "INTIME1": [np.nan],
-                            "OUTTIME1": [out_str],
-                            "INTIME2": [np.nan], "OUTTIME2": [np.nan],
-                            "INTIME3": [np.nan], "OUTTIME3": [np.nan],
-                            "INTIME4": [np.nan], "OUTTIME4": [np.nan],
-                            "INTIME": [np.nan],
-                            "OUTTIME": [out_str],
-                            "TOTALTIME": [""],
-                            "PUNCH_STATUS": ["MM"],
-                            "REMARKS": [""],        # <-- IMPORTANT: MM only in PUNCH_STATUS
-                            "OT": [""],
-                        }
-                    ),
-                ],
-                ignore_index=True,
+            orphan_rows.append(
+                {
+                    "TOKEN": token,
+                    "COMCODE": comcode,
+                    "PDATE": ds,
+                    "INTIME1": np.nan,
+                    "OUTTIME1": dt_obj.strftime("%Y-%m-%d %H:%M"),
+                    "INTIME2": np.nan,
+                    "OUTTIME2": np.nan,
+                    "INTIME3": np.nan,
+                    "OUTTIME3": np.nan,
+                    "INTIME4": np.nan,
+                    "OUTTIME4": np.nan,
+                    "INTIME": dt_obj.strftime("%Y-%m-%d %H:%M"),
+                    "OUTTIME": np.nan,
+                    "TOTALTIME": np.nan,
+                    "PUNCH_STATUS": "AB",
+                    "REMARKS": "",
+                    "OT": "",
+                }
             )
-        else:
-            idx = exists.index[-1]
-            for cin, cout in [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
-                              ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
-                if pd.isna(punch_df.loc[idx, cout]) or str(punch_df.loc[idx, cout]).strip() == "":
-                    punch_df.loc[idx, cout] = out_str
-                    break
-            punch_df.loc[idx, "OUTTIME"] = out_str
-            punch_df.loc[idx, "PUNCH_STATUS"] = "MM"
-            punch_df.loc[idx, "TOTALTIME"] = ""
-            punch_df.loc[idx, "OT"] = ""
-            punch_df.loc[idx, "REMARKS"] = ""  # <-- IMPORTANT
 
-    # orphan IN (MODE=0 without OUT) -> create row and mark MM
-    def mark_orphan_in_as_mm(token, comcode, in_dt):
-        nonlocal punch_df
-        pdate_str = in_dt.date().strftime("%Y-%m-%d")
-        in_str = in_dt.strftime("%Y-%m-%d %H:%M")
-
-        exists = punch_df[(punch_df["TOKEN"] == token) & (punch_df["PDATE"] == pdate_str)]
-        if exists.empty:
-            punch_df = pd.concat(
-                [
-                    punch_df,
-                    pd.DataFrame(
-                        {
-                            "TOKEN": [token],
-                            "COMCODE": [str(comcode) if comcode is not None else ""],
-                            "PDATE": [pdate_str],
-                            "INTIME1": [in_str],
-                            "OUTTIME1": [np.nan],
-                            "INTIME2": [np.nan], "OUTTIME2": [np.nan],
-                            "INTIME3": [np.nan], "OUTTIME3": [np.nan],
-                            "INTIME4": [np.nan], "OUTTIME4": [np.nan],
-                            "INTIME": [in_str],
-                            "OUTTIME": [np.nan],
-                            "TOTALTIME": [""],
-                            "PUNCH_STATUS": ["MM"],
-                            "REMARKS": [""],        # <-- IMPORTANT: MM only in PUNCH_STATUS
-                            "OT": [""],
-                        }
-                    ),
-                ],
-                ignore_index=True,
-            )
-        else:
-            idx = exists.index[-1]
-            for cin, cout in [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
-                              ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
-                if pd.isna(punch_df.loc[idx, cin]) or str(punch_df.loc[idx, cin]).strip() == "":
-                    punch_df.loc[idx, cin] = in_str
-                    break
-            punch_df.loc[idx, "INTIME"] = in_str
-            punch_df.loc[idx, "PUNCH_STATUS"] = "MM"
-            punch_df.loc[idx, "TOTALTIME"] = ""
-            punch_df.loc[idx, "OT"] = ""
-            punch_df.loc[idx, "REMARKS"] = ""  # <-- IMPORTANT
-
-    # =================================================================
-    # Pairing loop (FIXED: do not overwrite pending IN silently)
-    # =================================================================
-    pending_in = {}  # token -> (in_time_dt, comcode)
+    # -------------------- Pairing logic --------------------
+    in_time = None
+    in_token = None
+    in_comcode = None
+    cur_token = None
 
     for _, row in punches_df.iterrows():
-        token = str(row["TOKEN"]).strip()
-        comcode = str(row.get("COMCODE", "")).strip()
-        dt = pd.to_datetime(row["PDTIME"]).replace(second=0)
-        mode = int(row["MODE"])
+        token = row["TOKEN"]
+        comcode = row.get("COMCODE", np.nan)
+
+        # If token changes, flush pending IN as orphan
+        if cur_token is None:
+            cur_token = token
+        elif token != cur_token:
+            if in_time is not None:
+                add_orphan(in_token, in_comcode, in_time, mode=0)
+            in_time = None
+            in_token = None
+            in_comcode = None
+            cur_token = token
+
+        mode = row["MODE"]
+        dt = pd.to_datetime(row["PDTIME"], errors="coerce")
 
         if mode == 0:
-            # FIX: if an IN already pending and we get another IN, the old one is orphan -> MM
-            if token in pending_in:
-                old_in_dt, old_cc = pending_in[token]
-                mark_orphan_in_as_mm(token, old_cc, old_in_dt.to_pydatetime())
-            pending_in[token] = (dt, comcode)
+            # If we already had an IN without OUT, that previous IN becomes an orphan
+            if in_time is not None:
+                add_orphan(in_token, in_comcode, in_time, mode=0)
 
-        else:
-            if token not in pending_in:
-                mark_orphan_out_as_mm(token, comcode, dt.to_pydatetime())
+            in_time = dt.replace(second=0) if not pd.isna(dt) else None
+            in_token = token
+            in_comcode = comcode
+
+        elif mode == 1:
+            out_time = dt.replace(second=0) if not pd.isna(dt) else None
+
+            # OUT without IN -> orphan OUT
+            if in_time is None:
+                if out_time is not None:
+                    add_orphan(token, comcode, out_time, mode=1)
                 continue
 
-            in_time, in_cc = pending_in[token]
-            out_time = dt
+            # normal pair
+            if out_time is None:
+                # bad out punch -> treat pending IN as orphan and reset
+                add_orphan(in_token, in_comcode, in_time, mode=0)
+                in_time = None
+                in_token = None
+                in_comcode = None
+                continue
 
-            pdate_str = pick_row_pdate(token, in_time.to_pydatetime(), out_time.to_pydatetime())
-            add_or_append_pair(token, in_cc, pdate_str, in_time.to_pydatetime(), out_time.to_pydatetime())
+            diff = out_time - in_time
+            if diff.total_seconds() <= 0:
+                # invalid pair -> treat both as orphans
+                add_orphan(in_token, in_comcode, in_time, mode=0)
+                add_orphan(token, comcode, out_time, mode=1)
+                in_time = None
+                in_token = None
+                in_comcode = None
+                continue
 
-            pending_in.pop(token, None)
+            minutes = int(diff.total_seconds() // 60)
 
-    # Any leftover IN without OUT -> MM
-    for token, (in_time, in_cc) in list(pending_in.items()):
-        mark_orphan_in_as_mm(token, in_cc, in_time.to_pydatetime())
-    pending_in.clear()
+            # ---------------- CHANGE #1 (your rule) ----------------
+            # Default: assign pair to IN-date
+            # Only when cross-day AND IN-date already has a row, then assign this pair to OUT-date.
+            in_date = in_time.date()
+            out_date = out_time.date()
+            in_date_str = in_date.strftime("%Y-%m-%d")
 
-    # -------------------- Fill AB for missing days --------------------
+            already_has_row_for_in_day = not punch_df[
+                (punch_df["TOKEN"] == token) & (punch_df["PDATE"] == in_date_str)
+            ].empty
+
+            if out_date != in_date and already_has_row_for_in_day:
+                pdate_key = out_date
+            else:
+                pdate_key = in_date
+
+            pdate_str = pdate_key.strftime("%Y-%m-%d")
+            # ------------------------------------------------------
+
+            full_m, half_m = thresholds(token, pdate_key)
+
+            if minutes >= full_m:
+                st = "PR"
+            elif minutes <= half_m:
+                st = "AB"
+            else:
+                st = "HD"
+
+            otm = max(0, minutes - full_m)
+            ot_str = hhmm(otm)
+
+            exists = punch_df[(punch_df["TOKEN"] == token) & (punch_df["PDATE"] == pdate_str)]
+
+            if exists.empty:
+                punch_df = pd.concat(
+                    [
+                        punch_df,
+                        pd.DataFrame(
+                            {
+                                "TOKEN": [token],
+                                "COMCODE": [comcode],
+                                "PDATE": [pdate_str],
+                                "INTIME1": [in_time.strftime("%Y-%m-%d %H:%M")],
+                                "OUTTIME1": [out_time.strftime("%Y-%m-%d %H:%M")],
+                                "INTIME2": [np.nan],
+                                "OUTTIME2": [np.nan],
+                                "INTIME3": [np.nan],
+                                "OUTTIME3": [np.nan],
+                                "INTIME4": [np.nan],
+                                "OUTTIME4": [np.nan],
+                                "INTIME": [in_time.strftime("%Y-%m-%d %H:%M")],
+                                "OUTTIME": [out_time.strftime("%Y-%m-%d %H:%M")],
+                                "TOTALTIME": [hhmm(minutes)],
+                                "PUNCH_STATUS": [st],
+                                "REMARKS": ["" if out_date == in_date else "#"],
+                                "OT": [ot_str],
+                            }
+                        ),
+                    ],
+                    ignore_index=True,
+                )
+            else:
+                idx = exists.index[-1]
+
+                for col_in, col_out in [("INTIME2", "OUTTIME2"), ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
+                    if pd.isna(punch_df.loc[idx, col_in]):
+                        punch_df.loc[idx, col_in] = in_time.strftime("%Y-%m-%d %H:%M")
+                        punch_df.loc[idx, col_out] = out_time.strftime("%Y-%m-%d %H:%M")
+                        break
+
+                punch_df.loc[idx, "OUTTIME"] = out_time.strftime("%Y-%m-%d %H:%M")
+
+                total = pd.to_timedelta(0)
+                for cin, cout in [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
+                                  ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]:
+                    if not pd.isna(punch_df.loc[idx, cin]) and not pd.isna(punch_df.loc[idx, cout]):
+                        total += pd.to_datetime(punch_df.loc[idx, cout]) - pd.to_datetime(punch_df.loc[idx, cin])
+
+                tm = int(total.total_seconds() // 60)
+                full_m2, half_m2 = thresholds(token, pdate_key)
+
+                if tm >= full_m2:
+                    st2 = "PR"
+                elif tm <= half_m2:
+                    st2 = "AB"
+                else:
+                    st2 = "HD"
+
+                ot2 = max(0, tm - full_m2)
+
+                punch_df.loc[idx, "TOTALTIME"] = hhmm(tm)
+                punch_df.loc[idx, "PUNCH_STATUS"] = st2
+                punch_df.loc[idx, "OT"] = hhmm(ot2)
+                punch_df.loc[idx, "REMARKS"] = "#" if out_date != in_date else "*"
+
+            # IMPORTANT: reset after pairing
+            in_time = None
+            in_token = None
+            in_comcode = None
+
+    # flush last pending IN
+    if in_time is not None:
+        add_orphan(in_token, in_comcode, in_time, mode=0)
+
+    # ---------------- CHANGE #2: Orphan punch days must be AB (NOT MM) ----------------
+    # Add orphan rows ONLY if that TOKEN+PDATE does not already exist in punch_df.
+    if orphan_rows:
+        orphan_df = pd.DataFrame(orphan_rows)
+        if not orphan_df.empty:
+            existing_keys = set(zip(punch_df["TOKEN"].astype(str), punch_df["PDATE"].astype(str)))
+            keep_mask = ~orphan_df.apply(lambda r: (str(r["TOKEN"]), str(r["PDATE"])) in existing_keys, axis=1)
+            orphan_df = orphan_df.loc[keep_mask].copy()
+            if not orphan_df.empty:
+                punch_df = pd.concat([punch_df, orphan_df], ignore_index=True)
+    # -------------------------------------------------------------------------------
+
+    # Ensure AB for missing days for each token (no punches at all)
     for token in muster_df["TOKEN"].unique():
-        token = str(token).strip()
         token_df = punch_df[punch_df["TOKEN"] == token]
         for d in date_range:
             ds = d.strftime("%Y-%m-%d")
@@ -545,12 +527,16 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
                         pd.DataFrame(
                             {
                                 "TOKEN": [token],
-                                "COMCODE": [""],
+                                "COMCODE": [np.nan],
                                 "PDATE": [ds],
-                                "INTIME1": [np.nan], "OUTTIME1": [np.nan],
-                                "INTIME2": [np.nan], "OUTTIME2": [np.nan],
-                                "INTIME3": [np.nan], "OUTTIME3": [np.nan],
-                                "INTIME4": [np.nan], "OUTTIME4": [np.nan],
+                                "INTIME1": [np.nan],
+                                "OUTTIME1": [np.nan],
+                                "INTIME2": [np.nan],
+                                "OUTTIME2": [np.nan],
+                                "INTIME3": [np.nan],
+                                "OUTTIME3": [np.nan],
+                                "INTIME4": [np.nan],
+                                "OUTTIME4": [np.nan],
                                 "INTIME": [np.nan],
                                 "OUTTIME": [np.nan],
                                 "TOTALTIME": [np.nan],
@@ -563,8 +549,9 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
                     ignore_index=True,
                 )
 
-    # -------------------- Fill COMCODE from muster if blank --------------------
+    # ---------------- Fill missing COMCODE ----------------
     comcode_map = {}
+
     if "COMCODE" in muster_df.columns:
         tmp = muster_df[["TOKEN", "COMCODE"]].copy()
         tmp["TOKEN"] = tmp["TOKEN"].astype(str).str.strip()
@@ -585,149 +572,21 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
         punch_df.loc[blank_cc, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
     )
 
-    # -------------------- Save punches.csv (intermediate) --------------------
+    # ---------------- Write ppunches + punch (same generator) ----------------
+    # If your file_paths() has ppunches_csv_path, write it too.
+    if "ppunches_csv_path" in table_paths and table_paths.get("ppunches_csv_path"):
+        punch_df.to_csv(table_paths["ppunches_csv_path"], index=False)
+
     punch_df.to_csv(table_paths["punch_csv_path"], index=False)
 
-    # -------------------- Generate ppunches.csv --------------------
-    ppunches_path = table_paths["ppunches_csv_path"]
-    try:
-        pp = punches_df.copy()
-        pp["TOKEN"] = pp["TOKEN"].astype(str).str.strip()
-        pp["COMCODE"] = pp.get("COMCODE", "").fillna("").astype(str).str.strip()
-
-        pp["PDTIME"] = parse_pdtime(pp["PDTIME"])
-        pp = pp.dropna(subset=["TOKEN", "PDTIME"])
-        pp["PDATE_DAY"] = pp["PDTIME"].dt.normalize()
-        pp["MODE"] = pd.to_numeric(pp["MODE"], errors="coerce").fillna(0).astype(int)
-        pp = pp.sort_values(["TOKEN", "PDATE_DAY", "PDTIME"])
-
-        base = pd.read_csv(table_paths["punch_csv_path"], dtype={"COMCODE": str, "TOKEN": str})
-        base["TOKEN"] = base["TOKEN"].astype(str).str.strip()
-        base["COMCODE"] = base.get("COMCODE", "").fillna("").astype(str).str.strip()
-        base["PDATE"] = pd.to_datetime(base["PDATE"], errors="coerce").dt.normalize()
-        base["EMPCODE"] = base.get("EMPCODE", base["TOKEN"]).fillna("").astype(str).str.strip()
-        base = base.dropna(subset=["TOKEN", "PDATE"])[["TOKEN", "COMCODE", "EMPCODE", "PDATE"]].drop_duplicates()
-
-        rows = []
-        max_punches = int(pp.groupby(["TOKEN", "PDATE_DAY"]).size().max() or 0)
-
-        for (token, day), g in pp.groupby(["TOKEN", "PDATE_DAY"]):
-            g = g.sort_values("PDTIME")
-            row = {"TOKEN": token, "PDATE": day}
-
-            in_count = int((g["MODE"] == 0).sum())
-            out_count = int((g["MODE"] == 1).sum())
-            row["PP_STATUS"] = "MM" if (in_count != out_count) else ""
-
-            i = 1
-            for _, r in g.iterrows():
-                row[f"PUNCH_{i}"] = r["PDTIME"].strftime("%Y-%m-%d %H:%M")
-                row[f"MODE{i}"] = int(r["MODE"])
-                i += 1
-
-            row["PUNCH_COUNT"] = len(g)
-            rows.append(row)
-
-        punch_wide = pd.DataFrame(rows)
-        ppunches = base.merge(punch_wide, on=["TOKEN", "PDATE"], how="left")
-
-        ppunches["PUNCH_COUNT"] = ppunches["PUNCH_COUNT"].fillna(0).astype(int)
-        ppunches["PP_STATUS"] = ppunches.get("PP_STATUS", "").fillna("")
-
-        for i in range(1, max_punches + 1):
-            pcol = f"PUNCH_{i}"
-            mcol = f"MODE{i}"
-
-            if pcol not in ppunches.columns:
-                ppunches[pcol] = ""
-            if mcol not in ppunches.columns:
-                ppunches[mcol] = pd.Series([pd.NA] * len(ppunches), dtype="Int64")
-
-            ppunches[pcol] = ppunches[pcol].fillna("")
-            ppunches[mcol] = pd.to_numeric(ppunches[mcol], errors="coerce").astype("Int64")
-
-        ppunches["PDATE"] = pd.to_datetime(ppunches["PDATE"], errors="coerce").dt.strftime("%Y-%m-%d 00:00:00")
-
-        # ---- CHANGE #1: add BLANK_STATUS after PUNCH_COUNT, then PP_STATUS after BLANK_STATUS ----
-        if "BLANK_STATUS" not in ppunches.columns:
-            ppunches["BLANK_STATUS"] = ""
-
-        ordered_cols = ["TOKEN", "COMCODE", "PDATE", "EMPCODE"]
-        for i in range(1, max_punches + 1):
-            ordered_cols += [f"PUNCH_{i}", f"MODE{i}"]
-        ordered_cols += ["PUNCH_COUNT", "BLANK_STATUS", "PP_STATUS"]
-
-        # Ensure missing cols exist
-        for c in ordered_cols:
-            if c not in ppunches.columns:
-                ppunches[c] = "" if c not in ["PUNCH_COUNT"] else 0
-
-        ppunches = ppunches[ordered_cols].sort_values(["TOKEN", "PDATE"])
-        ppunches.to_csv(ppunches_path, index=False)
-
-    except Exception as e:
-        print("ppunches.csv generation failed:", e)
-
-    # -----------------------------------------------------------------
-    # Force MM into punches.csv for any day that ppunches says MM
-    # (MM only in PUNCH_STATUS; DO NOT write MM into REMARKS)
-    # -----------------------------------------------------------------
-    try:
-        if os.path.exists(ppunches_path):
-            ppm = pd.read_csv(ppunches_path, dtype={"TOKEN": str, "COMCODE": str})
-            ppm["TOKEN"] = ppm["TOKEN"].astype(str).str.strip()
-            ppm["PDATE_N"] = pd.to_datetime(ppm["PDATE"], errors="coerce").dt.normalize()
-            mm_days = ppm[ppm["PP_STATUS"].fillna("").astype(str).str.strip().str.upper().eq("MM")].copy()
-
-            punch_df["TOKEN"] = punch_df["TOKEN"].astype(str).str.strip()
-            punch_df["PDATE_N"] = pd.to_datetime(punch_df["PDATE"], errors="coerce").dt.normalize()
-
-            mm_key = set(zip(mm_days["TOKEN"], mm_days["PDATE_N"]))
-
-            if mm_key:
-                mask = punch_df.apply(lambda r: (r["TOKEN"], r["PDATE_N"]) in mm_key, axis=1)
-                punch_df.loc[mask, "PUNCH_STATUS"] = "MM"
-                punch_df.loc[mask, "TOTALTIME"] = ""
-                punch_df.loc[mask, "OT"] = ""
-                punch_df.loc[mask, "REMARKS"] = ""  # <-- CHANGE #2
-
-                # Optional: copy first punch into INTIME1 or OUTTIME1 for visibility (no synthetic)
-                mm_days = mm_days.set_index(["TOKEN", "PDATE_N"])
-                for idx in punch_df[mask].index:
-                    t = punch_df.at[idx, "TOKEN"]
-                    d = punch_df.at[idx, "PDATE_N"]
-                    if (t, d) not in mm_days.index:
-                        continue
-
-                    p1 = str(mm_days.at[(t, d), "PUNCH_1"]) if "PUNCH_1" in mm_days.columns else ""
-                    m1 = mm_days.at[(t, d), "MODE1"] if "MODE1" in mm_days.columns else pd.NA
-                    p1 = "" if p1.lower() == "nan" else p1
-
-                    if p1:
-                        # Only fill if BOTH empty (so we don't overwrite your real paired data)
-                        if pd.isna(punch_df.at[idx, "INTIME1"]) and pd.isna(punch_df.at[idx, "OUTTIME1"]):
-                            if pd.notna(m1) and int(m1) == 0:
-                                punch_df.at[idx, "INTIME1"] = p1
-                                punch_df.at[idx, "INTIME"] = p1
-                            else:
-                                punch_df.at[idx, "OUTTIME1"] = p1
-                                punch_df.at[idx, "OUTTIME"] = p1
-
-            punch_df = punch_df.drop(columns=["PDATE_N"], errors="ignore")
-
-    except Exception as e:
-        print("MM forcing from ppunches failed:", e)
-
-    # -------------------- Merge muster shift info --------------------
+    # ---------------- Merge muster shift info ----------------
     shift_cols = ["TOKEN", "PDATE", "SHIFT_STATUS", "STATUS"] if "STATUS" in muster_df.columns else ["TOKEN", "PDATE", "SHIFT_STATUS"]
     muster_merge = muster_df[shift_cols].copy()
-    muster_merge["TOKEN"] = muster_merge["TOKEN"].astype(str).str.strip()
-    muster_merge["PDATE"] = pd.to_datetime(muster_merge["PDATE"], errors="coerce").dt.normalize()
+    muster_merge["PDATE"] = pd.to_datetime(muster_merge["PDATE"])
 
-    punch_df["TOKEN"] = punch_df["TOKEN"].astype(str).str.strip()
-    punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"], errors="coerce").dt.normalize()
-
+    punch_df["PDATE"] = pd.to_datetime(punch_df["PDATE"])
     out = punch_df.merge(muster_merge, on=["TOKEN", "PDATE"], how="left")
+
     out = out.merge(shift_merge_info, left_on="SHIFT_STATUS", right_on="shcode", how="left")
     out = safe_drop(out, ["shcode"])
 
@@ -737,15 +596,15 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
     out["COMCODE"] = out["COMCODE"].fillna("").astype(str).str.strip()
     blank_cc2 = out["COMCODE"].eq("") | out["COMCODE"].str.lower().eq("nan")
     if blank_cc2.any():
-        out.loc[blank_cc2, "COMCODE"] = out.loc[blank_cc2, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
+        out.loc[blank_cc2, "COMCODE"] = (
+            out.loc[blank_cc2, "TOKEN"].astype(str).str.strip().map(comcode_map).fillna("")
+        )
 
-    out["INTIME"] = pd.to_datetime(out["INTIME"], errors="coerce")
-    out["OUTTIME"] = pd.to_datetime(out["OUTTIME"], errors="coerce")
-
-    # -------------------- Compute ACTUAL mins as sum of all COMPLETE IN/OUT pairs --------------------
+    # ---------------- Compute ACTUAL mins as sum of all complete IN/OUT pairs ----------------
     total_secs = pd.Series(0.0, index=out.index)
     pair_cols = [("INTIME1", "OUTTIME1"), ("INTIME2", "OUTTIME2"),
                  ("INTIME3", "OUTTIME3"), ("INTIME4", "OUTTIME4")]
+
     any_pair = pd.Series(False, index=out.index)
 
     for cin, cout in pair_cols:
@@ -762,34 +621,68 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
     fullm = out.loc[valid, "workhrs_minutes"].fillna(gfull_day).astype(int)
     halfm = out.loc[valid, "halfday_minutes"].fillna(ghalf_day).astype(int)
 
+    # Base status from ACTUAL mins (only for valid rows)
     base_status = np.where(mins_actual >= fullm, "PR", np.where(mins_actual <= halfm, "AB", "HD"))
     out.loc[valid, "PUNCH_STATUS"] = base_status
     out.loc[valid, "TOTAL_HRS"] = [hhmm(m) for m in mins_actual]
     out.loc[valid, "TOTALTIME"] = out.loc[valid, "TOTAL_HRS"]
 
+    # OT based on ACTUAL mins
     otm = np.maximum(mins_actual - fullm, 0)
     incm = out.loc[valid, "inc_grt_minutes"].fillna(0).astype(int)
     otm = np.where(otm < incm, 0, otm)
     out.loc[valid, "OT"] = [hhmm(m) for m in otm]
 
-    # ---------------- GRATIME PROMOTION (AB->HD and HD->PR) ----------------
+    # ---------------- Orphan/incomplete rows must be AB (unless STATUS == MM) ----------------
+    if "STATUS" in out.columns:
+        status_s = out["STATUS"].fillna("").astype(str).str.strip().str.upper()
+    else:
+        status_s = pd.Series("", index=out.index, dtype="object")
+
+    mask_mm = status_s.eq("MM")
+
+    invalid_idx = out.index[~valid]
+    invalid_not_mm = invalid_idx.difference(out.index[mask_mm])
+
+    # Force AB for incomplete punch rows (IN-only / OUT-only / garbage), so MM chain does not happen
+    if len(invalid_not_mm) > 0:
+        out.loc[invalid_not_mm, "PUNCH_STATUS"] = "AB"
+        # keep whatever INTIME1/OUTTIME1 you captured, but no totals / OT
+        out.loc[invalid_not_mm, "TOTALTIME"] = ""
+        out.loc[invalid_not_mm, "OT"] = ""
+        if "TOTAL_HRS" in out.columns:
+            out.loc[invalid_not_mm, "TOTAL_HRS"] = ""
+        if "REMARKS" in out.columns:
+            out.loc[invalid_not_mm, "REMARKS"] = out.loc[invalid_not_mm, "REMARKS"].fillna("").astype(str)
+
+    # ---------------- GRATIME PROMOTION (AB->HD and HD->PR) + CLEAN OLD "&" ----------------
     grace_m = out.loc[valid, "gratime_minutes"].fillna(0).astype(int)
     mins_with_grace = (mins_actual + grace_m).astype(int)
 
     if "REMARKS" not in out.columns:
         out["REMARKS"] = ""
     out["REMARKS"] = out["REMARKS"].fillna("").astype(str)
+
     out.loc[out["REMARKS"].str.strip().eq("&"), "REMARKS"] = ""
 
     cur_status_s = out.loc[valid, "PUNCH_STATUS"].astype(str).str.strip().str.upper()
 
-    ab_to_hd_mask = cur_status_s.eq("AB") & (mins_actual < halfm) & (mins_with_grace >= halfm)
+    ab_to_hd_mask = (
+        cur_status_s.eq("AB")
+        & (mins_actual < halfm)
+        & (mins_with_grace >= halfm)
+    )
     ab_to_hd_idx = out.loc[valid].index[ab_to_hd_mask]
     out.loc[ab_to_hd_idx, "PUNCH_STATUS"] = "HD"
     out.loc[ab_to_hd_idx, "REMARKS"] = "&"
 
     cur_status_s = out.loc[valid, "PUNCH_STATUS"].astype(str).str.strip().str.upper()
-    hd_to_pr_mask = cur_status_s.eq("HD") & (mins_actual < fullm) & (mins_with_grace >= fullm)
+
+    hd_to_pr_mask = (
+        cur_status_s.eq("HD")
+        & (mins_actual < fullm)
+        & (mins_with_grace >= fullm)
+    )
     promoted_idx = out.loc[valid].index[hd_to_pr_mask]
     out.loc[promoted_idx, "PUNCH_STATUS"] = "PR"
     out.loc[promoted_idx, "REMARKS"] = "&"
@@ -798,25 +691,26 @@ def generate_punch_shift(punches_df, muster_df, g_current_path):
     outpass_csv_path = os.path.join(g_current_path, "OUTPASS.csv")
     out = apply_outpass_override(out, outpass_csv_path)
 
-    # keep your final MM override (final)  -> MM only clears hours, does NOT write MM in remarks
-    mask_mm = (
-        out.get("STATUS", pd.Series(index=out.index, dtype="object"))
-        .astype(str)
-        .str.strip()
-        .str.upper()
-        .eq("MM")
-    )
+    # MM override (final): only when STATUS == MM
     out.loc[mask_mm, "TOTALTIME"] = ""
     out.loc[mask_mm, "OT"] = ""
-    out.loc[mask_mm, "REMARKS"] = ""   # <-- IMPORTANT
+    out.loc[mask_mm, "REMARKS"] = ""
     if "TOTAL_HRS" in out.columns:
         out.loc[mask_mm, "TOTAL_HRS"] = ""
     if "TOTPASSHRS" in out.columns:
         out.loc[mask_mm, "TOTPASSHRS"] = ""
 
     out = out.sort_values(by=["TOKEN", "PDATE"])
+
+    # Write final punch.csv
     out.to_csv(table_paths["punch_csv_path"], index=False)
+
+    # Write final ppunches.csv too if path exists (same final output)
+    if "ppunches_csv_path" in table_paths and table_paths.get("ppunches_csv_path"):
+        out.to_csv(table_paths["ppunches_csv_path"], index=False)
+
     return out
+
 
 
 #####################################################  end of punch shift logic ##############################################
@@ -1249,7 +1143,7 @@ def generate_punch_flexi(punches_df, muster_df, g_current_path):
     punches_df.sort_values(by=["TOKEN", "PDATE", "PDTIME"], inplace=True)
     punches_df.to_csv("concated_punches_and_mode_1.csv", index=False)
 
-    # -------- build punch_df --------
+    # -------- build punch_df (ppunches style) --------
     punch_df = pd.DataFrame(
         columns=[
             "TOKEN", "COMCODE", "PDATE",
@@ -1341,7 +1235,9 @@ def generate_punch_flexi(punches_df, muster_df, g_current_path):
                             punch_df.loc[idx, col_out] = out_punch_time.strftime("%Y-%m-%d %H:%M")
                             break
 
-                    punch_df.loc[idx, "OUTTIME"] = out_punch_time.strftime("%Y-%m-%d %H:%M") if not pd.isna(out_punch_time) else np.nan
+                    punch_df.loc[idx, "OUTTIME"] = (
+                        out_punch_time.strftime("%Y-%m-%d %H:%M") if not pd.isna(out_punch_time) else np.nan
+                    )
 
                     # recompute total time across all pairs
                     total = pd.to_timedelta(0)
@@ -1413,6 +1309,13 @@ def generate_punch_flexi(punches_df, muster_df, g_current_path):
                 )
 
     punch_df = punch_df.sort_values(by=["TOKEN", "PDATE"])
+
+    # -------------------- ppunches-style SAVE (intermediate) --------------------
+    # This mirrors your shift function pattern: write the base output first (optional but useful for debugging).
+    if "ppunches_csv_path" in table_paths and table_paths.get("ppunches_csv_path"):
+        punch_df.to_csv(table_paths["ppunches_csv_path"], index=False)
+    punch_df.to_csv(table_paths["punch_csv_path"], index=False)
+    # --------------------------------------------------------------------------
 
     # ----------------------------
     # Base status from ACTUAL mins (sum of all IN/OUT pairs)
@@ -1533,7 +1436,15 @@ def generate_punch_flexi(punches_df, muster_df, g_current_path):
     punch_df = punch_df[required_cols]
 
     punch_df = punch_df.sort_values(by=["TOKEN", "PDATE"])
+
+    # -------------------- FINAL SAVE: write punch.csv + ppunches.csv (same final output) --------------------
     punch_df.to_csv(table_paths["punch_csv_path"], index=False)
+
+    if "ppunches_csv_path" in table_paths and table_paths.get("ppunches_csv_path"):
+        punch_df.to_csv(table_paths["ppunches_csv_path"], index=False)
+    # ------------------------------------------------------------------------------------
+
     return punch_df
+
 
 
