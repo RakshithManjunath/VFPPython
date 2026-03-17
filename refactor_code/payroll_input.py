@@ -115,7 +115,7 @@ def pay_input(merged_df, g_current_path):
 
     employee_info_columns = ['TOKEN', 'NAME', 'EMPCODE', 'EMP_DEPT', 'DEPT_NAME', 'EMP_DESI', 'DESI_NAME']
     day_columns = list(pivoted_data.columns[1:])
-    totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED', 'COMCODE']
+    totals_columns = ['TOT_AB', 'TOT_WO', 'TOT_PR', 'TOT_PH', 'TOT_LV', 'OT', 'OT_ROUNDED', 'COMCODE', 'EMP_TYPE_x']
 
     new_column_order = employee_info_columns + day_columns + totals_columns
 
@@ -125,4 +125,5 @@ def pay_input(merged_df, g_current_path):
             merged_data[c] = ""
 
     merged_data = merged_data[new_column_order]
+    merged_data.rename(columns={"EMP_TYPE_x": "EMP_TYPE"}, inplace=True)
     merged_data.to_csv(table_paths['muster_role_path'], index=False)

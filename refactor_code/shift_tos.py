@@ -245,10 +245,32 @@ def create_final_csv_shift(muster_df, punch_df, mismatch_df, g_current_path, mod
 
     merged_df.to_csv(table_paths["final_csv_path"], index=False)
 
+    merged_df_muster_role = merged_df.copy()
+
+    if "EMP_TYPE" in muster_df.columns:
+        emp_type_map = (
+            muster_df[["TOKEN", "PDATE", "EMP_TYPE"]]
+            .copy()
+            .drop_duplicates(subset=["TOKEN", "PDATE"], keep="last")
+        )
+        emp_type_map["TOKEN"] = emp_type_map["TOKEN"].astype(str).str.strip()
+        emp_type_map["PDATE"] = pd.to_datetime(emp_type_map["PDATE"], errors="coerce").dt.normalize()
+
+        merged_df_muster_role["TOKEN"] = merged_df_muster_role["TOKEN"].astype(str).str.strip()
+        merged_df_muster_role["PDATE"] = pd.to_datetime(merged_df_muster_role["PDATE"], errors="coerce").dt.normalize()
+
+        merged_df_muster_role = merged_df_muster_role.merge(
+            emp_type_map,
+            on=["TOKEN", "PDATE"],
+            how="left"
+        )
+    else:
+        merged_df_muster_role["EMP_TYPE"] = ""
+
     if "COMCODE" not in merged_df.columns:
         merged_df["COMCODE"] = ""
 
-    pay_input(merged_df, g_current_path)
+    pay_input(merged_df_muster_role, g_current_path)
 
 
 
@@ -639,17 +661,31 @@ def create_final_csv_flexi(muster_df, punch_df, mismatch_df, g_current_path, mod
     extras = [c for c in merged_df.columns if c not in existing_final]
     merged_df = merged_df[existing_final + extras]
 
-    # ================================================================
-    # 13) IMPORTANT: Do NOT convert TOKEN to int with outer merge
-    #     If you must, use Int64 safe conversion (won't crash on blanks)
-    # ================================================================
-    # merged_df["TOKEN"] = pd.to_numeric(merged_df["TOKEN"], errors="coerce").astype("Int64")
-
     merged_df.to_csv(table_paths["final_csv_path"], index=False)
 
-    mode_1_only_df.to_csv("mode_1_before_final.csv", index=False)
+    merged_df_muster_role = merged_df.copy()
 
-    pay_input(merged_df, g_current_path)
+    if "EMP_TYPE" in muster_df.columns:
+        emp_type_map = (
+            muster_df[["TOKEN", "PDATE", "EMP_TYPE"]]
+            .copy()
+            .drop_duplicates(subset=["TOKEN", "PDATE"], keep="last")
+        )
+        emp_type_map["TOKEN"] = emp_type_map["TOKEN"].astype(str).str.strip()
+        emp_type_map["PDATE"] = pd.to_datetime(emp_type_map["PDATE"], errors="coerce").dt.normalize()
+
+        merged_df_muster_role["TOKEN"] = merged_df_muster_role["TOKEN"].astype(str).str.strip()
+        merged_df_muster_role["PDATE"] = pd.to_datetime(merged_df_muster_role["PDATE"], errors="coerce").dt.normalize()
+
+        merged_df_muster_role = merged_df_muster_role.merge(
+            emp_type_map,
+            on=["TOKEN", "PDATE"],
+            how="left"
+        )
+    else:
+        merged_df_muster_role["EMP_TYPE"] = ""
+
+    pay_input(merged_df_muster_role, g_current_path)
 
 
 

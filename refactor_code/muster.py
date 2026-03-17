@@ -82,7 +82,8 @@ def generate_muster_shift(db_check_flag, g_current_path, shift_master_df=None):
             'DATE_LEAVE': row.get('DATE_LEAVE', None),
             'PDATE': row_date_range,
             'MUSTER_STATUS': "",
-            'SHIFT_STATUS': ""
+            'SHIFT_STATUS': "",
+            'EMP_TYPE': row.get('EMP_TYPE', None)
         }))
     final_muster_df = pd.concat(frames, ignore_index=True)
 
@@ -332,6 +333,7 @@ def generate_muster_flexi(db_check_flag,g_current_path):
             'DATE_LEAVE': row['DATE_LEAVE'],
             'PDATE': date_range,
             'MUSTER_STATUS': "",
+            'EMP_TYPE': row['EMP_TYPE']
         })
 
         final_muster_df = final_muster_df.append(temp_df, ignore_index=True)
